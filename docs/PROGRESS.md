@@ -55,7 +55,7 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - [ ] P3-08 Promotion workflow update
 - [ ] P3-09 Golden-set maintenance
 - [ ] P3-10 Audio redaction and pseudonymisation
-- [ ] P3-11 Compliance checklist
+- [~] P3-11 Compliance checklist
 - [ ] P3-12 STT loop rehearsal
 - [ ] CP-3 STT path gated end to end; rollback rehearsed
 
@@ -67,5 +67,13 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - [ ] P4-04 Teacher-model triage signal at scale
 - [ ] P4-05 Multi-project support
 - [ ] P4-06 Operations docs
+
+## Wave plan and path boundaries (lead)
+
+- **CP-0 gate:** P0-01 re-review → P0-05 review → lead checkpoint review (schemas, contracts, compose YAML, fixtures). Resolve the `schemas` vs `voiceloop_common.schemas` split (documented in `docs/conventions.md`).
+- **Phase 1 wave 1 (parallel):** P1-01 `services/ingest/` root · P1-03 `sdk/` root · P1-07 `services/evalgate/` root.
+- **Phase 1 wave 2 (parallel, after wave 1):** P1-02 `services/ingest/` fail-open root files · P1-04 `sdk/pipecat/` · P1-05 `sdk/connectors/` · P1-06 `services/datasets/golden/` · P1-09 `services/ingest/consent/` + `services/datasets/filters/`.
+- **Phase 1 wave 3:** P1-08 `docs/baseline.md` → CP-1 gate.
+- **Boundary rules:** P1-01 must not create `services/ingest/consent/` (owned by P1-09). P1-07 owns `services/evalgate/` root only; later gate/artifact/benchmarks tasks own their own subdirectories. P2-05 owns `services/datasets/` root and must only import, not edit, `golden/` and `filters/`.
 
 **Overall:** 3/40 tasks reviewed · 0/4 checkpoints passed.

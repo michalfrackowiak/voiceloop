@@ -17,7 +17,6 @@ from . import schema_path as resolve_schema_path
 
 BOOKING_SCHEMA_ENV = "VOICELOOP_BOOKING_SCHEMA"
 DEFAULT_BOOKING_SCHEMA = "booking.schema.json"
-EXAMPLE_REQUIRED_FIELDS = ("check_in", "check_out", "guests", "room_type", "guest_name")
 KNOWN_ROOM_TYPES = ("standard", "deluxe", "suite")
 _EMAIL_PATTERN = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
