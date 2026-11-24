@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.hypothesis/
+.coverage
+.coverage.*
+htmlcov/
+
+# Environments and local config
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+# Local runtime artifacts
+mlruns/
+mlflow.db/
+*.log
+.DS_Store
