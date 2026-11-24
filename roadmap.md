@@ -91,9 +91,9 @@ Goal: measure reality before building anything else. Nothing after this is trust
   - [x] P1-04.3 Example app
   - **Done when:** example Pipecat bot produces correct turn events in a local ingest.
 
-- [ ] **P1-05 Outcome connector** — Role: `sdk` — Deps: P1-01 — Paths: `sdk/connectors/`
-  - [ ] P1-05.1 Generic webhook/poller interface for the booking system
-  - [ ] P1-05.2 Mapping from booking status to `outcome.status` and `final_record`
+- [x] **P1-05 Outcome connector** — Role: `sdk` — Deps: P1-01 — Paths: `sdk/connectors/`
+  - [x] P1-05.1 Generic webhook/poller interface for the booking system
+  - [x] P1-05.2 Mapping from booking status to `outcome.status` and `final_record`
   - **Done when:** a mock booking system updates outcomes for fixture calls.
 
 ### Lane C: Golden set and baseline (data + ml-eval)

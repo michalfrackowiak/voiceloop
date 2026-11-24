@@ -30,6 +30,8 @@ changes require a schema version bump and an entry under the matching version.
   rate, e2e booking accuracy from audio, paired bootstrap CIs and slice metrics.
 - `P1-04`: fail-open Pipecat observer with native-rate audio capture,
   conversation-ID trace propagation and a runnable example bot.
+- `P1-05`: fail-open booking outcome connector (webhook + poller) with
+  `call_id`-only join and status-to-outcome mapping.
 
 ### Changed
 

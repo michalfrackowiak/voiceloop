@@ -45,6 +45,12 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - **P1-04 → P1-03:** the Pipecat observer uses a narrow `TurnSink` protocol with a lazy `sdk.log_turn` adapter. After both pass review, the lead must confirm the real SDK API matches the adapter and switch the default sink from in-memory to the SDK.
 - **P1-05 → P1-01:** the outcome connector emits `PATCH /v1/calls/{call_id}/outcome` payloads; verify the ingest endpoint accepts them after both land.
 
+## Outcome connector notes (from P1-05 review, lead follow-ups)
+
+- Poller source outage is logged but not counted (`sdk/connectors/poller.py:43-47`); `SyncReport.failed` stays 0 for a total source outage. Fail-open holds, but observability is misleading. Fix by propagating a failure signal so `failed` increments.
+- Mapping failures increment `failed` (`sdk/connectors/connector.py:145-146`) while README/handoff call them "skipped". Align wording or counters.
+- `sdk/connectors/mapping.py:172-178` validates `final_record` twice: once via `validate_booking()` (honours `VOICELOOP_BOOKING_SCHEMA`) and once against the bundled schema unconditionally. A project-specific valid record can be rejected. Fix by relying on `validate_booking()` alone and adding an env-override test.
+
 ## Evaluation harness notes (from P1-07 review, lead follow-ups)
 
 - `confidence_intervals.*` bound **challenger − champion deltas**, not absolute metric values. The schema is satisfied but the example looks absolute. Lead must state this in `docs/contracts.md` / schema description before P2-09 builds the gate; gate code must not read CIs as absolute intervals. If absolute intervals are required, add a separate field with a schema version bump.
