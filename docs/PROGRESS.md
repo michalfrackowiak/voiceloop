@@ -6,7 +6,7 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 
 ## Phase 0 — Foundations and contracts
 
-- [~] P0-01 Repo skeleton and tooling
+- [x] P0-01 Repo skeleton and tooling
 - [x] P0-02 Turn event schema v1
 - [x] P0-03 Booking JSON Schema (example)
 - [x] P0-04 Interface contracts
@@ -76,4 +76,4 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - **Phase 1 wave 3:** P1-08 `docs/baseline.md` → CP-1 gate.
 - **Boundary rules:** P1-01 must not create `services/ingest/consent/` (owned by P1-09). P1-07 owns `services/evalgate/` root only; later gate/artifact/benchmarks tasks own their own subdirectories. P2-05 owns `services/datasets/` root and must only import, not edit, `golden/` and `filters/`.
 
-**Overall:** 3/40 tasks reviewed · 0/4 checkpoints passed.
+**Overall:** 4/40 tasks reviewed · 0/4 checkpoints passed.

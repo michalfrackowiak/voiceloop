@@ -24,11 +24,11 @@ Rough timing assumes one engineer; with parallel agents the calendar time compre
 
 Goal: shared contracts and a runnable skeleton so every later lane can work independently.
 
-- [ ] **P0-01 Repo skeleton and tooling** — Role: `infra` — Deps: — — Paths: root, `infra/`, `.github/`
-  - [ ] P0-01.1 Create the directory layout from `README.md`
-  - [ ] P0-01.2 Set up `pyproject.toml`, `ruff`, `mypy`, `pytest`, pre-commit
-  - [ ] P0-01.3 CI pipeline running lint, type check, tests
-  - [ ] P0-01.4 `docker-compose.yml` with Postgres, MinIO (S3-compatible), MLflow
+- [x] **P0-01 Repo skeleton and tooling** — Role: `infra` — Deps: — — Paths: root, `infra/`, `.github/`
+  - [x] P0-01.1 Create the directory layout from `README.md`
+  - [x] P0-01.2 Set up `pyproject.toml`, `ruff`, `mypy`, `pytest`, pre-commit
+  - [x] P0-01.3 CI pipeline running lint, type check, tests
+  - [x] P0-01.4 `docker-compose.yml` with Postgres, MinIO (S3-compatible), MLflow
   - **Done when:** `docker compose up` starts all three; CI is green on an empty test.
 
 - [x] **P0-02 Turn event schema v1** — Role: `lead` — Deps: — — Paths: `schemas/`
