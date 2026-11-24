@@ -45,6 +45,14 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - **P1-04 → P1-03:** the Pipecat observer uses a narrow `TurnSink` protocol with a lazy `sdk.log_turn` adapter. After both pass review, the lead must confirm the real SDK API matches the adapter and switch the default sink from in-memory to the SDK.
 - **P1-05 → P1-01:** the outcome connector emits `PATCH /v1/calls/{call_id}/outcome` payloads; verify the ingest endpoint accepts them after both land.
 
+## Evaluation harness notes (from P1-07 review, lead follow-ups)
+
+- `confidence_intervals.*` bound **challenger − champion deltas**, not absolute metric values. The schema is satisfied but the example looks absolute. Lead must state this in `docs/contracts.md` / schema description before P2-09 builds the gate; gate code must not read CIs as absolute intervals. If absolute intervals are required, add a separate field with a schema version bump.
+- `--eval-set golden|regression` currently labels the report without filtering rows (all runs score the non-sealed synthetic fixtures). Restrict accepted sets to `general_capability` until real set manifests exist (P1-06/P1-08), or filter by set membership. Never let a labelled "golden" report be mistaken for the sealed set (§2 invariant 5).
+- `artifact_uri` defaults to `fake://evalgate/identity` even for oracle-vs-identity runs. Derive from challenger kind or require explicit URI for non-identity runs.
+- Slice metrics can report `turns: 0` with perfect scores for neutral slices (e.g. `other_languages`). P2-09 must gate on `turns > 0` before treating a slice as "no regression".
+- E2E booking accuracy from audio is the ONLY promotion metric (§2 invariant 4); better WER alone must never promote.
+
 ## CP-1 gate (lead)
 
 Verify SDK → ingest → storage with fixtures, golden set sealed, baseline recorded, all Phase 1 handoffs present, ruff/mypy/pytest green. Only then open Phase 2 lanes.
