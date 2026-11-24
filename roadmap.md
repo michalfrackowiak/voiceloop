@@ -79,10 +79,10 @@ Goal: measure reality before building anything else. Nothing after this is trust
 
 ### Lane B: SDK (sdk)
 
-- [ ] **P1-03 Python SDK** — Role: `sdk` — Deps: P0-02 — Paths: `sdk/`
-  - [ ] P1-03.1 `log_turn(...)` with async, non-blocking send and local retry queue
-  - [ ] P1-03.2 Timeouts, circuit breaker, drop-on-failure policy (never raise into the call path)
-  - [ ] P1-03.3 Audio capture helper that preserves original sample rate
+- [x] **P1-03 Python SDK** — Role: `sdk` — Deps: P0-02 — Paths: `sdk/`
+  - [x] P1-03.1 `log_turn(...)` with async, non-blocking send and local retry queue
+  - [x] P1-03.2 Timeouts, circuit breaker, drop-on-failure policy (never raise into the call path)
+  - [x] P1-03.3 Audio capture helper that preserves original sample rate
   - **Done when:** SDK tests prove that an unreachable server adds no more than a few ms to the caller and raises no exceptions.
 
 - [ ] **P1-04 Pipecat integration** — Role: `sdk` — Deps: P1-03 — Paths: `sdk/pipecat/`

@@ -24,6 +24,8 @@ changes require a schema version bump and an entry under the matching version.
 - `P0-04`: `trainer_contract.schema.json`, `eval_report.schema.json`,
   `dataset_manifest.schema.json`, and `review_adapter.openapi.yaml` all at
   **1.0.0** — the four cross-service interface contracts.
+- `P1-03`: fail-open Python SDK with bounded retry queue, circuit breaker and
+  native-rate audio helpers.
 
 ### Changed
 
