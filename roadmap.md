@@ -308,9 +308,9 @@ Goal: safely add STT improvement (tier 3) and staged release.
   - [ ] P3-10.3 Retention job deleting expired raw audio
   - **Done when:** redacted fixtures contain no PII spans in audio or text; retention job tested.
 
-- [ ] **P3-11 Compliance checklist** — Role: `governance` — Deps: — Paths: `docs/compliance.md`
-  - [ ] P3-11.1 List AI Act Article 50 transparency and GDPR lawful-basis questions for counsel
-  - [ ] P3-11.2 Map data flows and retention for review
+- [x] **P3-11 Compliance checklist** — Role: `governance` — Deps: — Paths: `docs/compliance.md`
+  - [x] P3-11.1 List AI Act Article 50 transparency and GDPR lawful-basis questions for counsel
+  - [x] P3-11.2 Map data flows and retention for review
   - **Done when:** checklist written and flagged for human legal review. Do not mark any compliance conclusion as final.
 
 ### Lane F: Integration (qa)
