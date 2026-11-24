@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_uri": "s3://voiceloop-artifacts/models/whisper-lora/2026-11-24/ctranslate2",
+  "generated_at": "2026-11-24T09:30:00Z",
+  "eval_sets": [
+    "golden"
+  ],
+  "metrics": {
+    "wer": 0.072,
+    "entity_error": 0.041,
+    "slot_f1": 0.94,
+    "schema_valid_rate": 0.997,
+    "e2e_booking_accuracy": 0.912
+  },
+  "confidence_intervals": {
+    "wer": {
+      "lower": 0.061,
+      "level": 0.95
+    },
+    "entity_error": {
+      "lower": 0.033,
+      "upper": 0.052,
+      "level": 0.95
+    },
+    "slot_f1": {
+      "lower": 0.921,
+      "upper": 0.958,
+      "level": 0.95
+    },
+    "schema_valid_rate": {
+      "lower": 0.991,
+      "upper": 1.0,
+      "level": 0.95
+    },
+    "e2e_booking_accuracy": {
+      "lower": 0.889,
+      "upper": 0.934,
+      "level": 0.95
+    }
+  },
+  "slice_metrics": {
+    "names": {
+      "e2e_booking_accuracy": 0.905
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "event_id": "d2a7b9c4-1e58-4c6d-9b30-7f2e5a8c0d14",
+  "call_id": "call-0004",
+  "turn_index": 2,
+  "audio": {
+    "uri": "s3://voiceloop-fixtures/calls/call-0004/turn-0002.wav"
+  },
+  "stt": {
+    "text": "Never mind, cancel that."
+  },
+  "outcome": {
+    "status": "cancelled",
+    "updated_at": "2026-11-24T11:02:00Z"
+  }
+}

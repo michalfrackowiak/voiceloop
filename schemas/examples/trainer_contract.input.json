@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0.0",
+  "contract_part": "input",
+  "dataset_manifest": {
+    "dataset_id": "booking-parser-2026-11-24",
+    "content_hash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+  },
+  "config": {
+    "trainer": "parser-lora",
+    "model": "base-model-resolved-from-settings",
+    "seed": 42,
+    "params": {
+      "learning_rate": 0.0001,
+      "epochs": 2,
+      "lora_alpha": 8,
+      "lora_r": 4
+    }
+  }
+}

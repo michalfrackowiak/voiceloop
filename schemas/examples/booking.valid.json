@@ -1,0 +1,11 @@
+{
+  "check_in": "2026-12-12",
+  "check_out": "2026-12-14",
+  "guests": 2,
+  "room_type": "suite",
+  "guest_name": "Ada Lovelace",
+  "contact": {
+    "email": "ada@example.com",
+    "phone": "+44 20 7946 0958"
+  }
+}

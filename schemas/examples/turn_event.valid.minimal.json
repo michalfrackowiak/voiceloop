@@ -1,0 +1,11 @@
+{
+  "event_id": "3f2504e0-4f89-41d3-9a0c-0305e82c3301",
+  "call_id": "call-0001",
+  "turn_index": 0,
+  "audio": {
+    "uri": "s3://voiceloop-fixtures/calls/call-0001/turn-0000.wav"
+  },
+  "stt": {
+    "text": "I'd like a deluxe room for two nights."
+  }
+}

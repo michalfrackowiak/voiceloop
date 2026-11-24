@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "reviewer_id": "reviewer-demo-1",
+  "corrected_transcript": "I need a room for three nights",
+  "slots": {
+    "check_in": "2026-12-03",
+    "check_out": "2026-12-06",
+    "guests": 2,
+    "room_type": "double",
+    "guest_name": "Demo Guest",
+    "contact": "demo@example.test"
+  },
+  "routing": "stt_wrong",
+  "started_at": "2026-11-24T10:00:00Z",
+  "completed_at": "2026-11-24T10:01:12Z"
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "call_id": "call-synthetic-001",
+  "turn_index": 0,
+  "audio_uri": "s3://voiceloop-audio/synthetic/call-synthetic-001/turn-0000.wav",
+  "hypothesis": "i need a room for three nights",
+  "low_confidence_spans": [
+    {
+      "start_ms": 820,
+      "end_ms": 1400,
+      "text": "three nights",
+      "confidence": 0.42
+    }
+  ],
+  "blind": false
+}

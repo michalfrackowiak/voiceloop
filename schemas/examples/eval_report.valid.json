@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_uri": "s3://voiceloop-artifacts/models/whisper-lora/2026-11-24/ctranslate2",
+  "generated_at": "2026-11-24T09:30:00Z",
+  "eval_sets": [
+    "golden",
+    "regression",
+    "general_capability"
+  ],
+  "metrics": {
+    "wer": 0.072,
+    "entity_error": 0.041,
+    "slot_f1": 0.94,
+    "schema_valid_rate": 0.997,
+    "e2e_booking_accuracy": 0.912,
+    "hallucination_rate": 0.002
+  },
+  "confidence_intervals": {
+    "wer": {
+      "lower": 0.061,
+      "upper": 0.085,
+      "level": 0.95
+    },
+    "entity_error": {
+      "lower": 0.033,
+      "upper": 0.052,
+      "level": 0.95
+    },
+    "slot_f1": {
+      "lower": 0.921,
+      "upper": 0.958,
+      "level": 0.95
+    },
+    "schema_valid_rate": {
+      "lower": 0.991,
+      "upper": 1.0,
+      "level": 0.95
+    },
+    "e2e_booking_accuracy": {
+      "lower": 0.889,
+      "upper": 0.934,
+      "level": 0.95
+    }
+  },
+  "slice_metrics": {
+    "names": {
+      "wer": 0.061,
+      "entity_error": 0.038,
+      "e2e_booking_accuracy": 0.905
+    },
+    "dates": {
+      "wer": 0.055,
+      "entity_error": 0.044,
+      "e2e_booking_accuracy": 0.898
+    },
+    "numbers": {
+      "wer": 0.048,
+      "entity_error": 0.031,
+      "e2e_booking_accuracy": 0.927
+    },
+    "silence": {
+      "wer": 0.0,
+      "hallucination_rate": 0.002,
+      "e2e_booking_accuracy": 1.0
+    },
+    "other_languages": {
+      "wer": 0.104,
+      "entity_error": 0.062,
+      "e2e_booking_accuracy": 0.841
+    }
+  },
+  "decoding_settings": {
+    "hotwords": [
+      "suite",
+      "double"
+    ],
+    "initial_prompt": "",
+    "condition_on_previous_text": false,
+    "language": "en"
+  },
+  "shadow_evidence": {
+    "report_uri": "s3://voiceloop-artifacts/shadow/2026-11-24.json",
+    "turns_observed": 420,
+    "outcome_error_rate": 0.06
+  },
+  "champion_report_uri": "s3://voiceloop-artifacts/reports/champion-2026-11-20.json",
+  "gate_decision": {
+    "outcome": "pass",
+    "reason": "Primary metric margin above champion; no regression on critical slices.",
+    "evaluated_at": "2026-11-24T09:35:00Z"
+  }
+}

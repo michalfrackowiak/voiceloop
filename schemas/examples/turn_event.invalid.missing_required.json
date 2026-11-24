@@ -1,0 +1,8 @@
+{
+  "event_id": "b6f1c0d2-9a3e-4b78-8f21-0c5d9e7a4b62",
+  "call_id": "call-0003",
+  "turn_index": 1,
+  "audio": {
+    "uri": "s3://voiceloop-fixtures/calls/call-0003/turn-0001.wav"
+  }
+}

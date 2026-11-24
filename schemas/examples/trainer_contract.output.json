@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "contract_part": "output",
+  "artifact_uri": "s3://voiceloop-artifacts/models/parser-lora/2026-11-24/adapter",
+  "metrics": {
+    "train_loss": 0.184,
+    "val_slot_f1": 0.93
+  },
+  "run_id": "run-7f3c9a21b6d448e5",
+  "lineage": {
+    "dataset_hash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+    "git_sha": "0123456789abcdef0123456789abcdef01234567",
+    "image_digest": "sha256:fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210"
+  }
+}

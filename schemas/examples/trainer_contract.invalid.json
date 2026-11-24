@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0.0",
+  "contract_part": "output",
+  "artifact_uri": "s3://voiceloop-artifacts/models/parser-lora/2026-11-24/adapter",
+  "metrics": {
+    "train_loss": 0.184
+  }
+}

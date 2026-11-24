@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiceloop.example/schemas/turn_event-1.0.0.schema.json",
+  "title": "VoiceLoop turn event",
+  "description": "One guest utterance plus the agent's processing of it. Required at ingest: event_id, call_id, turn_index, audio, stt. Every other top-level field is optional so integrations can adopt incrementally. outcome may arrive later and is merged by call_id.",
+  "schema_version": "1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["event_id", "call_id", "turn_index", "audio", "stt"],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Stable idempotency key for this event (UUID)."
+    },
+    "call_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Call identifier; late outcomes are merged by this value."
+    },
+    "turn_index": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Zero-based turn number within the call."
+    },
+    "ts": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Event timestamp (RFC 3339). Optional at ingest."
+    },
+    "consent": {
+      "type": "object",
+      "description": "Per-call consent flags. Optional at ingest; dataset eligibility must still check them.",
+      "additionalProperties": false,
+      "required": ["recording", "training"],
+      "properties": {
+        "recording": {
+          "type": "boolean"
+        },
+        "training": {
+          "type": "boolean"
+        }
+      }
+    },
+    "audio": {
+      "type": "object",
+      "description": "Audio exactly as the STT model received it.",
+      "additionalProperties": false,
+      "required": ["uri"],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Object-store URI or other resolvable audio reference."
+        },
+        "sample_rate_hz": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "channels": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "duration_ms": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "stt": {
+      "type": "object",
+      "description": "STT hypothesis. text is required and may be an empty string (e.g. silence).",
+      "additionalProperties": false,
+      "required": ["text"],
+      "properties": {
+        "model_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "text": {
+          "type": "string"
+        },
+        "words": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["w", "start_ms", "end_ms", "conf"],
+            "properties": {
+              "w": {
+                "type": "string"
+              },
+              "start_ms": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "end_ms": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "conf": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            }
+          }
+        },
+        "decoder_stats": {
+          "type": "object",
+          "description": "Whisper-family decoder signals; all three values are present together.",
+          "additionalProperties": false,
+          "required": ["avg_logprob", "compression_ratio", "no_speech_prob"],
+          "properties": {
+            "avg_logprob": {
+              "type": "number"
+            },
+            "compression_ratio": {
+              "type": "number",
+              "minimum": 0
+            },
+            "no_speech_prob": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        }
+      }
+    },
+    "parser": {
+      "type": "object",
+      "description": "Parser input, output and confidence. Optional parts may be added as integrations adopt them.",
+      "additionalProperties": false,
+      "properties": {
+        "model_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "input_text": {
+          "type": "string"
+        },
+        "output": {
+          "type": "object",
+          "description": "Opaque, project-specific slot object; intentionally allows arbitrary properties.",
+          "additionalProperties": true
+        },
+        "schema_valid": {
+          "type": "boolean"
+        },
+        "logprob": {
+          "type": "number"
+        }
+      }
+    },
+    "dialogue_context": {
+      "type": "object",
+      "description": "Context the parser saw. Optional parts may be added incrementally.",
+      "additionalProperties": false,
+      "properties": {
+        "expected_slot": {
+          "type": ["string", "null"]
+        },
+        "reference_date": {
+          "type": "string",
+          "format": "date",
+          "description": "ISO 8601 calendar date (YYYY-MM-DD)."
+        },
+        "timezone": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.+-]*(/[A-Za-z0-9_.+-]+)*$",
+          "description": "IANA time zone name, e.g. Europe/London or UTC."
+        },
+        "prior_turns_ref": {
+          "type": ["string", "null"]
+        }
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "description": "Late-arriving outcome, merged by call_id. status is required when this block is present.",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["confirmed", "edited_by_staff", "abandoned", "transferred", "unknown"]
+        },
+        "final_record": {
+          "type": "object",
+          "description": "Opaque final booking record used as free supervision; project-specific fields are allowed.",
+          "additionalProperties": true
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "code": "validation_error",
+  "message": "low_confidence_spans[0].start_ms must be a non-negative integer.",
+  "details": {
+    "field": "low_confidence_spans[0].start_ms",
+    "received": -1
+  }
+}

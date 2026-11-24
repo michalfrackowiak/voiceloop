@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiceloop.example/schemas/booking-1.0.0.schema.json",
+  "title": "Example hotel booking slots",
+  "description": "Reference booking slot schema for the hotel use case. Projects may substitute their own schema with VOICELOOP_BOOKING_SCHEMA or the schema_path argument of validate_booking. Cross-field rules (check_out after check_in, room type exists) are enforced in schemas/booking.py because JSON Schema draft 2020-12 cannot compare two date properties.",
+  "schema_version": "1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["check_in", "check_out", "guests", "room_type", "guest_name"],
+  "properties": {
+    "check_in": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 check-in date (YYYY-MM-DD)."
+    },
+    "check_out": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 check-out date (YYYY-MM-DD); must be after check_in."
+    },
+    "guests": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "room_type": {
+      "type": "string",
+      "enum": ["standard", "deluxe", "suite"],
+      "description": "Room type must be one of the room types known to the booking system."
+    },
+    "guest_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "contact": {
+      "type": "object",
+      "description": "Optional contact details; email and phone are each optional.",
+      "additionalProperties": false,
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "phone": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

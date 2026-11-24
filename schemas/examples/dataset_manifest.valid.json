@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_id": "booking-stt-2026-11-24",
+  "content_hash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+  "source_call_ids": [
+    "call-synthetic-001",
+    "call-synthetic-002",
+    "call-synthetic-003",
+    "call-synthetic-004",
+    "call-synthetic-005",
+    "call-synthetic-006"
+  ],
+  "splits": {
+    "train": [
+      "call-synthetic-001",
+      "call-synthetic-002",
+      "call-synthetic-003",
+      "call-synthetic-004"
+    ],
+    "val": [
+      "call-synthetic-005"
+    ],
+    "test": [
+      "call-synthetic-006"
+    ]
+  },
+  "filter_counts": {
+    "consent_dropped": 2,
+    "pii_dropped": 1,
+    "replay_added": 3,
+    "golden_excluded": 4,
+    "regression_excluded": 5,
+    "synthetic_tagged": 0
+  },
+  "created_at": "2026-11-24T08:15:00Z",
+  "examples": 18,
+  "synthetic": false
+}
