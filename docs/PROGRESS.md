@@ -32,8 +32,8 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - [ ] P2-02 Sampling, clustering, queue
 - [ ] P2-03 Review adapter
 - [ ] P2-04 Review UX measurement
-- [ ] P2-05 Dataset builder
-- [ ] P2-06 Trainer plugin interface
+- [~] P2-05 Dataset builder
+- [~] P2-06 Trainer plugin interface
 - [ ] P2-07 Parser trainer
 - [ ] P2-08 Vocabulary and rules tier
 - [ ] P2-09 Gate and promotion logic
