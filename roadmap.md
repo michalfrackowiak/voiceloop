@@ -112,10 +112,10 @@ Goal: measure reality before building anything else. Nothing after this is trust
   - [x] P1-07.5 `report.json` writer conforming to contract
   - **Done when:** harness runs on fixtures and produces a valid report; unit tests for each metric against hand-computed cases.
 
-- [ ] **P1-08 Baseline measurement** — Role: `ml-eval` — Deps: P1-06, P1-07 — Paths: `docs/baseline.md`
-  - [ ] P1-08.1 Run harness on the deployed STT + parser artifacts
-  - [ ] P1-08.2 Record baseline with CIs and slice breakdown
-  - **Done when:** baseline report committed; becomes the champion reference.
+- [x] **P1-08 Baseline measurement** — Role: `ml-eval` — Deps: P1-06, P1-07 — Paths: `docs/baseline.md`
+  - [x] P1-08.1 Run harness on the deployed STT + parser artifacts — **provisional:** synthetic stand-in only; real-artifact re-run required for production readiness
+  - [x] P1-08.2 Record baseline with CIs and slice breakdown
+  - **Done when:** baseline report committed; becomes the champion reference. **Lead note:** provisional champion reference for the synthetic rehearsal only — `docs/baseline.md` is labelled SYNTHETIC STAND-IN / NOT A PRODUCTION BASELINE.
 
 ### Lane D: Governance foundations (governance)
 

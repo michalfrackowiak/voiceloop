@@ -1,0 +1,134 @@
+{
+  "artifact_uri": "fake://evalgate/identity",
+  "confidence_intervals": {
+    "e2e_booking_accuracy": {
+      "level": 0.95,
+      "lower": 0.0,
+      "upper": 0.0
+    },
+    "entity_error": {
+      "level": 0.95,
+      "lower": 0.0,
+      "upper": 0.0
+    },
+    "schema_valid_rate": {
+      "level": 0.95,
+      "lower": 0.0,
+      "upper": 0.0
+    },
+    "slot_f1": {
+      "level": 0.95,
+      "lower": 0.0,
+      "upper": 0.0
+    },
+    "wer": {
+      "level": 0.95,
+      "lower": 0.0,
+      "upper": 0.0
+    }
+  },
+  "decoding_settings": {
+    "condition_on_previous_text": false,
+    "hotwords": [],
+    "initial_prompt": "",
+    "language": "en"
+  },
+  "eval_sets": [
+    "general_capability"
+  ],
+  "gate_decision": {
+    "evaluated_at": "2026-11-24T23:51:39Z",
+    "outcome": "not_evaluated",
+    "reason": "Synthetic fixture smoke run; never promote on WER. e2e_booking_accuracy from audio is the primary promotion metric."
+  },
+  "generated_at": "2026-11-24T23:51:39Z",
+  "metrics": {
+    "e2e_booking_accuracy": 0.8333333333333334,
+    "e2e_field_check_in": 0.9615384615384616,
+    "e2e_field_check_out": 0.8846153846153846,
+    "e2e_field_contact": 1.0,
+    "e2e_field_guest_name": 0.9615384615384616,
+    "e2e_field_guests": 0.8846153846153846,
+    "e2e_field_room_type": 1.0,
+    "entity_error": 0.05555555555555555,
+    "entity_error_dates": 0.0,
+    "entity_error_names": 0.027777777777777776,
+    "entity_error_numbers": 0.027777777777777776,
+    "schema_valid_rate": 0.9444444444444444,
+    "slot_f1": 0.9517684887459806,
+    "wer": 0.22361111111111112
+  },
+  "schema_version": "1.0.0",
+  "slice_metrics": {
+    "dates": {
+      "e2e_booking_accuracy": 1.0,
+      "e2e_field_check_in": 1.0,
+      "e2e_field_check_out": 1.0,
+      "e2e_field_contact": 1.0,
+      "e2e_field_guest_name": 1.0,
+      "e2e_field_guests": 1.0,
+      "e2e_field_room_type": 1.0,
+      "entity_error": 0.0,
+      "entity_error_dates": 0.0,
+      "entity_error_names": 0.0,
+      "entity_error_numbers": 0.0,
+      "schema_valid_rate": 1.0,
+      "slot_f1": 1.0,
+      "turns": 8.0,
+      "wer": 0.0
+    },
+    "names": {
+      "e2e_booking_accuracy": 0.875,
+      "e2e_field_check_in": 1.0,
+      "e2e_field_check_out": 1.0,
+      "e2e_field_contact": 1.0,
+      "e2e_field_guest_name": 0.875,
+      "e2e_field_guests": 1.0,
+      "e2e_field_room_type": 1.0,
+      "entity_error": 0.125,
+      "entity_error_dates": 0.0,
+      "entity_error_names": 0.125,
+      "entity_error_numbers": 0.0,
+      "schema_valid_rate": 1.0,
+      "slot_f1": 0.9791666666666666,
+      "turns": 8.0,
+      "wer": 0.1
+    },
+    "numbers": {
+      "e2e_booking_accuracy": 0.7333333333333333,
+      "e2e_field_check_in": 1.0,
+      "e2e_field_check_out": 0.8666666666666667,
+      "e2e_field_contact": 1.0,
+      "e2e_field_guest_name": 1.0,
+      "e2e_field_guests": 0.8,
+      "e2e_field_room_type": 1.0,
+      "entity_error": 0.06666666666666667,
+      "entity_error_dates": 0.0,
+      "entity_error_names": 0.0,
+      "entity_error_numbers": 0.06666666666666667,
+      "schema_valid_rate": 0.9333333333333333,
+      "slot_f1": 0.9497206703910613,
+      "turns": 15.0,
+      "wer": 0.016666666666666666
+    },
+    "other_languages": {
+      "e2e_booking_accuracy": 1.0,
+      "entity_error": 0.0,
+      "schema_valid_rate": 1.0,
+      "slot_f1": 1.0,
+      "turns": 0.0,
+      "wer": 0.0
+    },
+    "silence": {
+      "e2e_booking_accuracy": 1.0,
+      "entity_error": 0.0,
+      "entity_error_dates": 0.0,
+      "entity_error_names": 0.0,
+      "entity_error_numbers": 0.0,
+      "schema_valid_rate": 1.0,
+      "slot_f1": 1.0,
+      "turns": 2.0,
+      "wer": 2.0
+    }
+  }
+}

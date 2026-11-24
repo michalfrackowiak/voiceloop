@@ -32,6 +32,8 @@ changes require a schema version bump and an entry under the matching version.
   conversation-ID trace propagation and a runnable example bot.
 - `P1-05`: fail-open booking outcome connector (webhook + poller) with
   `call_id`-only join and status-to-outcome mapping.
+- `P1-08`: provisional synthetic-stand-in baseline report with metrics, CIs and
+  slice breakdown; explicitly NOT a production champion reference.
 
 ### Changed
 
