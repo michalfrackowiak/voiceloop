@@ -22,13 +22,13 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - [~] P1-05 Outcome connector
 - [~] P1-06 Golden set sampling and labelling workflow
 - [x] P1-07 Evaluation harness v0
-- [ ] P1-08 Baseline measurement
+- [~] P1-08 Baseline measurement
 - [~] P1-09 Consent and PII basics
 - [ ] CP-1 SDK → ingest → storage; golden set sealed; baseline recorded
 
 ## Phase 2 — Triage, review, parser loop, gate
 
-- [ ] P2-01 Failure scoring
+- [~] P2-01 Failure scoring
 - [ ] P2-02 Sampling, clustering, queue
 - [ ] P2-03 Review adapter
 - [ ] P2-04 Review UX measurement
