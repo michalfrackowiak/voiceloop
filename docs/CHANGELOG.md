@@ -29,5 +29,10 @@ changes require a schema version bump and an entry under the matching version.
 
 - `P0-01`: extended seeded `pyproject.toml` with `pre-commit` in the `dev`
   extra.
+- Lead decision (CP-0): two schema helper APIs are intentional —
+  `voiceloop_common.schemas` for runtime code (raises
+  `voiceloop_common.errors.ValidationError`) and the `schemas` package for
+  contract authoring/fixture tests (relative paths, `jsonschema.ValidationError`).
+  No third implementation should be added.
 
 No schemas or contract versions were changed by `P0-01`.
