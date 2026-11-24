@@ -39,6 +39,12 @@ Deps P0-02, P1-01. Enforce consent flags on dataset eligibility; transcript PII 
 ### P1-08 Baseline measurement — ml-eval — `docs/baseline.md`
 Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standing in for real artifacts), record baseline with CIs and slice breakdown; commit baseline report as champion reference. No promotion-threshold changes (escalation item).
 
+## Known post-worker integration follow-ups (lead)
+
+- **P1-02 → P1-01:** the fail-open worker is isolated in `services/ingest/failopen/` to avoid colliding with the concurrent ingest worker. After both pass review, the lead must wire its `BoundedBuffer`/metrics into the ingest POST handler and health endpoint, then add an integration test that storage failure does not block callers.
+- **P1-04 → P1-03:** the Pipecat observer uses a narrow `TurnSink` protocol with a lazy `sdk.log_turn` adapter. After both pass review, the lead must confirm the real SDK API matches the adapter and switch the default sink from in-memory to the SDK.
+- **P1-05 → P1-01:** the outcome connector emits `PATCH /v1/calls/{call_id}/outcome` payloads; verify the ingest endpoint accepts them after both land.
+
 ## CP-1 gate (lead)
 
 Verify SDK → ingest → storage with fixtures, golden set sealed, baseline recorded, all Phase 1 handoffs present, ruff/mypy/pytest green. Only then open Phase 2 lanes.
