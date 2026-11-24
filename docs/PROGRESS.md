@@ -36,7 +36,7 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - [~] P2-06 Trainer plugin interface
 - [ ] P2-07 Parser trainer
 - [ ] P2-08 Vocabulary and rules tier
-- [ ] P2-09 Gate and promotion logic
+- [~] P2-09 Gate and promotion logic
 - [ ] P2-10 Pipelines and triggers
 - [ ] P2-11 Dashboards
 - [ ] P2-12 Lineage and access control
