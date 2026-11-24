@@ -1,0 +1,6 @@
+{"hypothesis": "Hi, I'd like to book a room for December.", "turn_index": 0}
+{"hypothesis": "Check in on the twelfth of December for Ada Fixture, two guests, please.", "turn_index": 1}
+{"hypothesis": "Make that a deluxe room.", "turn_index": 2}
+{"hypothesis": "And three nights, not two.", "turn_index": 3}
+{"hypothesis": "Yes, Ada Fixture is the name on the booking.", "turn_index": 4}
+{"hypothesis": "Yes, confirm it. My email is ada.fixture@example.com.", "turn_index": 5}

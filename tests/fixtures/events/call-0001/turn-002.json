@@ -1,0 +1,82 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 320,
+    "sample_rate_hz": 16000,
+    "uri": "tests/fixtures/audio/call-0001/turn-002.wav"
+  },
+  "call_id": "call-0001",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": "room_type",
+    "prior_turns_ref": "tests/fixtures/contexts/call-0001.jsonl",
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "b414f6a8-4ece-5853-a854-3f7a45bee35b",
+  "parser": {
+    "input_text": "Make that a deluxe room.",
+    "logprob": -0.28,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {
+      "check_in": "2026-12-12",
+      "check_out": "2026-12-14",
+      "contact": {
+        "email": "ada.fixture@example.com",
+        "phone": "+1 555 010 0001"
+      },
+      "guest_name": "Ada Fixture",
+      "guests": 2,
+      "room_type": "deluxe"
+    },
+    "schema_valid": true
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -0.282,
+      "compression_ratio": 1.342,
+      "no_speech_prob": 0.002
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "Make that a deluxe room.",
+    "words": [
+      {
+        "conf": 0.94,
+        "end_ms": 67,
+        "start_ms": 20,
+        "w": "Make"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 123,
+        "start_ms": 76,
+        "w": "that"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 179,
+        "start_ms": 132,
+        "w": "a"
+      },
+      {
+        "conf": 0.93,
+        "end_ms": 235,
+        "start_ms": 188,
+        "w": "deluxe"
+      },
+      {
+        "conf": 0.98,
+        "end_ms": 291,
+        "start_ms": 244,
+        "w": "room."
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:02:00Z",
+  "turn_index": 2
+}

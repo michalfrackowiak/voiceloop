@@ -1,0 +1,64 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 320,
+    "sample_rate_hz": 16000,
+    "uri": "tests/fixtures/audio/call-0002/turn-002.wav"
+  },
+  "call_id": "call-0002",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": "guest_name",
+    "prior_turns_ref": "tests/fixtures/contexts/call-0002.jsonl",
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "7f013a14-6cc1-53ed-9bb3-ed234aa6867d",
+  "parser": {
+    "input_text": "Mr. Smythe.",
+    "logprob": -0.28,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {
+      "check_in": "2026-12-05",
+      "check_out": "2026-12-07",
+      "contact": {
+        "email": "sam.sample@example.com",
+        "phone": "+1 555 010 0002"
+      },
+      "guest_name": "Mr. Smythe",
+      "guests": 1,
+      "room_type": "standard"
+    },
+    "schema_valid": true
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -0.685,
+      "compression_ratio": 1.491,
+      "no_speech_prob": 0.03
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "Mr. Smythe.",
+    "words": [
+      {
+        "conf": 0.97,
+        "end_ms": 139,
+        "start_ms": 20,
+        "w": "Mr."
+      },
+      {
+        "conf": 0.41,
+        "end_ms": 279,
+        "start_ms": 160,
+        "w": "Smythe."
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:10:00Z",
+  "turn_index": 2
+}

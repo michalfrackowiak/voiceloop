@@ -1,0 +1,96 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 240,
+    "sample_rate_hz": 16000,
+    "uri": "tests/fixtures/audio/call-0005/turn-000.wav"
+  },
+  "call_id": "call-0005",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": "intent",
+    "prior_turns_ref": null,
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "1a25209d-ed4d-5f1a-826b-6afdd8ec10f8",
+  "parser": {
+    "input_text": "Hi, I'd like to book a suite in February.",
+    "logprob": -1.85,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {},
+    "schema_valid": false
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -0.167,
+      "compression_ratio": 1.311,
+      "no_speech_prob": 0.002
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "Hi, I'd like to book a suite in February.",
+    "words": [
+      {
+        "conf": 0.97,
+        "end_ms": 40,
+        "start_ms": 20,
+        "w": "Hi,"
+      },
+      {
+        "conf": 0.97,
+        "end_ms": 62,
+        "start_ms": 42,
+        "w": "I'd"
+      },
+      {
+        "conf": 0.93,
+        "end_ms": 84,
+        "start_ms": 64,
+        "w": "like"
+      },
+      {
+        "conf": 0.93,
+        "end_ms": 106,
+        "start_ms": 86,
+        "w": "to"
+      },
+      {
+        "conf": 0.97,
+        "end_ms": 128,
+        "start_ms": 108,
+        "w": "book"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 150,
+        "start_ms": 130,
+        "w": "a"
+      },
+      {
+        "conf": 0.93,
+        "end_ms": 172,
+        "start_ms": 152,
+        "w": "suite"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 194,
+        "start_ms": 174,
+        "w": "in"
+      },
+      {
+        "conf": 0.98,
+        "end_ms": 216,
+        "start_ms": 196,
+        "w": "February."
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:32:00Z",
+  "turn_index": 0
+}

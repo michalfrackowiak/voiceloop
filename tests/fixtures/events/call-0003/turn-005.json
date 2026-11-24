@@ -1,0 +1,97 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 240,
+    "sample_rate_hz": 16000,
+    "uri": "tests/fixtures/audio/call-0003/turn-005.wav"
+  },
+  "call_id": "call-0003",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": "room_type",
+    "prior_turns_ref": "tests/fixtures/contexts/call-0003.jsonl",
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "47d72a46-2aac-5238-beb4-83b7a8e0f8de",
+  "outcome": {
+    "final_record": {
+      "check_in": "2026-12-20",
+      "check_out": "2026-12-22",
+      "contact": {
+        "email": "jordan.example@example.com",
+        "phone": "+1 555 010 0003"
+      },
+      "guest_name": "Jordan Example",
+      "guests": 1,
+      "room_type": "suite"
+    },
+    "status": "confirmed",
+    "updated_at": "2026-11-24T10:22:00Z"
+  },
+  "parser": {
+    "input_text": "Make it a suite, please.",
+    "logprob": -0.28,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {
+      "check_in": "2026-12-20",
+      "check_out": "2026-12-22",
+      "contact": {
+        "email": "jordan.example@example.com",
+        "phone": "+1 555 010 0003"
+      },
+      "guest_name": "Jordan Example",
+      "guests": 1,
+      "room_type": "suite"
+    },
+    "schema_valid": true
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -0.302,
+      "compression_ratio": 1.48,
+      "no_speech_prob": 0.002
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "Make it a suite, please.",
+    "words": [
+      {
+        "conf": 0.96,
+        "end_ms": 54,
+        "start_ms": 20,
+        "w": "Make"
+      },
+      {
+        "conf": 0.96,
+        "end_ms": 94,
+        "start_ms": 60,
+        "w": "it"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 134,
+        "start_ms": 100,
+        "w": "a"
+      },
+      {
+        "conf": 0.92,
+        "end_ms": 174,
+        "start_ms": 140,
+        "w": "suite,"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 214,
+        "start_ms": 180,
+        "w": "please."
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:21:00Z",
+  "turn_index": 5
+}

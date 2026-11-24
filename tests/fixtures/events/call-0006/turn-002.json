@@ -1,0 +1,48 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 320,
+    "sample_rate_hz": 16000,
+    "uri": "tests/fixtures/audio/call-0006/turn-002.wav"
+  },
+  "call_id": "call-0006",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": null,
+    "prior_turns_ref": "tests/fixtures/contexts/call-0006.jsonl",
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "7fa5f2b9-a888-577c-b95e-29ba08fadbb2",
+  "parser": {
+    "input_text": "Mm-hmm?",
+    "logprob": -1.85,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {},
+    "schema_valid": false
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -1.408,
+      "compression_ratio": 1.383,
+      "no_speech_prob": 0.71
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "Mm-hmm?",
+    "words": [
+      {
+        "conf": 0.41,
+        "end_ms": 258,
+        "start_ms": 20,
+        "w": "Mm-hmm?"
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:42:00Z",
+  "turn_index": 2
+}

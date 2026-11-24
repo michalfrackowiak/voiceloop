@@ -1,0 +1,85 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 240,
+    "sample_rate_hz": 16000,
+    "uri": "tests/fixtures/audio/call-0006/turn-005.wav"
+  },
+  "call_id": "call-0006",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": "intent",
+    "prior_turns_ref": "tests/fixtures/contexts/call-0006.jsonl",
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "d86544ae-f160-5f15-b733-63912b855c4d",
+  "outcome": {
+    "final_record": {
+      "check_in": "2027-03-03",
+      "check_out": "2027-03-06",
+      "contact": {
+        "email": "riley.synthetic@example.com",
+        "phone": "+1 555 010 0006"
+      },
+      "guest_name": "Riley Synthetic",
+      "guests": 2,
+      "room_type": "deluxe"
+    },
+    "status": "confirmed",
+    "updated_at": "2026-11-24T10:46:00Z"
+  },
+  "parser": {
+    "input_text": "That's right, confirm.",
+    "logprob": -0.28,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {
+      "check_in": "2027-03-03",
+      "check_out": "2027-03-06",
+      "contact": {
+        "email": "riley.synthetic@example.com",
+        "phone": "+1 555 010 0006"
+      },
+      "guest_name": "Riley Synthetic",
+      "guests": 2,
+      "room_type": "deluxe"
+    },
+    "schema_valid": true
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -0.184,
+      "compression_ratio": 1.344,
+      "no_speech_prob": 0.002
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "That's right, confirm.",
+    "words": [
+      {
+        "conf": 0.98,
+        "end_ms": 76,
+        "start_ms": 20,
+        "w": "That's"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 142,
+        "start_ms": 86,
+        "w": "right,"
+      },
+      {
+        "conf": 0.96,
+        "end_ms": 208,
+        "start_ms": 152,
+        "w": "confirm."
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:45:00Z",
+  "turn_index": 5
+}

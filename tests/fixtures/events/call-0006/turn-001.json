@@ -1,0 +1,112 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 280,
+    "sample_rate_hz": 16000,
+    "uri": "tests/fixtures/audio/call-0006/turn-001.wav"
+  },
+  "call_id": "call-0006",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": "check_in",
+    "prior_turns_ref": "tests/fixtures/contexts/call-0006.jsonl",
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "a535ebca-299b-54a8-a6bc-bd14f14e57ed",
+  "parser": {
+    "input_text": "Check in March third for Riley Synthetic, two guests, standard.",
+    "logprob": -0.28,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {
+      "check_in": "2027-03-03",
+      "check_out": "2027-03-05",
+      "contact": {
+        "email": "riley.synthetic@example.com",
+        "phone": "+1 555 010 0006"
+      },
+      "guest_name": "Riley Synthetic",
+      "guests": 2,
+      "room_type": "standard"
+    },
+    "schema_valid": true
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -0.154,
+      "compression_ratio": 1.365,
+      "no_speech_prob": 0.002
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "Check in March third for Riley Synthetic, two guests, standard.",
+    "words": [
+      {
+        "conf": 0.95,
+        "end_ms": 40,
+        "start_ms": 20,
+        "w": "Check"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 64,
+        "start_ms": 44,
+        "w": "in"
+      },
+      {
+        "conf": 0.93,
+        "end_ms": 88,
+        "start_ms": 68,
+        "w": "March"
+      },
+      {
+        "conf": 0.92,
+        "end_ms": 112,
+        "start_ms": 92,
+        "w": "third"
+      },
+      {
+        "conf": 0.98,
+        "end_ms": 136,
+        "start_ms": 116,
+        "w": "for"
+      },
+      {
+        "conf": 0.96,
+        "end_ms": 160,
+        "start_ms": 140,
+        "w": "Riley"
+      },
+      {
+        "conf": 0.93,
+        "end_ms": 184,
+        "start_ms": 164,
+        "w": "Synthetic,"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 208,
+        "start_ms": 188,
+        "w": "two"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 232,
+        "start_ms": 212,
+        "w": "guests,"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 256,
+        "start_ms": 236,
+        "w": "standard."
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:41:00Z",
+  "turn_index": 1
+}

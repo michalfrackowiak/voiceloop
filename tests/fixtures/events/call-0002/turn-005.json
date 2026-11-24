@@ -1,0 +1,127 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 240,
+    "sample_rate_hz": 16000,
+    "uri": "tests/fixtures/audio/call-0002/turn-005.wav"
+  },
+  "call_id": "call-0002",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": "check_out",
+    "prior_turns_ref": "tests/fixtures/contexts/call-0002.jsonl",
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "5506a591-2309-5843-8cfc-b3d7752432a5",
+  "outcome": {
+    "final_record": {
+      "check_in": "2026-12-10",
+      "check_out": "2026-12-14",
+      "contact": {
+        "email": "sam.sample@example.com",
+        "phone": "+1 555 010 0002"
+      },
+      "guest_name": "Sam Sample",
+      "guests": 2,
+      "room_type": "standard"
+    },
+    "status": "edited_by_staff",
+    "updated_at": "2026-11-24T10:14:00Z"
+  },
+  "parser": {
+    "input_text": "Yes, two guests from the tenth to the fourteenth. Confirm.",
+    "logprob": -0.28,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {
+      "check_in": "2026-12-10",
+      "check_out": "2026-12-14",
+      "contact": {
+        "email": "sam.sample@example.com",
+        "phone": "+1 555 010 0002"
+      },
+      "guest_name": "Sam Sample",
+      "guests": 2,
+      "room_type": "standard"
+    },
+    "schema_valid": true
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -0.287,
+      "compression_ratio": 1.311,
+      "no_speech_prob": 0.002
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "Yes, two guests from the tenth to the fourteenth. Confirm.",
+    "words": [
+      {
+        "conf": 0.96,
+        "end_ms": 40,
+        "start_ms": 20,
+        "w": "Yes,"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 60,
+        "start_ms": 40,
+        "w": "two"
+      },
+      {
+        "conf": 0.93,
+        "end_ms": 80,
+        "start_ms": 60,
+        "w": "guests"
+      },
+      {
+        "conf": 0.91,
+        "end_ms": 100,
+        "start_ms": 80,
+        "w": "from"
+      },
+      {
+        "conf": 0.97,
+        "end_ms": 120,
+        "start_ms": 100,
+        "w": "the"
+      },
+      {
+        "conf": 0.97,
+        "end_ms": 140,
+        "start_ms": 120,
+        "w": "tenth"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 160,
+        "start_ms": 140,
+        "w": "to"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 180,
+        "start_ms": 160,
+        "w": "the"
+      },
+      {
+        "conf": 0.97,
+        "end_ms": 200,
+        "start_ms": 180,
+        "w": "fourteenth."
+      },
+      {
+        "conf": 0.96,
+        "end_ms": 220,
+        "start_ms": 200,
+        "w": "Confirm."
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:13:00Z",
+  "turn_index": 5
+}

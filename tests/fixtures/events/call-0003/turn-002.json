@@ -1,0 +1,66 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 320,
+    "sample_rate_hz": 16000,
+    "uri": "tests/fixtures/audio/call-0003/turn-002.wav"
+  },
+  "call_id": "call-0003",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": null,
+    "prior_turns_ref": "tests/fixtures/contexts/call-0003.jsonl",
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "8ef5fbde-7893-5aef-8229-3c63d7e99490",
+  "parser": {
+    "input_text": "Thank you for calling.",
+    "logprob": -1.85,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {},
+    "schema_valid": false
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -1.382,
+      "compression_ratio": 1.417,
+      "no_speech_prob": 0.82
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "Thank you for calling.",
+    "words": [
+      {
+        "conf": 0.41,
+        "end_ms": 79,
+        "start_ms": 20,
+        "w": "Thank"
+      },
+      {
+        "conf": 0.41,
+        "end_ms": 149,
+        "start_ms": 90,
+        "w": "you"
+      },
+      {
+        "conf": 0.41,
+        "end_ms": 219,
+        "start_ms": 160,
+        "w": "for"
+      },
+      {
+        "conf": 0.41,
+        "end_ms": 289,
+        "start_ms": 230,
+        "w": "calling."
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:18:00Z",
+  "turn_index": 2
+}

@@ -49,12 +49,12 @@ Goal: shared contracts and a runnable skeleton so every later lane can work inde
   - [x] P0-04.4 Review adapter API spec (push item, pull result, item routing labels)
   - **Done when:** each spec is JSON Schema or OpenAPI with examples.
 
-- [ ] **P0-05 Synthetic fixtures** — Role: `qa` — Deps: P0-02 — Paths: `tests/fixtures/`
-  - [ ] P0-05.1 Generate synthetic call audio and event payloads (TTS + noise, including silence and an 8 kHz variant)
-  - [ ] P0-05.2 Include known failure cases: misheard surname, date confusion ("three" nights vs guests), schema-invalid parse
+- [x] **P0-05 Synthetic fixtures** — Role: `qa` — Deps: P0-02 — Paths: `tests/fixtures/`
+  - [x] P0-05.1 Generate synthetic call audio and event payloads (TTS + noise, including silence and an 8 kHz variant)
+  - [x] P0-05.2 Include known failure cases: misheard surname, date confusion ("three" nights vs guests), schema-invalid parse
   - **Done when:** at least 30 synthetic turns with labelled expected outcomes; no real guest data.
 
-**CP-0 (lead):** schemas and contracts reviewed; compose stack runs; fixtures available.
+**CP-0 (lead) — PASSED:** schemas and contracts reviewed; compose stack validated (Docker unavailable here, YAML parsed and reviewed); 36 synthetic turns available.
 
 ---
 

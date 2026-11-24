@@ -1,0 +1,100 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 360,
+    "sample_rate_hz": 16000,
+    "uri": "tests/fixtures/audio/call-0002/turn-003.wav"
+  },
+  "call_id": "call-0002",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": "guests",
+    "prior_turns_ref": "tests/fixtures/contexts/call-0002.jsonl",
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "414f1607-70ab-56d3-864b-bf9d0732a1e6",
+  "parser": {
+    "input_text": "I'd like three nights and two guests, please.",
+    "logprob": -0.28,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {
+      "check_in": "2026-12-05",
+      "check_out": "2026-12-07",
+      "contact": {
+        "email": "sam.sample@example.com",
+        "phone": "+1 555 010 0002"
+      },
+      "guest_name": "Sam Sample",
+      "guests": 3,
+      "room_type": "standard"
+    },
+    "schema_valid": true
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -0.265,
+      "compression_ratio": 1.372,
+      "no_speech_prob": 0.002
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "I'd like three nights and two guests, please.",
+    "words": [
+      {
+        "conf": 0.96,
+        "end_ms": 54,
+        "start_ms": 20,
+        "w": "I'd"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 94,
+        "start_ms": 60,
+        "w": "like"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 134,
+        "start_ms": 100,
+        "w": "three"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 174,
+        "start_ms": 140,
+        "w": "nights"
+      },
+      {
+        "conf": 0.96,
+        "end_ms": 214,
+        "start_ms": 180,
+        "w": "and"
+      },
+      {
+        "conf": 0.97,
+        "end_ms": 254,
+        "start_ms": 220,
+        "w": "two"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 294,
+        "start_ms": 260,
+        "w": "guests,"
+      },
+      {
+        "conf": 0.93,
+        "end_ms": 334,
+        "start_ms": 300,
+        "w": "please."
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:11:00Z",
+  "turn_index": 3
+}

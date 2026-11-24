@@ -1,0 +1,118 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 280,
+    "sample_rate_hz": 8000,
+    "uri": "tests/fixtures/audio/call-0004/turn-001.wav"
+  },
+  "call_id": "call-0004",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": "check_in",
+    "prior_turns_ref": "tests/fixtures/contexts/call-0004.jsonl",
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "37f329f2-d390-5324-9f61-780c47a13944",
+  "parser": {
+    "input_text": "Check in the eighth of January for Morgan Mock, two guests.",
+    "logprob": -0.28,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {
+      "check_in": "2027-01-08",
+      "check_out": "2027-01-10",
+      "contact": {
+        "email": "morgan.mock@example.com",
+        "phone": "+1 555 010 0004"
+      },
+      "guest_name": "Morgan Mock",
+      "guests": 2,
+      "room_type": "standard"
+    },
+    "schema_valid": true
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -0.152,
+      "compression_ratio": 1.424,
+      "no_speech_prob": 0.002
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "Check in the eighth of January for Morgan Mock, two guests.",
+    "words": [
+      {
+        "conf": 0.96,
+        "end_ms": 40,
+        "start_ms": 20,
+        "w": "Check"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 61,
+        "start_ms": 41,
+        "w": "in"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 82,
+        "start_ms": 62,
+        "w": "the"
+      },
+      {
+        "conf": 0.93,
+        "end_ms": 103,
+        "start_ms": 83,
+        "w": "eighth"
+      },
+      {
+        "conf": 0.98,
+        "end_ms": 124,
+        "start_ms": 104,
+        "w": "of"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 145,
+        "start_ms": 125,
+        "w": "January"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 166,
+        "start_ms": 146,
+        "w": "for"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 187,
+        "start_ms": 167,
+        "w": "Morgan"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 208,
+        "start_ms": 188,
+        "w": "Mock,"
+      },
+      {
+        "conf": 0.96,
+        "end_ms": 229,
+        "start_ms": 209,
+        "w": "two"
+      },
+      {
+        "conf": 0.96,
+        "end_ms": 250,
+        "start_ms": 230,
+        "w": "guests."
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:25:00Z",
+  "turn_index": 1
+}

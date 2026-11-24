@@ -1,0 +1,76 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 360,
+    "sample_rate_hz": 8000,
+    "uri": "tests/fixtures/audio/call-0004/turn-003.wav"
+  },
+  "call_id": "call-0004",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": "guests",
+    "prior_turns_ref": "tests/fixtures/contexts/call-0004.jsonl",
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "2f92d368-40be-5362-9798-72f05b8fbfcf",
+  "parser": {
+    "input_text": "Make it two guests.",
+    "logprob": -0.28,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {
+      "check_in": "2027-01-08",
+      "check_out": "2027-01-10",
+      "contact": {
+        "email": "morgan.mock@example.com",
+        "phone": "+1 555 010 0004"
+      },
+      "guest_name": "Morgan Mock",
+      "guests": 2,
+      "room_type": "deluxe"
+    },
+    "schema_valid": true
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -0.659,
+      "compression_ratio": 1.308,
+      "no_speech_prob": 0.03
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "Make it two guests.",
+    "words": [
+      {
+        "conf": 0.95,
+        "end_ms": 88,
+        "start_ms": 20,
+        "w": "Make"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 168,
+        "start_ms": 100,
+        "w": "it"
+      },
+      {
+        "conf": 0.41,
+        "end_ms": 248,
+        "start_ms": 180,
+        "w": "two"
+      },
+      {
+        "conf": 0.92,
+        "end_ms": 328,
+        "start_ms": 260,
+        "w": "guests."
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:27:00Z",
+  "turn_index": 3
+}

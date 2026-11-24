@@ -1,0 +1,76 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 320,
+    "sample_rate_hz": 16000,
+    "uri": "tests/fixtures/audio/call-0005/turn-002.wav"
+  },
+  "call_id": "call-0005",
+  "consent": {
+    "recording": true,
+    "training": false
+  },
+  "dialogue_context": {
+    "expected_slot": "contact.email",
+    "prior_turns_ref": "tests/fixtures/contexts/call-0005.jsonl",
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "8e9dfb9f-cdda-599b-a6a0-3bc35abff9a7",
+  "parser": {
+    "input_text": "My email is casey.placeholder@example.com.",
+    "logprob": -0.28,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {
+      "check_in": "2027-02-02",
+      "check_out": "2027-02-04",
+      "contact": {
+        "email": "casey.placeholder@example.com",
+        "phone": "+1 555 010 0005"
+      },
+      "guest_name": "Casey Placeholder",
+      "guests": 2,
+      "room_type": "suite"
+    },
+    "schema_valid": true
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -0.177,
+      "compression_ratio": 1.441,
+      "no_speech_prob": 0.002
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "My email is casey.placeholder@example.com.",
+    "words": [
+      {
+        "conf": 0.95,
+        "end_ms": 79,
+        "start_ms": 20,
+        "w": "My"
+      },
+      {
+        "conf": 0.93,
+        "end_ms": 149,
+        "start_ms": 90,
+        "w": "email"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 219,
+        "start_ms": 160,
+        "w": "is"
+      },
+      {
+        "conf": 0.93,
+        "end_ms": 289,
+        "start_ms": 230,
+        "w": "casey.placeholder@example.com."
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:34:00Z",
+  "turn_index": 2
+}

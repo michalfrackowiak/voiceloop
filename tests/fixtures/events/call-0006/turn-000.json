@@ -1,0 +1,84 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 240,
+    "sample_rate_hz": 16000,
+    "uri": "tests/fixtures/audio/call-0006/turn-000.wav"
+  },
+  "call_id": "call-0006",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": "intent",
+    "prior_turns_ref": null,
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "56ac7eae-050e-5695-8b20-db8ce252afc1",
+  "parser": {
+    "input_text": "Good morning, I have a booking query.",
+    "logprob": -1.85,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {},
+    "schema_valid": false
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -0.172,
+      "compression_ratio": 1.483,
+      "no_speech_prob": 0.002
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "Good morning, I have a booking query.",
+    "words": [
+      {
+        "conf": 0.96,
+        "end_ms": 43,
+        "start_ms": 20,
+        "w": "Good"
+      },
+      {
+        "conf": 0.96,
+        "end_ms": 71,
+        "start_ms": 48,
+        "w": "morning,"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 99,
+        "start_ms": 76,
+        "w": "I"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 127,
+        "start_ms": 104,
+        "w": "have"
+      },
+      {
+        "conf": 0.96,
+        "end_ms": 155,
+        "start_ms": 132,
+        "w": "a"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 183,
+        "start_ms": 160,
+        "w": "booking"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 211,
+        "start_ms": 188,
+        "w": "query."
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:40:00Z",
+  "turn_index": 0
+}

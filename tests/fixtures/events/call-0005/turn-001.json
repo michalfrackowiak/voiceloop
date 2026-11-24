@@ -1,0 +1,118 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 280,
+    "sample_rate_hz": 16000,
+    "uri": "tests/fixtures/audio/call-0005/turn-001.wav"
+  },
+  "call_id": "call-0005",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": "check_in",
+    "prior_turns_ref": "tests/fixtures/contexts/call-0005.jsonl",
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "91fbe666-8f61-50b9-b1fb-4e784ab50972",
+  "parser": {
+    "input_text": "Check in February second for Casey Placeholder, two guests, a suite.",
+    "logprob": -0.28,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {
+      "check_in": "2027-02-02",
+      "check_out": "2027-02-04",
+      "contact": {
+        "email": "casey.placeholder@example.com",
+        "phone": "+1 555 010 0005"
+      },
+      "guest_name": "Casey Placeholder",
+      "guests": 2,
+      "room_type": "suite"
+    },
+    "schema_valid": true
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -0.197,
+      "compression_ratio": 1.381,
+      "no_speech_prob": 0.002
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "Check in February second for Casey Placeholder, two guests, a suite.",
+    "words": [
+      {
+        "conf": 0.94,
+        "end_ms": 40,
+        "start_ms": 20,
+        "w": "Check"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 61,
+        "start_ms": 41,
+        "w": "in"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 82,
+        "start_ms": 62,
+        "w": "February"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 103,
+        "start_ms": 83,
+        "w": "second"
+      },
+      {
+        "conf": 0.97,
+        "end_ms": 124,
+        "start_ms": 104,
+        "w": "for"
+      },
+      {
+        "conf": 0.93,
+        "end_ms": 145,
+        "start_ms": 125,
+        "w": "Casey"
+      },
+      {
+        "conf": 0.96,
+        "end_ms": 166,
+        "start_ms": 146,
+        "w": "Placeholder,"
+      },
+      {
+        "conf": 0.91,
+        "end_ms": 187,
+        "start_ms": 167,
+        "w": "two"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 208,
+        "start_ms": 188,
+        "w": "guests,"
+      },
+      {
+        "conf": 0.96,
+        "end_ms": 229,
+        "start_ms": 209,
+        "w": "a"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 250,
+        "start_ms": 230,
+        "w": "suite."
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:33:00Z",
+  "turn_index": 1
+}

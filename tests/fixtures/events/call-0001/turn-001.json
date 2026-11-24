@@ -1,0 +1,130 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 280,
+    "sample_rate_hz": 16000,
+    "uri": "tests/fixtures/audio/call-0001/turn-001.wav"
+  },
+  "call_id": "call-0001",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": "check_in",
+    "prior_turns_ref": "tests/fixtures/contexts/call-0001.jsonl",
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "8c914c5c-64a3-5bcf-924b-02a709aca681",
+  "parser": {
+    "input_text": "Check in on the twelfth of December for Ada Fixture, two guests, please.",
+    "logprob": -0.28,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {
+      "check_in": "2026-12-12",
+      "check_out": "2026-12-14",
+      "contact": {
+        "email": "ada.fixture@example.com",
+        "phone": "+1 555 010 0001"
+      },
+      "guest_name": "Ada Fixture",
+      "guests": 2,
+      "room_type": "standard"
+    },
+    "schema_valid": true
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -0.187,
+      "compression_ratio": 1.409,
+      "no_speech_prob": 0.002
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "Check in on the twelfth of December for Ada Fixture, two guests, please.",
+    "words": [
+      {
+        "conf": 0.96,
+        "end_ms": 40,
+        "start_ms": 20,
+        "w": "Check"
+      },
+      {
+        "conf": 0.96,
+        "end_ms": 60,
+        "start_ms": 40,
+        "w": "in"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 80,
+        "start_ms": 60,
+        "w": "on"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 100,
+        "start_ms": 80,
+        "w": "the"
+      },
+      {
+        "conf": 0.97,
+        "end_ms": 120,
+        "start_ms": 100,
+        "w": "twelfth"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 140,
+        "start_ms": 120,
+        "w": "of"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 160,
+        "start_ms": 140,
+        "w": "December"
+      },
+      {
+        "conf": 0.92,
+        "end_ms": 180,
+        "start_ms": 160,
+        "w": "for"
+      },
+      {
+        "conf": 0.96,
+        "end_ms": 200,
+        "start_ms": 180,
+        "w": "Ada"
+      },
+      {
+        "conf": 0.96,
+        "end_ms": 220,
+        "start_ms": 200,
+        "w": "Fixture,"
+      },
+      {
+        "conf": 0.93,
+        "end_ms": 240,
+        "start_ms": 220,
+        "w": "two"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 260,
+        "start_ms": 240,
+        "w": "guests,"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 280,
+        "start_ms": 260,
+        "w": "please."
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:01:00Z",
+  "turn_index": 1
+}

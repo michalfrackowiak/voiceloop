@@ -1,0 +1,142 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 280,
+    "sample_rate_hz": 16000,
+    "uri": "tests/fixtures/audio/call-0002/turn-001.wav"
+  },
+  "call_id": "call-0002",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": "check_in",
+    "prior_turns_ref": "tests/fixtures/contexts/call-0002.jsonl",
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "23a66c89-59a5-5943-ba87-002bc3d94034",
+  "parser": {
+    "input_text": "Check in December fifth for two nights, one guest, a standard room, for Sam Sample.",
+    "logprob": -0.28,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {
+      "check_in": "2026-12-05",
+      "check_out": "2026-12-07",
+      "contact": {
+        "email": "sam.sample@example.com",
+        "phone": "+1 555 010 0002"
+      },
+      "guest_name": "Sam Sample",
+      "guests": 1,
+      "room_type": "standard"
+    },
+    "schema_valid": true
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -0.16,
+      "compression_ratio": 1.416,
+      "no_speech_prob": 0.002
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "Check in December fifth for two nights, one guest, a standard room, for Sam Sample.",
+    "words": [
+      {
+        "conf": 0.96,
+        "end_ms": 40,
+        "start_ms": 20,
+        "w": "Check"
+      },
+      {
+        "conf": 0.93,
+        "end_ms": 60,
+        "start_ms": 40,
+        "w": "in"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 80,
+        "start_ms": 60,
+        "w": "December"
+      },
+      {
+        "conf": 0.93,
+        "end_ms": 100,
+        "start_ms": 80,
+        "w": "fifth"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 120,
+        "start_ms": 100,
+        "w": "for"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 140,
+        "start_ms": 120,
+        "w": "two"
+      },
+      {
+        "conf": 0.93,
+        "end_ms": 160,
+        "start_ms": 140,
+        "w": "nights,"
+      },
+      {
+        "conf": 0.91,
+        "end_ms": 180,
+        "start_ms": 160,
+        "w": "one"
+      },
+      {
+        "conf": 0.97,
+        "end_ms": 200,
+        "start_ms": 180,
+        "w": "guest,"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 220,
+        "start_ms": 200,
+        "w": "a"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 240,
+        "start_ms": 220,
+        "w": "standard"
+      },
+      {
+        "conf": 0.93,
+        "end_ms": 260,
+        "start_ms": 240,
+        "w": "room,"
+      },
+      {
+        "conf": 0.97,
+        "end_ms": 280,
+        "start_ms": 260,
+        "w": "for"
+      },
+      {
+        "conf": 0.96,
+        "end_ms": 280,
+        "start_ms": 280,
+        "w": "Sam"
+      },
+      {
+        "conf": 0.92,
+        "end_ms": 280,
+        "start_ms": 300,
+        "w": "Sample."
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:09:00Z",
+  "turn_index": 1
+}

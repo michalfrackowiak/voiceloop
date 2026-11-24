@@ -1,0 +1,106 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 400,
+    "sample_rate_hz": 16000,
+    "uri": "tests/fixtures/audio/call-0002/turn-004.wav"
+  },
+  "call_id": "call-0002",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": "check_out",
+    "prior_turns_ref": "tests/fixtures/contexts/call-0002.jsonl",
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "5eba12e4-6c66-503f-9ae6-51a83e856e56",
+  "parser": {
+    "input_text": "Arrive on the tenth and leave on the fourteenth.",
+    "logprob": -1.85,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {
+      "check_in": "2026-12-14",
+      "check_out": "2026-12-10",
+      "contact": {
+        "email": "sam.sample@example.com",
+        "phone": "+1 555 010 0002"
+      },
+      "guest_name": "Sam Sample",
+      "guests": 1,
+      "room_type": "standard"
+    },
+    "schema_valid": false
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -0.221,
+      "compression_ratio": 1.459,
+      "no_speech_prob": 0.002
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "Arrive on the tenth and leave on the fourteenth.",
+    "words": [
+      {
+        "conf": 0.97,
+        "end_ms": 54,
+        "start_ms": 20,
+        "w": "Arrive"
+      },
+      {
+        "conf": 0.96,
+        "end_ms": 94,
+        "start_ms": 60,
+        "w": "on"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 134,
+        "start_ms": 100,
+        "w": "the"
+      },
+      {
+        "conf": 0.92,
+        "end_ms": 174,
+        "start_ms": 140,
+        "w": "tenth"
+      },
+      {
+        "conf": 0.97,
+        "end_ms": 214,
+        "start_ms": 180,
+        "w": "and"
+      },
+      {
+        "conf": 0.97,
+        "end_ms": 254,
+        "start_ms": 220,
+        "w": "leave"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 294,
+        "start_ms": 260,
+        "w": "on"
+      },
+      {
+        "conf": 0.91,
+        "end_ms": 334,
+        "start_ms": 300,
+        "w": "the"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 374,
+        "start_ms": 340,
+        "w": "fourteenth."
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:12:00Z",
+  "turn_index": 4
+}

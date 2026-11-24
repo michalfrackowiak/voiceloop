@@ -1,0 +1,76 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 360,
+    "sample_rate_hz": 16000,
+    "uri": "tests/fixtures/audio/call-0005/turn-003.wav"
+  },
+  "call_id": "call-0005",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": "check_out",
+    "prior_turns_ref": "tests/fixtures/contexts/call-0005.jsonl",
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "59a35655-878d-5204-9aa0-b7ad46f4cbf7",
+  "parser": {
+    "input_text": "I'll stay four nights.",
+    "logprob": -0.28,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {
+      "check_in": "2027-02-02",
+      "check_out": "2027-02-05",
+      "contact": {
+        "email": "casey.placeholder@example.com",
+        "phone": "+1 555 010 0005"
+      },
+      "guest_name": "Casey Placeholder",
+      "guests": 2,
+      "room_type": "suite"
+    },
+    "schema_valid": true
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -0.22,
+      "compression_ratio": 1.451,
+      "no_speech_prob": 0.002
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "I'll stay four nights.",
+    "words": [
+      {
+        "conf": 0.97,
+        "end_ms": 88,
+        "start_ms": 20,
+        "w": "I'll"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 168,
+        "start_ms": 100,
+        "w": "stay"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 248,
+        "start_ms": 180,
+        "w": "four"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 328,
+        "start_ms": 260,
+        "w": "nights."
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:35:00Z",
+  "turn_index": 3
+}

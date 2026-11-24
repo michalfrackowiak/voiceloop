@@ -1,0 +1,96 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 240,
+    "sample_rate_hz": 16000,
+    "uri": "tests/fixtures/audio/call-0001/turn-000.wav"
+  },
+  "call_id": "call-0001",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": "intent",
+    "prior_turns_ref": null,
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "9466a6c2-b296-5742-871f-4370adebab26",
+  "parser": {
+    "input_text": "Hi, I'd like to book a room for December.",
+    "logprob": -1.85,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {},
+    "schema_valid": false
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -0.168,
+      "compression_ratio": 1.41,
+      "no_speech_prob": 0.002
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "Hi, I'd like to book a room for December.",
+    "words": [
+      {
+        "conf": 0.96,
+        "end_ms": 40,
+        "start_ms": 20,
+        "w": "Hi,"
+      },
+      {
+        "conf": 0.96,
+        "end_ms": 62,
+        "start_ms": 42,
+        "w": "I'd"
+      },
+      {
+        "conf": 0.93,
+        "end_ms": 84,
+        "start_ms": 64,
+        "w": "like"
+      },
+      {
+        "conf": 0.91,
+        "end_ms": 106,
+        "start_ms": 86,
+        "w": "to"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 128,
+        "start_ms": 108,
+        "w": "book"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 150,
+        "start_ms": 130,
+        "w": "a"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 172,
+        "start_ms": 152,
+        "w": "room"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 194,
+        "start_ms": 174,
+        "w": "for"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 216,
+        "start_ms": 196,
+        "w": "December."
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:00:00Z",
+  "turn_index": 0
+}

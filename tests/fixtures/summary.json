@@ -1,0 +1,39 @@
+{
+  "call_ids": [
+    "call-0001",
+    "call-0002",
+    "call-0003",
+    "call-0004",
+    "call-0005",
+    "call-0006"
+  ],
+  "case_ids": [
+    "date_confusion",
+    "line_noise",
+    "line_noise_burst",
+    "misheard_guests",
+    "misheard_surname",
+    "nights_misparsed",
+    "no_training_consent",
+    "schema_invalid_missing_field",
+    "schema_invalid_parse",
+    "silence_exact",
+    "silence_hallucination"
+  ],
+  "failure_types": [
+    "both_fine",
+    "clean",
+    "parser_wrong",
+    "stt_wrong",
+    "unusable_audio"
+  ],
+  "generator_version": "1.0.0",
+  "note": "WAVs are tones, noise or exact silence; they contain no real speech.",
+  "sample_rates_hz": [
+    8000,
+    16000
+  ],
+  "synthetic": true,
+  "tts_backend": "deterministic-tone-v1",
+  "turn_count": 36
+}

@@ -1,0 +1,91 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 240,
+    "sample_rate_hz": 16000,
+    "uri": "tests/fixtures/audio/call-0005/turn-005.wav"
+  },
+  "call_id": "call-0005",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": "intent",
+    "prior_turns_ref": "tests/fixtures/contexts/call-0005.jsonl",
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "836f5f56-ccbc-5c66-839c-721f866ffe1e",
+  "outcome": {
+    "final_record": {
+      "check_in": "2027-02-02",
+      "check_out": "2027-02-06",
+      "contact": {
+        "email": "casey.placeholder@example.com",
+        "phone": "+1 555 010 0005"
+      },
+      "guest_name": "Casey Placeholder",
+      "guests": 2,
+      "room_type": "suite"
+    },
+    "status": "edited_by_staff",
+    "updated_at": "2026-11-24T10:38:00Z"
+  },
+  "parser": {
+    "input_text": "Confirm the booking, please.",
+    "logprob": -0.28,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {
+      "check_in": "2027-02-02",
+      "check_out": "2027-02-06",
+      "contact": {
+        "email": "casey.placeholder@example.com",
+        "phone": "+1 555 010 0005"
+      },
+      "guest_name": "Casey Placeholder",
+      "guests": 2,
+      "room_type": "suite"
+    },
+    "schema_valid": true
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -0.172,
+      "compression_ratio": 1.325,
+      "no_speech_prob": 0.002
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "Confirm the booking, please.",
+    "words": [
+      {
+        "conf": 0.96,
+        "end_ms": 62,
+        "start_ms": 20,
+        "w": "Confirm"
+      },
+      {
+        "conf": 0.97,
+        "end_ms": 112,
+        "start_ms": 70,
+        "w": "the"
+      },
+      {
+        "conf": 0.93,
+        "end_ms": 162,
+        "start_ms": 120,
+        "w": "booking,"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 212,
+        "start_ms": 170,
+        "w": "please."
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:37:00Z",
+  "turn_index": 5
+}

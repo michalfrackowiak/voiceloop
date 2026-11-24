@@ -1,0 +1,79 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 240,
+    "sample_rate_hz": 8000,
+    "uri": "tests/fixtures/audio/call-0004/turn-005.wav"
+  },
+  "call_id": "call-0004",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": "intent",
+    "prior_turns_ref": "tests/fixtures/contexts/call-0004.jsonl",
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "9ef45ae6-07f2-53e0-9b81-f01869e81680",
+  "outcome": {
+    "final_record": {
+      "check_in": "2027-01-08",
+      "check_out": "2027-01-11",
+      "contact": {
+        "email": "morgan.mock@example.com",
+        "phone": "+1 555 010 0004"
+      },
+      "guest_name": "Morgan Mock",
+      "guests": 4,
+      "room_type": "deluxe"
+    },
+    "status": "confirmed",
+    "updated_at": "2026-11-24T10:30:00Z"
+  },
+  "parser": {
+    "input_text": "Yes, confirm.",
+    "logprob": -0.28,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {
+      "check_in": "2027-01-08",
+      "check_out": "2027-01-11",
+      "contact": {
+        "email": "morgan.mock@example.com",
+        "phone": "+1 555 010 0004"
+      },
+      "guest_name": "Morgan Mock",
+      "guests": 4,
+      "room_type": "deluxe"
+    },
+    "schema_valid": true
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -0.207,
+      "compression_ratio": 1.492,
+      "no_speech_prob": 0.002
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "Yes, confirm.",
+    "words": [
+      {
+        "conf": 0.95,
+        "end_ms": 105,
+        "start_ms": 20,
+        "w": "Yes,"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 205,
+        "start_ms": 120,
+        "w": "confirm."
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:29:00Z",
+  "turn_index": 5
+}

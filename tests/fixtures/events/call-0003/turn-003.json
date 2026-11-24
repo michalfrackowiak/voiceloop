@@ -1,0 +1,48 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 360,
+    "sample_rate_hz": 16000,
+    "uri": "tests/fixtures/audio/call-0003/turn-003.wav"
+  },
+  "call_id": "call-0003",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": null,
+    "prior_turns_ref": "tests/fixtures/contexts/call-0003.jsonl",
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "e595df64-412c-5bb8-adac-c01af4d05dfd",
+  "parser": {
+    "input_text": "Hello?",
+    "logprob": -1.85,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {},
+    "schema_valid": false
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -1.395,
+      "compression_ratio": 1.487,
+      "no_speech_prob": 0.71
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "Hello?",
+    "words": [
+      {
+        "conf": 0.41,
+        "end_ms": 292,
+        "start_ms": 20,
+        "w": "Hello?"
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:19:00Z",
+  "turn_index": 3
+}

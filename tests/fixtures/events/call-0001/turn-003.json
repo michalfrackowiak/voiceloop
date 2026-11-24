@@ -1,0 +1,82 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 360,
+    "sample_rate_hz": 16000,
+    "uri": "tests/fixtures/audio/call-0001/turn-003.wav"
+  },
+  "call_id": "call-0001",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": "check_out",
+    "prior_turns_ref": "tests/fixtures/contexts/call-0001.jsonl",
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "b35217ac-009d-52ab-83e8-9040f5dbf0b5",
+  "parser": {
+    "input_text": "And three nights, not two.",
+    "logprob": -0.28,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {
+      "check_in": "2026-12-12",
+      "check_out": "2026-12-15",
+      "contact": {
+        "email": "ada.fixture@example.com",
+        "phone": "+1 555 010 0001"
+      },
+      "guest_name": "Ada Fixture",
+      "guests": 2,
+      "room_type": "deluxe"
+    },
+    "schema_valid": true
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -0.291,
+      "compression_ratio": 1.426,
+      "no_speech_prob": 0.002
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "And three nights, not two.",
+    "words": [
+      {
+        "conf": 0.94,
+        "end_ms": 74,
+        "start_ms": 20,
+        "w": "And"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 138,
+        "start_ms": 84,
+        "w": "three"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 202,
+        "start_ms": 148,
+        "w": "nights,"
+      },
+      {
+        "conf": 0.92,
+        "end_ms": 266,
+        "start_ms": 212,
+        "w": "not"
+      },
+      {
+        "conf": 0.97,
+        "end_ms": 330,
+        "start_ms": 276,
+        "w": "two."
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:03:00Z",
+  "turn_index": 3
+}

@@ -1,0 +1,154 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 400,
+    "sample_rate_hz": 16000,
+    "uri": "tests/fixtures/audio/call-0005/turn-004.wav"
+  },
+  "call_id": "call-0005",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": "contact.phone",
+    "prior_turns_ref": "tests/fixtures/contexts/call-0005.jsonl",
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "0e5436d1-4f86-5b91-8634-a5aa743e1fed",
+  "parser": {
+    "input_text": "You can reach me at plus one five five five, zero one zero, zero zero zero five.",
+    "logprob": -0.28,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {
+      "check_in": "2027-02-02",
+      "check_out": "2027-02-06",
+      "contact": {
+        "email": "casey.placeholder@example.com",
+        "phone": "+1 555 010 0005"
+      },
+      "guest_name": "Casey Placeholder",
+      "guests": 2,
+      "room_type": "suite"
+    },
+    "schema_valid": true
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -0.334,
+      "compression_ratio": 1.303,
+      "no_speech_prob": 0.002
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "You can reach me at plus one five five five, zero one zero, zero zero zero five.",
+    "words": [
+      {
+        "conf": 0.96,
+        "end_ms": 40,
+        "start_ms": 20,
+        "w": "You"
+      },
+      {
+        "conf": 0.97,
+        "end_ms": 61,
+        "start_ms": 41,
+        "w": "can"
+      },
+      {
+        "conf": 0.93,
+        "end_ms": 82,
+        "start_ms": 62,
+        "w": "reach"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 103,
+        "start_ms": 83,
+        "w": "me"
+      },
+      {
+        "conf": 0.97,
+        "end_ms": 124,
+        "start_ms": 104,
+        "w": "at"
+      },
+      {
+        "conf": 0.97,
+        "end_ms": 145,
+        "start_ms": 125,
+        "w": "plus"
+      },
+      {
+        "conf": 0.93,
+        "end_ms": 166,
+        "start_ms": 146,
+        "w": "one"
+      },
+      {
+        "conf": 0.92,
+        "end_ms": 187,
+        "start_ms": 167,
+        "w": "five"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 208,
+        "start_ms": 188,
+        "w": "five"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 229,
+        "start_ms": 209,
+        "w": "five,"
+      },
+      {
+        "conf": 0.96,
+        "end_ms": 250,
+        "start_ms": 230,
+        "w": "zero"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 271,
+        "start_ms": 251,
+        "w": "one"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 292,
+        "start_ms": 272,
+        "w": "zero,"
+      },
+      {
+        "conf": 0.96,
+        "end_ms": 313,
+        "start_ms": 293,
+        "w": "zero"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 334,
+        "start_ms": 314,
+        "w": "zero"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 355,
+        "start_ms": 335,
+        "w": "zero"
+      },
+      {
+        "conf": 0.96,
+        "end_ms": 376,
+        "start_ms": 356,
+        "w": "five."
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:36:00Z",
+  "turn_index": 4
+}

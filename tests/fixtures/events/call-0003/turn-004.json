@@ -1,0 +1,130 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 400,
+    "sample_rate_hz": 16000,
+    "uri": "tests/fixtures/audio/call-0003/turn-004.wav"
+  },
+  "call_id": "call-0003",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": "check_in",
+    "prior_turns_ref": "tests/fixtures/contexts/call-0003.jsonl",
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "cd95cea2-01da-5598-b300-dbbaecc93a17",
+  "parser": {
+    "input_text": "Sorry, the line dropped. Check in December twentieth for Jordan Example, one guest.",
+    "logprob": -0.28,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {
+      "check_in": "2026-12-20",
+      "check_out": "2026-12-22",
+      "contact": {
+        "email": "jordan.example@example.com",
+        "phone": "+1 555 010 0003"
+      },
+      "guest_name": "Jordan Example",
+      "guests": 1,
+      "room_type": "standard"
+    },
+    "schema_valid": true
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -0.178,
+      "compression_ratio": 1.359,
+      "no_speech_prob": 0.002
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "Sorry, the line dropped. Check in December twentieth for Jordan Example, one guest.",
+    "words": [
+      {
+        "conf": 0.96,
+        "end_ms": 42,
+        "start_ms": 20,
+        "w": "Sorry,"
+      },
+      {
+        "conf": 0.97,
+        "end_ms": 69,
+        "start_ms": 47,
+        "w": "the"
+      },
+      {
+        "conf": 0.92,
+        "end_ms": 96,
+        "start_ms": 74,
+        "w": "line"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 123,
+        "start_ms": 101,
+        "w": "dropped."
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 150,
+        "start_ms": 128,
+        "w": "Check"
+      },
+      {
+        "conf": 0.97,
+        "end_ms": 177,
+        "start_ms": 155,
+        "w": "in"
+      },
+      {
+        "conf": 0.93,
+        "end_ms": 204,
+        "start_ms": 182,
+        "w": "December"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 231,
+        "start_ms": 209,
+        "w": "twentieth"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 258,
+        "start_ms": 236,
+        "w": "for"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 285,
+        "start_ms": 263,
+        "w": "Jordan"
+      },
+      {
+        "conf": 0.92,
+        "end_ms": 312,
+        "start_ms": 290,
+        "w": "Example,"
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 339,
+        "start_ms": 317,
+        "w": "one"
+      },
+      {
+        "conf": 0.98,
+        "end_ms": 366,
+        "start_ms": 344,
+        "w": "guest."
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:20:00Z",
+  "turn_index": 4
+}

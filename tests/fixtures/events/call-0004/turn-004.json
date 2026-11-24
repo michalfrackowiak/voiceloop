@@ -1,0 +1,70 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 400,
+    "sample_rate_hz": 8000,
+    "uri": "tests/fixtures/audio/call-0004/turn-004.wav"
+  },
+  "call_id": "call-0004",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": "check_out",
+    "prior_turns_ref": "tests/fixtures/contexts/call-0004.jsonl",
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "f90dd53e-e9c6-55a1-8bf3-2a9dcf407fee",
+  "parser": {
+    "input_text": "And three nights.",
+    "logprob": -0.28,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {
+      "check_in": "2027-01-08",
+      "check_out": "2027-01-11",
+      "contact": {
+        "email": "morgan.mock@example.com",
+        "phone": "+1 555 010 0004"
+      },
+      "guest_name": "Morgan Mock",
+      "guests": 4,
+      "room_type": "deluxe"
+    },
+    "schema_valid": true
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -0.192,
+      "compression_ratio": 1.328,
+      "no_speech_prob": 0.002
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "And three nights.",
+    "words": [
+      {
+        "conf": 0.98,
+        "end_ms": 122,
+        "start_ms": 20,
+        "w": "And"
+      },
+      {
+        "conf": 0.97,
+        "end_ms": 242,
+        "start_ms": 140,
+        "w": "three"
+      },
+      {
+        "conf": 0.93,
+        "end_ms": 362,
+        "start_ms": 260,
+        "w": "nights."
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:28:00Z",
+  "turn_index": 4
+}

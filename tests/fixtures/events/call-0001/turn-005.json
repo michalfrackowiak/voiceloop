@@ -1,0 +1,109 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_ms": 240,
+    "sample_rate_hz": 16000,
+    "uri": "tests/fixtures/audio/call-0001/turn-005.wav"
+  },
+  "call_id": "call-0001",
+  "consent": {
+    "recording": true,
+    "training": true
+  },
+  "dialogue_context": {
+    "expected_slot": "contact.email",
+    "prior_turns_ref": "tests/fixtures/contexts/call-0001.jsonl",
+    "reference_date": "2026-11-24",
+    "timezone": "Europe/London"
+  },
+  "event_id": "f6ccf533-bf8a-5bf9-8fbe-b460cc66c046",
+  "outcome": {
+    "final_record": {
+      "check_in": "2026-12-12",
+      "check_out": "2026-12-15",
+      "contact": {
+        "email": "ada.fixture@example.com",
+        "phone": "+1 555 010 0001"
+      },
+      "guest_name": "Ada Fixture",
+      "guests": 2,
+      "room_type": "deluxe"
+    },
+    "status": "confirmed",
+    "updated_at": "2026-11-24T10:06:00Z"
+  },
+  "parser": {
+    "input_text": "Yes, confirm it. My email is ada.fixture@example.com.",
+    "logprob": -0.28,
+    "model_id": "synthetic-parser-stub",
+    "model_version": "1.0.0",
+    "output": {
+      "check_in": "2026-12-12",
+      "check_out": "2026-12-15",
+      "contact": {
+        "email": "ada.fixture@example.com",
+        "phone": "+1 555 010 0001"
+      },
+      "guest_name": "Ada Fixture",
+      "guests": 2,
+      "room_type": "deluxe"
+    },
+    "schema_valid": true
+  },
+  "stt": {
+    "decoder_stats": {
+      "avg_logprob": -0.185,
+      "compression_ratio": 1.446,
+      "no_speech_prob": 0.002
+    },
+    "model_id": "synthetic-stt-stub",
+    "model_version": "1.0.0",
+    "text": "Yes, confirm it. My email is ada.fixture@example.com.",
+    "words": [
+      {
+        "conf": 0.95,
+        "end_ms": 43,
+        "start_ms": 20,
+        "w": "Yes,"
+      },
+      {
+        "conf": 0.97,
+        "end_ms": 71,
+        "start_ms": 48,
+        "w": "confirm"
+      },
+      {
+        "conf": 0.93,
+        "end_ms": 99,
+        "start_ms": 76,
+        "w": "it."
+      },
+      {
+        "conf": 0.94,
+        "end_ms": 127,
+        "start_ms": 104,
+        "w": "My"
+      },
+      {
+        "conf": 0.96,
+        "end_ms": 155,
+        "start_ms": 132,
+        "w": "email"
+      },
+      {
+        "conf": 0.96,
+        "end_ms": 183,
+        "start_ms": 160,
+        "w": "is"
+      },
+      {
+        "conf": 0.95,
+        "end_ms": 211,
+        "start_ms": 188,
+        "w": "ada.fixture@example.com."
+      }
+    ]
+  },
+  "ts": "2026-11-24T10:05:00Z",
+  "turn_index": 5
+}
