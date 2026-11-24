@@ -26,6 +26,8 @@ changes require a schema version bump and an entry under the matching version.
   **1.0.0** — the four cross-service interface contracts.
 - `P1-03`: fail-open Python SDK with bounded retry queue, circuit breaker and
   native-rate audio helpers.
+- `P1-07`: evaluation harness v0 with WER, entity error, slot F1, schema-valid
+  rate, e2e booking accuracy from audio, paired bootstrap CIs and slice metrics.
 
 ### Changed
 

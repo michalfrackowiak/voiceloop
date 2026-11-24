@@ -104,12 +104,12 @@ Goal: measure reality before building anything else. Nothing after this is trust
   - [ ] P1-06.3 Seal and hash the set; access audit log
   - **Done when:** golden set is versioned, hashed, immutable; second-review coverage recorded.
 
-- [ ] **P1-07 Evaluation harness v0** — Role: `ml-eval` — Deps: P0-04 — Paths: `services/evalgate/`
-  - [ ] P1-07.1 WER and entity-level error (names, dates, numbers)
-  - [ ] P1-07.2 Parser slot F1 and schema-valid rate
-  - [ ] P1-07.3 End-to-end booking-field accuracy from audio
-  - [ ] P1-07.4 Paired bootstrap confidence intervals and slice metrics
-  - [ ] P1-07.5 `report.json` writer conforming to contract
+- [x] **P1-07 Evaluation harness v0** — Role: `ml-eval` — Deps: P0-04 — Paths: `services/evalgate/`
+  - [x] P1-07.1 WER and entity-level error (names, dates, numbers)
+  - [x] P1-07.2 Parser slot F1 and schema-valid rate
+  - [x] P1-07.3 End-to-end booking-field accuracy from audio
+  - [x] P1-07.4 Paired bootstrap confidence intervals and slice metrics
+  - [x] P1-07.5 `report.json` writer conforming to contract
   - **Done when:** harness runs on fixtures and produces a valid report; unit tests for each metric against hand-computed cases.
 
 - [ ] **P1-08 Baseline measurement** — Role: `ml-eval` — Deps: P1-06, P1-07 — Paths: `docs/baseline.md`
