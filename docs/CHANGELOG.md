@@ -34,6 +34,8 @@ changes require a schema version bump and an entry under the matching version.
   `call_id`-only join and status-to-outcome mapping.
 - `P1-08`: provisional synthetic-stand-in baseline report with metrics, CIs and
   slice breakdown; explicitly NOT a production champion reference.
+- `P1-01`: ingest API with idempotent turn POST, audio upload, OTel endpoint,
+  late-outcome PATCH and Postgres migrations; fail-open bounded queue.
 
 ### Changed
 

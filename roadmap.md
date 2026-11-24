@@ -64,12 +64,12 @@ Goal: measure reality before building anything else. Nothing after this is trust
 
 ### Lane A: Ingest (backend)
 
-- [ ] **P1-01 Ingest API** — Role: `backend` — Deps: P0-01, P0-02 — Paths: `services/ingest/`
-  - [ ] P1-01.1 `POST /v1/turns` validating against the schema; idempotent on `event_id`
-  - [ ] P1-01.2 Audio upload path to object store (presigned URL or multipart)
-  - [ ] P1-01.3 OpenTelemetry-compatible ingest endpoint mapping spans/attributes to turn events
-  - [ ] P1-01.4 `PATCH /v1/calls/{call_id}/outcome` for late-arriving outcomes
-  - [ ] P1-01.5 Postgres migrations (calls, turns, outcomes, model versions)
+- [x] **P1-01 Ingest API** — Role: `backend` — Deps: P0-01, P0-02 — Paths: `services/ingest/`
+  - [x] P1-01.1 `POST /v1/turns` validating against the schema; idempotent on `event_id`
+  - [x] P1-01.2 Audio upload path to object store (presigned URL or multipart)
+  - [x] P1-01.3 OpenTelemetry-compatible ingest endpoint mapping spans/attributes to turn events
+  - [x] P1-01.4 `PATCH /v1/calls/{call_id}/outcome` for late-arriving outcomes
+  - [x] P1-01.5 Postgres migrations (calls, turns, outcomes, model versions)
   - **Done when:** fixture events ingest end to end; invalid events return structured errors; load test shows ingest does not block on storage failures (async queue or buffered write).
 
 - [ ] **P1-02 Fail-open behaviour** — Role: `backend` — Deps: P1-01 — Paths: `services/ingest/`

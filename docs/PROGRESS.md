@@ -15,7 +15,7 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 
 ## Phase 1 — Capture and baseline
 
-- [~] P1-01 Ingest API
+- [x] P1-01 Ingest API
 - [~] P1-02 Fail-open behaviour
 - [x] P1-03 Python SDK
 - [x] P1-04 Pipecat integration
@@ -76,4 +76,4 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - **Phase 1 wave 3:** P1-08 `docs/baseline.md` → CP-1 gate.
 - **Boundary rules:** P1-01 must not create `services/ingest/consent/` (owned by P1-09). P1-07 owns `services/evalgate/` root only; later gate/artifact/benchmarks tasks own their own subdirectories. P2-05 owns `services/datasets/` root and must only import, not edit, `golden/` and `filters/`.
 
-**Overall:** 11/40 tasks reviewed · 1/4 checkpoints passed.
+**Overall:** 12/40 tasks reviewed · 1/4 checkpoints passed.
