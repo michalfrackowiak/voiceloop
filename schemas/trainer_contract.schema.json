@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiceloop.example/schemas/trainer_contract.schema.json",
+  "title": "VoiceLoop trainer contract v1",
+  "description": "Specifies train(dataset_manifest, config) -> {artifact_uri, metrics, run_id}. A payload is either the call input (contract_part = input) or the call output (contract_part = output), distinguished by the contract_part discriminator. Implemented once by the plugin base class in P2-06 and reused by every trainer plugin.",
+  "type": "object",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/TrainRequest"
+    },
+    {
+      "$ref": "#/$defs/TrainResponse"
+    }
+  ],
+  "$defs": {
+    "TrainRequest": {
+      "title": "Trainer input",
+      "description": "Arguments passed to train(dataset_manifest, config).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "contract_part",
+        "dataset_manifest",
+        "config"
+      ],
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "const": "1.0.0",
+          "description": "Exact version of this contract; bump on any breaking or additive contract change."
+        },
+        "contract_part": {
+          "type": "string",
+          "const": "input",
+          "description": "Discriminator selecting the TrainRequest branch of this schema."
+        },
+        "dataset_manifest": {
+          "type": "object",
+          "description": "A dataset manifest as defined by dataset_manifest.schema.json; at minimum it must carry content_hash so the run is traceable to its data. Extra manifest fields are allowed and encouraged.",
+          "required": [
+            "content_hash"
+          ],
+          "properties": {
+            "content_hash": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Deterministic hash of the dataset contents (sha256 hex recommended). Logged to MLflow as lineage."
+            },
+            "dataset_id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Stable identifier of the versioned dataset."
+            }
+          }
+        },
+        "config": {
+          "type": "object",
+          "description": "Trainer/settings configuration. Model choice must come from typed settings rather than a hard-coded name; trainer-specific parameters belong under params.",
+          "properties": {
+            "trainer": {
+              "type": "string",
+              "description": "Registered trainer plugin name, e.g. whisper-lora, nemo, parser-lora."
+            },
+            "model": {
+              "type": "string",
+              "description": "Base model identifier resolved from settings, not hard-coded in code."
+            },
+            "seed": {
+              "type": "integer",
+              "description": "Random seed for reproducibility."
+            },
+            "params": {
+              "type": "object",
+              "description": "Trainer-specific hyperparameters (learning rate, epochs, LoRA scaling, decoding settings)."
+            }
+          }
+        }
+      }
+    },
+    "TrainResponse": {
+      "title": "Trainer output",
+      "description": "Result returned by train(...). artifact_uri must point at the deployable artifact (merged adapter or converted model), not a raw training checkpoint, so evaluation can run on what will serve (context.md section 2 invariant 3).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "contract_part",
+        "artifact_uri",
+        "metrics",
+        "run_id"
+      ],
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "const": "1.0.0",
+          "description": "Exact version of this contract; bump on any breaking or additive contract change."
+        },
+        "contract_part": {
+          "type": "string",
+          "const": "output",
+          "description": "Discriminator selecting the TrainResponse branch of this schema."
+        },
+        "artifact_uri": {
+          "type": "string",
+          "minLength": 1,
+          "description": "URI of the converted/mergeable deployable artifact in the object store or registry."
+        },
+        "metrics": {
+          "type": "object",
+          "description": "Numeric training-time metrics keyed by name (for example train_loss, val_wer). Promotion metrics come from the eval report, not from here.",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "run_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "MLflow run identifier for this training job."
+        },
+        "lineage": {
+          "type": "object",
+          "description": "Provenance required by context.md section 2 invariant 9. Optional at the type level so early adapters can adopt incrementally, but all three fields are required whenever lineage is present; production jobs must emit it.",
+          "additionalProperties": false,
+          "required": [
+            "dataset_hash",
+            "git_sha",
+            "image_digest"
+          ],
+          "properties": {
+            "dataset_hash": {
+              "type": "string",
+              "minLength": 1,
+              "description": "content_hash of the dataset_manifest passed to train."
+            },
+            "git_sha": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Git commit SHA of the training code."
+            },
+            "image_digest": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Digest of the pinned training container image."
+            }
+          }
+        }
+      }
+    }
+  }
+}

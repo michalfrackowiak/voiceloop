@@ -9,7 +9,7 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - [~] P0-01 Repo skeleton and tooling
 - [x] P0-02 Turn event schema v1
 - [x] P0-03 Booking JSON Schema (example)
-- [~] P0-04 Interface contracts
+- [x] P0-04 Interface contracts
 - [ ] P0-05 Synthetic fixtures
 - [ ] CP-0 Schemas/contracts reviewed; compose runs; fixtures available
 
@@ -68,4 +68,4 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - [ ] P4-05 Multi-project support
 - [ ] P4-06 Operations docs
 
-**Overall:** 2/40 tasks reviewed · 0/4 checkpoints passed.
+**Overall:** 3/40 tasks reviewed · 0/4 checkpoints passed.

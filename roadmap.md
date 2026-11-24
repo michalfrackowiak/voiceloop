@@ -42,11 +42,11 @@ Goal: shared contracts and a runnable skeleton so every later lane can work inde
   - [x] P0-03.2 Document cross-field validators (check-out after check-in, room type exists)
   - **Done when:** schema and validator function with tests; designed to be swappable per project.
 
-- [ ] **P0-04 Interface contracts** — Role: `lead` — Deps: — — Paths: `schemas/`, `docs/`
-  - [ ] P0-04.1 Trainer interface spec (`context.md` §13)
-  - [ ] P0-04.2 Eval interface and `report.json` schema (metrics, CIs, slice metrics)
-  - [ ] P0-04.3 Dataset manifest schema (hash, source calls, splits, filter counts)
-  - [ ] P0-04.4 Review adapter API spec (push item, pull result, item routing labels)
+- [x] **P0-04 Interface contracts** — Role: `lead` — Deps: — — Paths: `schemas/`, `docs/`
+  - [x] P0-04.1 Trainer interface spec (`context.md` §13)
+  - [x] P0-04.2 Eval interface and `report.json` schema (metrics, CIs, slice metrics)
+  - [x] P0-04.3 Dataset manifest schema (hash, source calls, splits, filter counts)
+  - [x] P0-04.4 Review adapter API spec (push item, pull result, item routing labels)
   - **Done when:** each spec is JSON Schema or OpenAPI with examples.
 
 - [ ] **P0-05 Synthetic fixtures** — Role: `qa` — Deps: P0-02 — Paths: `tests/fixtures/`

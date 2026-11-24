@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voiceloop.example/schemas/dataset_manifest.schema.json",
+  "title": "VoiceLoop dataset manifest v1",
+  "description": "Versioned manifest emitted by the dataset builder (P2-05). Carries a content hash, the source call IDs, call-level split assignments and filter counts for audit (context.md sections 2 and 8). Splits are arrays of call IDs, never utterance IDs, so a call cannot leak across splits.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "dataset_id",
+    "content_hash",
+    "source_call_ids",
+    "splits",
+    "filter_counts",
+    "created_at",
+    "examples"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0",
+      "description": "Exact version of this manifest format; bump and note in docs/CHANGELOG.md on any change."
+    },
+    "dataset_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable identifier for this versioned dataset."
+    },
+    "content_hash": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Deterministic hash over sorted example identifiers and contents (sha256 hex recommended). Passed to the trainer and logged as lineage."
+    },
+    "source_call_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true,
+      "description": "Every call that contributed at least one example. Full lineage example -> call -> model depends on this list."
+    },
+    "splits": {
+      "type": "object",
+      "description": "Assignment of source calls to splits. Values are arrays of call IDs, not counts or utterance IDs; the three arrays must be pairwise disjoint and their union must equal source_call_ids (enforced by the builder and its property tests, not expressible in plain JSON Schema). Golden and regression calls are excluded from train/val/test.",
+      "additionalProperties": false,
+      "required": [
+        "train",
+        "val",
+        "test"
+      ],
+      "properties": {
+        "train": {
+          "$ref": "#/$defs/CallIdList"
+        },
+        "val": {
+          "$ref": "#/$defs/CallIdList"
+        },
+        "test": {
+          "$ref": "#/$defs/CallIdList"
+        }
+      }
+    },
+    "filter_counts": {
+      "type": "object",
+      "description": "Audit counts of rows affected by each dataset rule. Counts are non-negative integers; consent and PII drops are mandatory (context.md section 2 invariant 8).",
+      "additionalProperties": false,
+      "required": [
+        "consent_dropped",
+        "pii_dropped",
+        "replay_added",
+        "golden_excluded",
+        "regression_excluded",
+        "synthetic_tagged"
+      ],
+      "properties": {
+        "consent_dropped": {
+          "$ref": "#/$defs/Count"
+        },
+        "pii_dropped": {
+          "$ref": "#/$defs/Count"
+        },
+        "replay_added": {
+          "$ref": "#/$defs/Count"
+        },
+        "golden_excluded": {
+          "$ref": "#/$defs/Count"
+        },
+        "regression_excluded": {
+          "$ref": "#/$defs/Count"
+        },
+        "synthetic_tagged": {
+          "$ref": "#/$defs/Count"
+        }
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC time when the manifest was built (RFC 3339)."
+    },
+    "examples": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total number of training examples in the built dataset (up to three per reviewed item)."
+    },
+    "synthetic": {
+      "type": "boolean",
+      "description": "True if the dataset contains any TTS/noise-augmented or replay-synthesised examples. Synthetic rows must be tagged and kept out of golden and regression sets."
+    }
+  },
+  "$defs": {
+    "CallIdList": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true,
+      "description": "List of call IDs assigned to one split."
+    },
+    "Count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Non-negative count of rows affected by a filter."
+    }
+  }
+}

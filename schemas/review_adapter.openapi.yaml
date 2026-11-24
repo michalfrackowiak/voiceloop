@@ -1,0 +1,474 @@
+openapi: 3.1.0
+x-contract-id: https://voiceloop.example/schemas/review_adapter.openapi.yaml
+info:
+  title: VoiceLoop review adapter API
+  version: 1.0.0
+  description: |
+    Stable boundary between triage/dataset services and the human review tool.
+
+    The adapter hides the choice of Label Studio Community versus Argilla: callers
+    only use these endpoints and never call the review tool directly. Swapping the
+    tool must therefore require changes only inside services/review_adapter (P2-03).
+
+    All error responses use the structured Error schema: code, message, details.
+    Item status can be polled with GET /v1/items/{item_id}; results are pulled with
+    GET /v1/items/{item_id}/result. Routing labels drive the adaptation ladder in
+    context.md section 7.
+servers:
+  - url: /
+    description: Adapter base URL (resolved from settings)
+tags:
+  - name: items
+    description: Review queue items and their corrected results
+paths:
+  /v1/items:
+    post:
+      tags:
+        - items
+      operationId: pushReviewItem
+      summary: Push a triage item into the human review queue
+      description: |
+        Idempotent on (call_id, turn_index). The audio is referenced by URI only;
+        audio bytes are never sent through this API and never stored in Postgres.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewItemCreate'
+            examples:
+              push_item:
+                summary: Item with a low-confidence span, parser prefill allowed
+                value:
+                  schema_version: "1.0.0"
+                  call_id: call-synthetic-001
+                  turn_index: 0
+                  audio_uri: s3://voiceloop-audio/synthetic/call-synthetic-001/turn-0000.wav
+                  hypothesis: i need a room for three nights
+                  low_confidence_spans:
+                    - start_ms: 820
+                      end_ms: 1400
+                      text: three nights
+                      confidence: 0.42
+                  blind: false
+      responses:
+        '201':
+          description: Item accepted and queued
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewItem'
+              examples:
+                item:
+                  summary: Queued review item
+                  value:
+                    schema_version: "1.0.0"
+                    item_id: item-01J9Z8Q7
+                    call_id: call-synthetic-001
+                    turn_index: 0
+                    audio_uri: s3://voiceloop-audio/synthetic/call-synthetic-001/turn-0000.wav
+                    hypothesis: i need a room for three nights
+                    low_confidence_spans:
+                      - start_ms: 820
+                        end_ms: 1400
+                        text: three nights
+                        confidence: 0.42
+                    blind: false
+                    status: queued
+                    created_at: "2026-11-24T09:45:00Z"
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /v1/items/{item_id}:
+    parameters:
+      - $ref: '#/components/parameters/ItemId'
+    get:
+      tags:
+        - items
+      operationId: getReviewItem
+      summary: Get the status of a review item
+      responses:
+        '200':
+          description: Current item state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewItem'
+              examples:
+                item:
+                  summary: Queued review item
+                  value:
+                    schema_version: "1.0.0"
+                    item_id: item-01J9Z8Q7
+                    call_id: call-synthetic-001
+                    turn_index: 0
+                    audio_uri: s3://voiceloop-audio/synthetic/call-synthetic-001/turn-0000.wav
+                    hypothesis: i need a room for three nights
+                    low_confidence_spans:
+                      - start_ms: 820
+                        end_ms: 1400
+                        text: three nights
+                        confidence: 0.42
+                    blind: false
+                    status: queued
+                    created_at: "2026-11-24T09:45:00Z"
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v1/items/{item_id}/result:
+    parameters:
+      - $ref: '#/components/parameters/ItemId'
+    post:
+      tags:
+        - items
+      operationId: submitReviewResult
+      summary: Submit a completed human review for an item
+      description: |
+        Stage 1 corrected transcript and stage 2 slots are submitted together.
+        Blind items skip parser prefill but still return both fields.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewResultCreate'
+            examples:
+              result:
+                summary: Corrected transcript, slots and routing label
+                value:
+                  schema_version: "1.0.0"
+                  reviewer_id: reviewer-demo-1
+                  corrected_transcript: I need a room for three nights
+                  slots:
+                    check_in: "2026-12-03"
+                    check_out: "2026-12-06"
+                    guests: 2
+                    room_type: double
+                    guest_name: Demo Guest
+                    contact: demo@example.test
+                  routing: stt_wrong
+                  started_at: "2026-11-24T10:00:00Z"
+                  completed_at: "2026-11-24T10:01:12Z"
+      responses:
+        '201':
+          description: Result accepted and stored
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewResult'
+              examples:
+                result:
+                  summary: Stored result
+                  value:
+                    schema_version: "1.0.0"
+                    item_id: item-01J9Z8Q7
+                    reviewer_id: reviewer-demo-1
+                    corrected_transcript: I need a room for three nights
+                    slots:
+                      check_in: "2026-12-03"
+                      check_out: "2026-12-06"
+                      guests: 2
+                      room_type: double
+                      guest_name: Demo Guest
+                      contact: demo@example.test
+                    routing: stt_wrong
+                    started_at: "2026-11-24T10:00:00Z"
+                    completed_at: "2026-11-24T10:01:12Z"
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+    get:
+      tags:
+        - items
+      operationId: pullReviewResult
+      summary: Pull the completed result for an item
+      description: Used by the dataset builder (P2-05) after a reviewer finishes an item.
+      responses:
+        '200':
+          description: Stored review result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewResult'
+              examples:
+                result:
+                  summary: Stored result
+                  value:
+                    schema_version: "1.0.0"
+                    item_id: item-01J9Z8Q7
+                    reviewer_id: reviewer-demo-1
+                    corrected_transcript: I need a room for three nights
+                    slots:
+                      check_in: "2026-12-03"
+                      check_out: "2026-12-06"
+                      guests: 2
+                      room_type: double
+                      guest_name: Demo Guest
+                      contact: demo@example.test
+                    routing: stt_wrong
+                    started_at: "2026-11-24T10:00:00Z"
+                    completed_at: "2026-11-24T10:01:12Z"
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  parameters:
+    ItemId:
+      name: item_id
+      in: path
+      required: true
+      description: Adapter-local identifier returned when the item was pushed.
+      schema:
+        type: string
+        minLength: 1
+  responses:
+    ValidationError:
+      description: Payload failed validation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            error:
+              summary: Structured validation error
+              value:
+                code: validation_error
+                message: low_confidence_spans[0].start_ms must be a non-negative integer.
+                details:
+                  field: low_confidence_spans[0].start_ms
+                  received: -1
+    NotFound:
+      description: No item or result exists for item_id
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            error:
+              summary: Unknown item
+              value:
+                code: not_found
+                message: No review item exists for the given item_id.
+                details:
+                  item_id: item-unknown
+  schemas:
+    SchemaVersion:
+      type: string
+      const: "1.0.0"
+      description: Exact version of the review adapter payload format.
+    RoutingLabel:
+      type: string
+      enum:
+        - stt_wrong
+        - parser_wrong
+        - both_fine
+        - unusable_audio
+      description: |
+        Reviewer routing label used by the adaptation ladder (context.md section 7).
+        stt_wrong = transcript correction needed; parser_wrong = slots wrong with a
+        correct transcript; both_fine = no failure (random slice); unusable_audio =
+        no reliable transcript possible.
+    LowConfidenceSpan:
+      type: object
+      additionalProperties: false
+      required:
+        - start_ms
+        - end_ms
+      properties:
+        start_ms:
+          type: integer
+          minimum: 0
+          description: Start offset in the original audio, in milliseconds.
+        end_ms:
+          type: integer
+          minimum: 0
+          description: End offset in the original audio, in milliseconds.
+        text:
+          type: string
+          description: Hypothesis text covered by the span.
+        confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Word-level confidence for highlighting in the review UI.
+    ReviewItemCreate:
+      title: Push review item request
+      type: object
+      additionalProperties: false
+      required:
+        - schema_version
+        - call_id
+        - turn_index
+        - audio_uri
+        - hypothesis
+        - low_confidence_spans
+        - blind
+      properties:
+        schema_version:
+          $ref: '#/components/schemas/SchemaVersion'
+        call_id:
+          type: string
+          minLength: 1
+          description: Source call ID from the turn event; preserves lineage.
+        turn_index:
+          type: integer
+          minimum: 0
+          description: Zero-based turn index within the call.
+        audio_uri:
+          type: string
+          minLength: 1
+          description: Object-store URI of the original audio at its original sample rate.
+        hypothesis:
+          type: string
+          description: STT output text to be corrected in stage 1.
+        low_confidence_spans:
+          type: array
+          items:
+            $ref: '#/components/schemas/LowConfidenceSpan'
+          description: Ranges to highlight for the reviewer; may be empty.
+        blind:
+          type: boolean
+          description: If true, skip parser prefill in stage 2 (anchoring measurement).
+    ReviewItem:
+      title: Review item with status
+      type: object
+      additionalProperties: false
+      required:
+        - schema_version
+        - item_id
+        - call_id
+        - turn_index
+        - audio_uri
+        - hypothesis
+        - low_confidence_spans
+        - blind
+        - status
+        - created_at
+      properties:
+        schema_version:
+          $ref: '#/components/schemas/SchemaVersion'
+        item_id:
+          type: string
+          minLength: 1
+          description: Adapter-local identifier for push/pull/status operations.
+        call_id:
+          type: string
+          minLength: 1
+        turn_index:
+          type: integer
+          minimum: 0
+        audio_uri:
+          type: string
+          minLength: 1
+        hypothesis:
+          type: string
+        low_confidence_spans:
+          type: array
+          items:
+            $ref: '#/components/schemas/LowConfidenceSpan'
+        blind:
+          type: boolean
+        status:
+          type: string
+          enum:
+            - queued
+            - in_progress
+            - completed
+            - failed
+          description: Current state of the item in the adapter's queue.
+        created_at:
+          type: string
+          format: date-time
+          description: UTC time the item was pushed (RFC 3339).
+    ReviewResultCreate:
+      title: Submit review result request
+      type: object
+      additionalProperties: false
+      required:
+        - schema_version
+        - reviewer_id
+        - corrected_transcript
+        - slots
+        - routing
+        - started_at
+        - completed_at
+      properties:
+        schema_version:
+          $ref: '#/components/schemas/SchemaVersion'
+        reviewer_id:
+          type: string
+          minLength: 1
+          description: Pseudonymous reviewer identifier; no personal data in the report.
+        corrected_transcript:
+          type: string
+          description: Human-corrected transcript from stage 1.
+        slots:
+          type: object
+          description: |
+            Stage 2 slots validated against schemas/booking.schema.json for the
+            project. Keys in the examples are illustrative; the booking schema is
+            swappable per project (P0-03).
+        routing:
+          $ref: '#/components/schemas/RoutingLabel'
+        started_at:
+          type: string
+          format: date-time
+          description: UTC time the review started (RFC 3339); used for review UX metrics.
+        completed_at:
+          type: string
+          format: date-time
+          description: UTC time the review finished (RFC 3339).
+    ReviewResult:
+      title: Stored review result
+      type: object
+      additionalProperties: false
+      required:
+        - schema_version
+        - item_id
+        - reviewer_id
+        - corrected_transcript
+        - slots
+        - routing
+        - started_at
+        - completed_at
+      properties:
+        schema_version:
+          $ref: '#/components/schemas/SchemaVersion'
+        item_id:
+          type: string
+          minLength: 1
+          description: Adapter-local item this result belongs to.
+        reviewer_id:
+          type: string
+          minLength: 1
+        corrected_transcript:
+          type: string
+        slots:
+          type: object
+          description: Booking slots validated against the project's booking JSON Schema.
+        routing:
+          $ref: '#/components/schemas/RoutingLabel'
+        started_at:
+          type: string
+          format: date-time
+        completed_at:
+          type: string
+          format: date-time
+    Error:
+      title: Structured service error
+      type: object
+      additionalProperties: false
+      required:
+        - code
+        - message
+        - details
+      properties:
+        code:
+          type: string
+          minLength: 1
+          description: Stable machine-readable error code, e.g. validation_error, not_found.
+        message:
+          type: string
+          minLength: 1
+          description: Human-readable summary, safe to log.
+        details:
+          type: object
+          description: Structured context such as field names and rejected values; never raw guest audio or PII.
