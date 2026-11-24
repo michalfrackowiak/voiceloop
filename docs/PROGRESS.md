@@ -16,9 +16,9 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 ## Phase 1 — Capture and baseline
 
 - [~] P1-01 Ingest API
-- [ ] P1-02 Fail-open behaviour
+- [~] P1-02 Fail-open behaviour
 - [~] P1-03 Python SDK
-- [ ] P1-04 Pipecat integration
+- [~] P1-04 Pipecat integration
 - [~] P1-05 Outcome connector
 - [~] P1-06 Golden set sampling and labelling workflow
 - [~] P1-07 Evaluation harness v0
