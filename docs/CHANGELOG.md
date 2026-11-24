@@ -28,6 +28,8 @@ changes require a schema version bump and an entry under the matching version.
   native-rate audio helpers.
 - `P1-07`: evaluation harness v0 with WER, entity error, slot F1, schema-valid
   rate, e2e booking accuracy from audio, paired bootstrap CIs and slice metrics.
+- `P1-04`: fail-open Pipecat observer with native-rate audio capture,
+  conversation-ID trace propagation and a runnable example bot.
 
 ### Changed
 

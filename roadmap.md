@@ -85,10 +85,10 @@ Goal: measure reality before building anything else. Nothing after this is trust
   - [x] P1-03.3 Audio capture helper that preserves original sample rate
   - **Done when:** SDK tests prove that an unreachable server adds no more than a few ms to the caller and raises no exceptions.
 
-- [ ] **P1-04 Pipecat integration** — Role: `sdk` — Deps: P1-03 — Paths: `sdk/pipecat/`
-  - [ ] P1-04.1 Observer capturing per-turn user audio and STT/parser results
-  - [ ] P1-04.2 Conversation ID propagation to OpenTelemetry traces
-  - [ ] P1-04.3 Example app
+- [x] **P1-04 Pipecat integration** — Role: `sdk` — Deps: P1-03 — Paths: `sdk/pipecat/`
+  - [x] P1-04.1 Observer capturing per-turn user audio and STT/parser results
+  - [x] P1-04.2 Conversation ID propagation to OpenTelemetry traces
+  - [x] P1-04.3 Example app
   - **Done when:** example Pipecat bot produces correct turn events in a local ingest.
 
 - [ ] **P1-05 Outcome connector** — Role: `sdk` — Deps: P1-01 — Paths: `sdk/connectors/`
