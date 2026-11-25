@@ -50,6 +50,8 @@ changes require a schema version bump and an entry under the matching version.
   is an engineering placeholder pending counsel.
 - `P2-01`: deterministic failure scoring signals with strict final-record
   mismatch weight, per-turn explanations and injectable teacher seam.
+- `P2-02`: seeded random slice outside the failure filter, near-duplicate
+  clustering, daily cap/prioritisation and blind-item flags.
 
 ### Changed
 

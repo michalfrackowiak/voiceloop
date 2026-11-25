@@ -45,6 +45,12 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - **P1-04 → P1-03:** the Pipecat observer uses a narrow `TurnSink` protocol with a lazy `sdk.log_turn` adapter. After both pass review, the lead must confirm the real SDK API matches the adapter and switch the default sink from in-memory to the SDK.
 - **P1-05 → P1-01:** the outcome connector emits `PATCH /v1/calls/{call_id}/outcome` payloads; verify the ingest endpoint accepts them after both land.
 
+## Triage queue notes (from P2-02 review, lead follow-ups)
+
+- On small pools the realised random-slice share can sit outside 3–5% (36 → 2.78%); the behaviour is deterministic and documented, but `QueueStats.to_dict()` should expose requested/actual share and band deviation so orchestration can escalate a production drift.
+- `random_slice_target=0` is accepted via env and disables the slice; leaving it unset is safe. Make the public bound `ge=1` or warn on zero to prevent an operator typo suppressing §2 #6.
+- `QueueItem` records `cluster_id`/`cluster_size` but not collapsed member IDs; add `cluster_members` for auditable dedup/lineage.
+
 ## Baseline and governance escalation (from CP-1 review, §14)
 
 - P1-08 baseline is a SYNTHETIC STAND-IN only. Re-run the harness on real converted/quantised STT + parser artifacts with production decoding settings before making any CP-1 production claim or replacing the champion reference.

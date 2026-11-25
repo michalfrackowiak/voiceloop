@@ -143,12 +143,12 @@ Goal: the first complete loop on the cheap path (tiers 1–2), with manual promo
   - [x] P2-01.5 Configurable weights; score explanation stored per turn
   - **Done when:** on fixtures, known failures rank above clean turns; each score shows which signals fired. **Lead note:** min known-failure score 0.136 > max clean 0.0; 36/36 explanations persisted (clean turns truthfully carry `signals: []`).
 
-- [ ] **P2-02 Sampling, clustering, queue** — Role: `backend` — Deps: P2-01 — Paths: `services/triage/queue/`
-  - [ ] P2-02.1 3–5% random slice outside the failure filter, tagged as such
-  - [ ] P2-02.2 Near-duplicate clustering (e.g. phonetic/text similarity on hypotheses)
-  - [ ] P2-02.3 Daily queue cap and prioritisation
-  - [ ] P2-02.4 Blind-item flag (no prefill) for a configurable share of items
-  - **Done when:** queue output on fixtures has one representative per cluster, respects cap, includes random slice.
+- [x] **P2-02 Sampling, clustering, queue** — Role: `backend` — Deps: P2-01 — Paths: `services/triage/queue/`
+  - [x] P2-02.1 3–5% random slice outside the failure filter, tagged as such — **fixture caveat:** 1/36 = 2.78%; no integer count lies in the 3–5% band; default is 4% with deterministic rounding/clamp, documented in README/handoff
+  - [x] P2-02.2 Near-duplicate clustering (e.g. phonetic/text similarity on hypotheses)
+  - [x] P2-02.3 Daily queue cap and prioritisation
+  - [x] P2-02.4 Blind-item flag (no prefill) for a configurable share of items
+  - **Done when:** queue output on fixtures has one representative per cluster, respects cap, includes random slice. **Lead note:** one seeded random item on 36 fixtures, tagged `slice: random` and excluded from failure filter/clustering.
 
 ### Lane B: Review (backend; frontend later)
 
