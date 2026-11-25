@@ -33,7 +33,7 @@
 | Fixtures | `tests/fixtures/turns.jsonl` (read-only), 36 synthetic turns / 6 calls |
 | Fixture SHA-256 | `aca23a303954d035245a97f78319df3694d63611b717a2ff2131bc2e0a4453fd` |
 | Sealed golden stand-in | `services/datasets/golden/artifacts/golden.v1.*`, dataset `golden.v1.synthetic` |
-| Golden stand-in content hash (from `docs/handoffs/P1-06.md`) | `cb86e1380c7a262a4bf4dd238711bb7671f5a2d4a1b82812626beb7d00574219` |
+| Golden stand-in content hash (from `docs/handoffs/P1-06.md`) | `662cdaf43ee2d5fde03faf5e69fde196114d4f312406d94c00bf53714d03da8e` |
 | Stand-in properties | `synthetic: true`, `workflow_stand_in: true`, `review_mode: simulated_synthetic_labels`; 36 labels, 6 calls, 100% simulated second-review coverage |
 | Source-pool check | All 36 fixture `(call_id, turn_index)` pairs match all 36 sealed stand-in labels; seal verification passed (`{"dir":"services/datasets/golden/artifacts","errors":[],"ok":true,"version":"golden.v1"}`) |
 

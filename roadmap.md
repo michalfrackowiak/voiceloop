@@ -98,11 +98,11 @@ Goal: measure reality before building anything else. Nothing after this is trust
 
 ### Lane C: Golden set and baseline (data + ml-eval)
 
-- [ ] **P1-06 Golden set sampling and labelling workflow** — Role: `data` — Deps: P1-01 — Paths: `services/datasets/golden/`
-  - [ ] P1-06.1 Random sampler (300–500 utterances) stratified by call, not by failure
-  - [ ] P1-06.2 Export to the labelling tool; import labels; second-reviewer flow
-  - [ ] P1-06.3 Seal and hash the set; access audit log
-  - **Done when:** golden set is versioned, hashed, immutable; second-review coverage recorded.
+- [x] **P1-06 Golden set sampling and labelling workflow** — Role: `data` — Deps: P1-01 — Paths: `services/datasets/golden/`
+  - [x] P1-06.1 Random sampler (300–500 utterances) stratified by call, not by failure — **fixture rehearsal:** 36 synthetic turns / 6 calls; production defaults kept at 300–500
+  - [x] P1-06.2 Export to the labelling tool; import labels; second-reviewer flow
+  - [x] P1-06.3 Seal and hash the set; access audit log
+  - **Done when:** golden set is versioned, hashed, immutable; second-review coverage recorded. **Lead note:** synthetic workflow stand-in, not a human-reviewed production golden set; content hash `662cdaf43ee2d5fde03faf5e69fde196114d4f312406d94c00bf53714d03da8e`.
 
 - [x] **P1-07 Evaluation harness v0** — Role: `ml-eval` — Deps: P0-04 — Paths: `services/evalgate/`
   - [x] P1-07.1 WER and entity-level error (names, dates, numbers)

@@ -12,14 +12,18 @@ from __future__ import annotations
 
 import json
 import shutil
+import sys
 import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from services.datasets.golden import verify_seal
-
 REPO_ROOT = Path(__file__).resolve().parents[3]
+if str(REPO_ROOT) not in sys.path:  # direct script execution does not add the repo root
+    sys.path.insert(0, str(REPO_ROOT))
+
+from services.datasets.golden import verify_seal  # noqa: E402
+
 SOURCE_DIR = REPO_ROOT / "services/datasets/golden/artifacts"
 LABELS_NAME = "golden.v1.labels.json"
 

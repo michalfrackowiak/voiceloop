@@ -38,6 +38,8 @@ changes require a schema version bump and an entry under the matching version.
   late-outcome PATCH and Postgres migrations; fail-open bounded queue.
 - `P2-06`: trainer plugin base/registry, pinned-image runner with single-job
   lock and MLflow lineage logging (fakes by default).
+- `P1-06`: synthetic golden workflow stand-in with strict content-addressed
+  seal, second-review gate, audited verification and amendment versioning.
 
 ### Changed
 
