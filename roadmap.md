@@ -169,14 +169,14 @@ Goal: the first complete loop on the cheap path (tiers 1–2), with manual promo
 
 ### Lane C: Dataset builder (data)
 
-- [ ] **P2-05 Dataset builder** — Role: `data` — Deps: P0-04, P1-09 — Paths: `services/datasets/`
-  - [ ] P2-05.1 Expand reviewed item into up to three examples (STT, clean parser, noisy parser) with dialogue context
-  - [ ] P2-05.2 Split by call; enforce golden and regression exclusion
-  - [ ] P2-05.3 Regression set accumulation (every reviewed failure)
-  - [ ] P2-05.4 Replay sampler from earlier verified turns
-  - [ ] P2-05.5 Manifest with content hash, source call IDs, filter counts
-  - [ ] P2-05.6 Exporters: NeMo manifest JSONL, Hugging Face datasets, SFT JSONL
-  - **Done when:** no call appears in more than one split (property test); consent and PII filters verified; exports load in their target libraries.
+- [x] **P2-05 Dataset builder** — Role: `data` — Deps: P0-04, P1-09 — Paths: `services/datasets/`
+  - [x] P2-05.1 Expand reviewed item into up to three examples (STT, clean parser, noisy parser) with dialogue context
+  - [x] P2-05.2 Split by call; enforce golden and regression exclusion
+  - [x] P2-05.3 Regression set accumulation (every reviewed failure)
+  - [x] P2-05.4 Replay sampler from earlier verified turns
+  - [x] P2-05.5 Manifest with content hash, source call IDs, filter counts
+  - [x] P2-05.6 Exporters: NeMo manifest JSONL, Hugging Face datasets, SFT JSONL
+  - **Done when:** no call appears in more than one split (property test); consent and PII filters verified; exports load in their target libraries. **Lead note:** re-review PASS after card PII in slots/context was hard-dropped from all three exports; golden stand-in excludes all fixture calls by design, so split tests use injected exclusions to stay non-vacuous.
 
 ### Lane D: Parser training (ml-train)
 

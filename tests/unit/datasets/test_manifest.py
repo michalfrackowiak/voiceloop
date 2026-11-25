@@ -63,6 +63,13 @@ def test_content_hash_is_order_independent_and_content_sensitive() -> None:
         for index, example in enumerate(build.examples)
     )
     assert content_hash(changed) != forward
+    different_audio = tuple(
+        type(example)(**{**example.to_dict(), "audio_uri": "different.wav"})
+        if index == 0
+        else example
+        for index, example in enumerate(build.examples)
+    )
+    assert content_hash(different_audio) != forward
 
 
 def test_created_at_uses_injectable_utc_clock() -> None:

@@ -45,6 +45,13 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - **P1-04 → P1-03:** the Pipecat observer uses a narrow `TurnSink` protocol with a lazy `sdk.log_turn` adapter. After both pass review, the lead must confirm the real SDK API matches the adapter and switch the default sink from in-memory to the SDK.
 - **P1-05 → P1-01:** the outcome connector emits `PATCH /v1/calls/{call_id}/outcome` payloads; verify the ingest endpoint accepts them after both land.
 
+## Dataset builder notes (from P2-05 re-review, CP-2)
+
+- P2-13 failure injection must include a malformed slot object with a card number as a mapping key; `_iter_json_strings` screens string values, and `additionalProperties: false` prevents conforming review results from expressing that case.
+- Exporters are labelled plain JSON/JSONL stand-ins. With optional dependencies, P2-13 must verify real `NeMo`, `datasets.load_dataset("json", ...)` and TRL loading.
+- The sealed synthetic golden stand-in excludes all six fixture calls; CP-2 must wire real review-adapter output and a human-reviewed golden set before any production claim.
+- Task wording says `generated_at`; schema 1.0.0 requires `created_at`. The builder follows the schema; no code change needed.
+
 ## Pipeline integration notes (from P2-10 review, CP-2)
 
 - Production adapters are unwired: the lead must inject P2-05 dataset builder, P2-06 trainer and P1-07 evaluator as `PipelineSteps`; non-`--dry-run` CLI exits 2 by design.

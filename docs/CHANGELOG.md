@@ -58,6 +58,9 @@ changes require a schema version bump and an entry under the matching version.
   explicit provenance and no fabricated version or promotion.
 - `P2-07`: deterministic parser LoRA training stand-in with content-addressed
   adapter export, fake runtime load/unload and schema-valid constrained decoding.
+- `P2-05`: split-by-call dataset builder with non-vacuous property tests,
+  content-addressed manifest, three export shapes, and card PII hard-drop
+  across transcripts, hypotheses, nested slots and dialogue context.
 
 ### Changed
 

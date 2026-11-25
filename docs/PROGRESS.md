@@ -50,7 +50,7 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - [x] P2-02 Sampling, clustering, queue
 - [~] P2-03 Review adapter
 - [ ] P2-04 Review UX measurement
-- [~] P2-05 Dataset builder
+- [x] P2-05 Dataset builder (synthetic fixtures; card PII screened in slots/context)
 - [x] P2-06 Trainer plugin interface
 - [x] P2-07 Parser trainer (synthetic training stand-in)
 - [~] P2-08 Vocabulary and rules tier
@@ -94,4 +94,4 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - **Phase 1 wave 3:** P1-08 `docs/baseline.md` → CP-1 gate.
 - **Boundary rules:** P1-01 must not create `services/ingest/consent/` (owned by P1-09). P1-07 owns `services/evalgate/` root only; later gate/artifact/benchmarks tasks own their own subdirectories. P2-05 owns `services/datasets/` root and must only import, not edit, `golden/` and `filters/`.
 
-**Overall:** 22/40 tasks reviewed · 2/4 checkpoints passed.
+**Overall:** 23/40 tasks reviewed · 2/4 checkpoints passed.
