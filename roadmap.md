@@ -210,10 +210,10 @@ Goal: the first complete loop on the cheap path (tiers 1–2), with manual promo
 
 ### Lane G: Orchestration and monitoring (infra)
 
-- [ ] **P2-10 Pipelines and triggers** — Role: `infra` — Deps: P2-05, P2-06 — Paths: `infra/pipelines/`
-  - [ ] P2-10.1 CLI and cron for: build dataset → train → evaluate
-  - [ ] P2-10.2 Trigger policy: enough new verified data, drift alarm, or manual (not calendar alone)
-  - **Done when:** manual trigger runs the full chain on fixtures.
+- [x] **P2-10 Pipelines and triggers** — Role: `infra` — Deps: P2-05, P2-06 — Paths: `infra/pipelines/`
+  - [x] P2-10.1 CLI and cron for: build dataset → train → evaluate — **dry-run fixtures only**; production adapters are injectable seams
+  - [x] P2-10.2 Trigger policy: enough new verified data, drift alarm, or manual (not calendar alone)
+  - **Done when:** manual trigger runs the full chain on fixtures. **Lead note:** CLI overrides re-validated (0/-5 threshold exits 2); `--dry-run` never records `manual_override`; cron has policy-gated execution tick plus audit-only `--check`.
 
 - [ ] **P2-11 Dashboards** — Role: `infra` — Deps: P1-01, P2-02 — Paths: `infra/dashboards/`
   - [ ] P2-11.1 Failure rate, queue depth, review throughput

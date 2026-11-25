@@ -1,0 +1,32 @@
+# P2-10 example crontab (illustrative only; edit paths before deploying).
+#
+# A calendar tick is NOT a valid retraining trigger. Both scheduled commands
+# below re-evaluate the policy on every tick and skip unless new verified data
+# crosses the threshold, a drift alarm is raised, or an operator explicitly
+# passes --manual out of band (roadmap P2-10.2 / P4-02.2). The evaluation gate
+# stays data-driven (context.md section 9); do not treat a night on the calendar
+# as evidence that a model should be retrained or promoted.
+#
+# The --dry-run flag uses fake steps on synthetic fixtures so these examples are
+# safe. Replace it with the production adapter command once P2-05/P2-06 are
+# wired by the lead. --check is audit-only; the second tick actually executes
+# the chain when a policy condition fires, using --state to count new verified
+# IDs since the last successful run. No implicit manual override is recorded:
+# a drift alarm can be supplied with --drift-alarm or by setting
+# VOICELOOP_PIPELINES_DRIFT_ALARM=true in the cron environment.
+
+SHELL=/bin/bash
+PATH=/usr/local/bin:/usr/bin:/bin
+VOICELOOP_PIPELINES_FIXTURES_PATH=/srv/voiceloop/tests/fixtures/turns.jsonl
+VOICELOOP_PIPELINES_MIN_NEW_VERIFIED=200
+VOICELOOP_PIPELINES_RUN_RECORD_PATH=/var/lib/voiceloop/pipelines/last-run.json
+
+# 03:17 is an audit-only check schedule, not a retraining schedule.
+17 3 * * * cd /srv/voiceloop && .venv/bin/python -m infra.pipelines.cli --dry-run --check --state /var/lib/voiceloop/pipelines/last-run.json >> /var/log/voiceloop/pipelines-check.log 2>&1
+
+# 03:23 executes the chain ONLY if the trigger policy fires (data volume or
+# drift); with a completed state file and no new data it is a no-op.
+23 3 * * * cd /srv/voiceloop && .venv/bin/python -m infra.pipelines.cli --dry-run --state /var/lib/voiceloop/pipelines/last-run.json >> /var/log/voiceloop/pipelines-run.log 2>&1
+
+# Out-of-band manual run (operator SSH, incident response): full fixture chain.
+# .venv/bin/python -m infra.pipelines.cli --dry-run --manual --state /var/lib/voiceloop/pipelines/last-run.json

@@ -45,6 +45,13 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - **P1-04 → P1-03:** the Pipecat observer uses a narrow `TurnSink` protocol with a lazy `sdk.log_turn` adapter. After both pass review, the lead must confirm the real SDK API matches the adapter and switch the default sink from in-memory to the SDK.
 - **P1-05 → P1-01:** the outcome connector emits `PATCH /v1/calls/{call_id}/outcome` payloads; verify the ingest endpoint accepts them after both land.
 
+## Pipeline integration notes (from P2-10 review, CP-2)
+
+- Production adapters are unwired: the lead must inject P2-05 dataset builder, P2-06 trainer and P1-07 evaluator as `PipelineSteps`; non-`--dry-run` CLI exits 2 by design.
+- "Verified since last run" currently comes from synthetic fixture IDs in `--state`; a real verified-example source must be supplied by the caller.
+- Drift is a boolean flag/env input; the real detector is P4-02. Chain stops at the eval report path: no promotion, alias flip or threshold change.
+- Full-repo ruff/mypy findings in other agents' paths must be green before CP-2 merge.
+
 ## Triage queue notes (from P2-02 review, lead follow-ups)
 
 - On small pools the realised random-slice share can sit outside 3–5% (36 → 2.78%); the behaviour is deterministic and documented, but `QueueStats.to_dict()` should expose requested/actual share and band deviation so orchestration can escalate a production drift.

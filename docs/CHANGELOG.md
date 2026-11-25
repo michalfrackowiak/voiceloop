@@ -52,6 +52,8 @@ changes require a schema version bump and an entry under the matching version.
   mismatch weight, per-turn explanations and injectable teacher seam.
 - `P2-02`: seeded random slice outside the failure filter, near-duplicate
   clustering, daily cap/prioritisation and blind-item flags.
+- `P2-10`: dry-run dataset→train→evaluate chain with validated CLI overrides,
+  policy-gated cron ticks and fail-fast step reporting.
 
 ### Changed
 
