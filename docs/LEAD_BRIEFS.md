@@ -45,6 +45,12 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - **P1-04 → P1-03:** the Pipecat observer uses a narrow `TurnSink` protocol with a lazy `sdk.log_turn` adapter. After both pass review, the lead must confirm the real SDK API matches the adapter and switch the default sink from in-memory to the SDK.
 - **P1-05 → P1-01:** the outcome connector emits `PATCH /v1/calls/{call_id}/outcome` payloads; verify the ingest endpoint accepts them after both land.
 
+## Promotion gate escalation (from P2-09 review, §14)
+
+- New engineering defaults: `min_e2e_margin=0.01`, `min_ci_level=0.95`, CI tolerance `0.0` (`services/evalgate/gate/settings.py:4-6`). These are NOT approved production thresholds; §14 requires human sign-off before any real promotion uses them.
+- `other_languages` has zero turns in the synthetic fixtures, so the gate correctly fails closed on real fixture reports. A real multilingual slice with evidence is required before STT promotion work (P3-04/P3-08).
+- Reviewer trust boundary: CI deltas are treated as authoritative by design; P3-04 must emit internally consistent absolute metrics and deltas. Hard-crash alias/audit atomicity is deferred to P3-06's MLflow backend (write-ahead audit recommended).
+
 ## Fail-open integration notes (from P1-02 review, lead follow-ups)
 
 - `BoundedBuffer.enqueue()` is not yet wired into the validated ingest POST path; `flush()` is not called from a background/shutdown hook; `health().to_dict()` is not merged into `/healthz`. App wiring is required at CP-1.

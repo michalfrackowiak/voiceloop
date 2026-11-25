@@ -42,6 +42,9 @@ changes require a schema version bump and an entry under the matching version.
   seal, second-review gate, audited verification and amendment versioning.
 - `P1-02`: bounded in-memory/disk fail-open buffer with health/backpressure
   metrics, deadline-bounded enqueue and at-least-once flush via fakes.
+- `P2-09`: fail-closed promotion gate using end-to-end accuracy deltas only,
+  zero-turn slice refusal, converted-artifact enforcement, alias flip/rollback
+  with hash-chained audit (fakes; thresholds pending §14 sign-off).
 
 ### Changed
 

@@ -201,12 +201,12 @@ Goal: the first complete loop on the cheap path (tiers 1–2), with manual promo
 
 ### Lane F: Evaluation gate (ml-eval)
 
-- [ ] **P2-09 Gate and promotion logic** — Role: `ml-eval` — Deps: P1-07, P2-06 — Paths: `services/evalgate/gate/`
-  - [ ] P2-09.1 Regression and general-capability evaluation (silence, noise, other languages)
-  - [ ] P2-09.2 Pass rule: margin over champion on end-to-end accuracy, no critical-slice regression, using CI bounds
-  - [ ] P2-09.3 Evaluate the converted artifact (hook for conversion step)
-  - [ ] P2-09.4 MLflow alias promotion command (`@challenger` → `@champion`) with audit record; one-step rollback
-  - **Done when:** a deliberately worse fixture model fails the gate; a better one passes; rollback restores the previous champion.
+- [x] **P2-09 Gate and promotion logic** — Role: `ml-eval` — Deps: P1-07, P2-06 — Paths: `services/evalgate/gate/`
+  - [x] P2-09.1 Regression and general-capability evaluation (silence, noise, other languages)
+  - [x] P2-09.2 Pass rule: margin over champion on end-to-end accuracy, no critical-slice regression, using CI bounds
+  - [x] P2-09.3 Evaluate the converted artifact (hook for conversion step)
+  - [x] P2-09.4 MLflow alias promotion command (`@challenger` → `@champion`) with audit record; one-step rollback
+  - **Done when:** a deliberately worse fixture model fails the gate; a better one passes; rollback restores the previous champion. **Lead note:** new default thresholds (`min_e2e_margin=0.01`, `min_ci_level=0.95`) are engineering defaults requiring §14 human sign-off; no production promotion before sign-off.
 
 ### Lane G: Orchestration and monitoring (infra)
 
