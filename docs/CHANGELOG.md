@@ -85,6 +85,16 @@ changes require a schema version bump and an entry under the matching version.
 - `P4-04` (blocked work product only): read-only exploratory teacher-disagreement
   harness with per-depth counts and Wilson CIs; no precision-improvement claim
   and no roadmap completion.
+- `P2-13`: synthetic parser-path loop rehearsal with exact P2-12 lineage queries,
+  pre-hash tombstone exclusions, failure injections and a strict tracked XFAIL.
+- `P3-01`: fake Whisper LoRA/conversion pipeline with call-disjoint replay,
+  8 kHz-aware handling, content-addressed artifacts and logged scaling evidence.
+- `P4-01`: deterministic fake canary split with paired outcome metrics and
+  idempotent, hash-chained auto-rollback; no live traffic or registry evidence.
+- `P4-02`: fake drift detectors and trigger policy; volume/drift/manual inputs
+  decide retraining and calendar ticks alone never trigger.
+- `P4-06` (blocked work product only): structured runbooks and a text-only
+  walkthrough checker; no human follow-through is claimed and acceptance stays OPEN.
 
 ### Changed
 

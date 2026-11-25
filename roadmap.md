@@ -230,10 +230,10 @@ Goal: the first complete loop on the cheap path (tiers 1–2), with manual promo
 
 ### Lane I: Integration (qa)
 
-- [ ] **P2-13 Loop rehearsal** — Role: `qa` — Deps: P2-03, P2-07, P2-09 — Paths: `tests/integration/`
-  - [ ] P2-13.1 Automated test: fixture traffic → triage → simulated review → dataset → parser train → gate → manual promotion
-  - [ ] P2-13.2 Failure injection: bad data, regressing model, storage outage
-  - **Done when:** the test passes in CI; injected failures are caught by the intended stage.
+- [x] **P2-13 Loop rehearsal** — Role: `qa` — Deps: P2-03, P2-07, P2-09 — Paths: `tests/integration/`
+  - [x] P2-13.1 Automated test: fixture traffic → triage → simulated review → dataset → parser train → gate → manual promotion — exact P2-12 lineage resolution included
+  - [x] P2-13.2 Failure injection: bad data, regressing model, storage outage — plus tombstone guard and strict tracked XFAIL
+  - **Done when:** the test passes in CI; injected failures are caught by the intended stage. **Lead note:** synthetic fixtures/fakes only; no real human review, audio, serving artifacts or backends. CP-2 scope is provisional, not production readiness.
 
 **CP-2 (lead):** first full loop on the parser path works with manual promotion; all invariants in `context.md` §2 have at least one test.
 
@@ -245,11 +245,11 @@ Goal: safely add STT improvement (tier 3) and staged release.
 
 ### Lane A: STT training (ml-train)
 
-- [ ] **P3-01 Whisper trainer** — Role: `ml-train` — Deps: CP-2 — Paths: `services/trainers/whisper/`
-  - [ ] P3-01.1 Transformers + PEFT LoRA with conservative alpha/r (default well below 2.0; document the evidence)
-  - [ ] P3-01.2 Replay data mixing; 8 kHz-aware preprocessing
-  - [ ] P3-01.3 Merge adapter, then convert to CTranslate2
-  - **Done when:** fixture fine-tune produces a converted model that transcribes fixtures; hyperparameters and scaling logged.
+- [x] **P3-01 Whisper trainer** — Role: `ml-train` — Deps: CP-2 — Paths: `services/trainers/whisper/`
+  - [x] P3-01.1 Transformers + PEFT LoRA with conservative alpha/r (default well below 2.0; documented evidence)
+  - [x] P3-01.2 Replay data mixing; 8 kHz-aware preprocessing — call-disjoint and exclusion-aware
+  - [x] P3-01.3 Merge adapter, then convert to CTranslate2 — deterministic fake merged/converted artifacts with logged hyperparameters and scaling
+  - **Done when:** fixture fine-tune produces a converted model that transcribes fixtures; hyperparameters and scaling logged. **Lead note:** fake-only; CP-2 pending and real Transformers/PEFT/CTranslate2/GPU validation remains a seam.
 
 - [x] **P3-02 Parakeet/NeMo trainer** — Role: `ml-train` — Deps: CP-2 — Paths: `services/trainers/nemo/`
   - [x] P3-02.1 Fine-tune from checkpoint using the NeMo manifest export — deterministic content-addressed fake checkpoint/artifact from read-only export
@@ -328,15 +328,15 @@ Goal: safely add STT improvement (tier 3) and staged release.
 
 Tasks are independent unless noted; each can run as its own lane.
 
-- [ ] **P4-01 Canary with auto-rollback** — Role: `backend` — Deps: CP-3
-  - [ ] P4-01.1 Traffic split config and canary metrics
-  - [ ] P4-01.2 Automatic rollback on outcome-metric regression
-  - **Done when:** simulated regression during canary triggers rollback within the configured window.
+- [x] **P4-01 Canary with auto-rollback** — Role: `backend` — Deps: CP-3 — Paths: `services/release/canary/`
+  - [x] P4-01.1 Traffic split config and canary metrics — bounded call-level split; paired outcome metrics with sample counts
+  - [x] P4-01.2 Automatic rollback on outcome-metric regression — one audited alias flip, idempotent, bounded window, fail-closed on incomplete outcomes
+  - **Done when:** simulated regression during canary triggers rollback within the configured window. **Lead note:** deterministic fake-only rehearsal; no live traffic/registry evidence and no promotion decision.
 
-- [ ] **P4-02 Scheduled and drift-triggered retraining** — Role: `infra` — Deps: CP-3
-  - [ ] P4-02.1 Drift detectors on triage score distribution and outcome rates
-  - [ ] P4-02.2 Trigger policy combining data volume, drift, and manual override
-  - **Done when:** drift in a replayed dataset triggers the pipeline; no calendar-only retraining.
+- [x] **P4-02 Scheduled and drift-triggered retraining** — Role: `infra` — Deps: CP-3 — Paths: `infra/pipelines/drift/`
+  - [x] P4-02.1 Drift detectors on triage score distribution and outcome rates — descriptive deltas with explicit sample counts
+  - [x] P4-02.2 Trigger policy combining data volume, drift, and manual override — calendar tick alone never triggers; manual override audited
+  - **Done when:** drift in a replayed dataset triggers the pipeline; no calendar-only retraining. **Lead note:** fake-only injected windows/pipeline; no real scheduler, trainer, MLflow or approved alarm thresholds.
 
 - [ ] **P4-03 Custom review UI** — Role: `frontend` — Deps: P2-04, CP-3
   - [ ] P4-03.1 Decide go/no-go from review metrics (which clicks hurt)

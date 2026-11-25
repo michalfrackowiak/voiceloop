@@ -58,12 +58,12 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - [x] P2-10 Pipelines and triggers
 - [x] P2-11 Dashboards
 - [x] P2-12 Lineage and access control (immutable roles; fail-closed audit)
-- [~] P2-13 Loop rehearsal
-- [ ] CP-2 First full parser-path loop; all §2 invariants tested
+- [x] P2-13 Loop rehearsal (synthetic full loop; exact lineage/tombstone assertions; strict tracked XFAIL)
+- [ ] CP-2 First full parser-path loop; all §2 invariants tested — gate review pending
 
 ## Phase 3 — STT path, release safety
 
-- [ ] P3-01 Whisper trainer
+- [x] P3-01 Whisper trainer (fake LoRA/conversion; replay and 8 kHz seams verified)
 - [x] P3-02 Parakeet/NeMo trainer (fake-only; confidence-to-P2-01 seam verified)
 - [x] P3-03 Augmentation (synthetic-tagged; golden/regression exclusion enforced)
 - [ ] P3-04 Conversion and artifact tests
@@ -79,12 +79,12 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 
 ## Phase 4 — Hardening and scale
 
-- [ ] P4-01 Canary with auto-rollback
-- [ ] P4-02 Scheduled and drift-triggered retraining
+- [x] P4-01 Canary with auto-rollback (fake-only; audited idempotent rollback)
+- [x] P4-02 Scheduled and drift-triggered retraining (fake-only; calendar tick never triggers)
 - [ ] P4-03 Custom review UI
 - [!] P4-04 Teacher-model triage signal at scale — harness PASS; BLOCKED pending human-reviewed labels, real teacher and pre-declared operating point
-- [ ] P4-05 Multi-project support
-- [ ] P4-06 Operations docs
+- [!] P4-05 Multi-project support — BLOCKED pending §14 contract bump and cross-service wiring
+- [!] P4-06 Operations docs — harness PASS; acceptance NOT DONE pending independent human follow-through
 
 ## Wave plan and path boundaries (lead)
 
@@ -94,4 +94,4 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - **Phase 1 wave 3:** P1-08 `docs/baseline.md` → CP-1 gate.
 - **Boundary rules:** P1-01 must not create `services/ingest/consent/` (owned by P1-09). P1-07 owns `services/evalgate/` root only; later gate/artifact/benchmarks tasks own their own subdirectories. P2-05 owns `services/datasets/` root and must only import, not edit, `golden/` and `filters/`.
 
-**Overall:** 33/40 tasks reviewed · 2/4 checkpoints passed.
+**Overall:** 37/45 tasks reviewed · 2/4 checkpoints passed. Denominator corrected to the audited 45 roadmap tasks.

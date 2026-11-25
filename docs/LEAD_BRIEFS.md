@@ -83,6 +83,14 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - P3-06 consumes gate aliases read-only and never flips aliases or changes thresholds. Failed releases are not auto-retried; retries belong in the caller's scheduler with a bounded budget, not inside `tick()`. For real serving adapters, harden rollback by comparing post-rollback state against `SwapPlan.before` and downgrading `reverted` to `rollback_failed` on mismatch.
 - Gate-side write-ahead audit from P2-09 remains a lead follow-up; P3-06 only logs its own structured `release_sync.tick` events.
 
+## Lead notes — P2-13 / P3-01 / P4-01 / P4-02 / P4-06
+
+- `P2-13` PASS is limited to synthetic fixtures and fake adapters. CP-2 gate review is still required; the card-number-as-mapping-key XFAIL remains an open P2-05/P1-09 defect.
+- `P3-01` PASS is fake-only. Low-severity hardening remains: reject non-finite `alpha`/`max_scaling` in `validate_conservative_lora()` and set `allow_nan=False` in `canonical_json` before real trainer wiring.
+- `P4-01` PASS is a deterministic fake rehearsal. Non-blocking follow-ups: dedupe `calls_observed`/`calls_canary`/`calls_scored` by `call_id` (or rename to observation counts), validate `alias == CHAMPION_ALIAS`, and use `search` rather than `fullmatch` for injected digit-run IDs.
+- `P4-02` PASS uses injected detector windows and a recording pipeline. Before real wiring, require an explicit `AuditSink` for manual overrides and maintain the detector's sensitive-text allowlist.
+- `P4-06` harness/docs quality PASS but roadmap acceptance is NOT DONE: each runbook must be followed by someone who did not write it. Keep it excluded from the completed count and CP-3 claims.
+
 ## §14 escalation — P4-05 multi-project support (BLOCKED)
 
 - Lead mapping found no existing project/tenant field in any cross-service contract. `turn_event`, `dataset_manifest`, `trainer_contract`, `eval_report` and `review_adapter` all use `additionalProperties: false` and pin `1.0.0`; adding `project_id` requires at least a minor version bump and §14 approval before any worker edits schemas.
