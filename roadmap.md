@@ -251,10 +251,10 @@ Goal: safely add STT improvement (tier 3) and staged release.
   - [ ] P3-01.3 Merge adapter, then convert to CTranslate2
   - **Done when:** fixture fine-tune produces a converted model that transcribes fixtures; hyperparameters and scaling logged.
 
-- [ ] **P3-02 Parakeet/NeMo trainer** — Role: `ml-train` — Deps: CP-2 — Paths: `services/trainers/nemo/`
-  - [ ] P3-02.1 Fine-tune from checkpoint using the NeMo manifest export
-  - [ ] P3-02.2 Per-word confidence output wired to the triage signal
-  - **Done when:** fixture fine-tune runs; confidences flow into events.
+- [x] **P3-02 Parakeet/NeMo trainer** — Role: `ml-train` — Deps: CP-2 — Paths: `services/trainers/nemo/`
+  - [x] P3-02.1 Fine-tune from checkpoint using the NeMo manifest export — deterministic content-addressed fake checkpoint/artifact from read-only export
+  - [x] P3-02.2 Per-word confidence output wired to the triage signal — schema-shaped words drive P2-01 scoring through public seams
+  - **Done when:** fixture fine-tune runs; confidences flow into events. **Lead note:** fake-only reference implementation; CP-2 pending and real NeMo/GPU/checkpoint validation remains a documented seam.
 
 - [ ] **P3-03 Augmentation** — Role: `ml-train` — Deps: P3-01 — Paths: `services/datasets/augment/`
   - [ ] P3-03.1 TTS-synthesised variants for repeated failure classes (e.g. new name lists)

@@ -83,6 +83,17 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - P3-06 consumes gate aliases read-only and never flips aliases or changes thresholds. Failed releases are not auto-retried; retries belong in the caller's scheduler with a bounded budget, not inside `tick()`. For real serving adapters, harden rollback by comparing post-rollback state against `SwapPlan.before` and downgrading `reverted` to `rollback_failed` on mismatch.
 - Gate-side write-ahead audit from P2-09 remains a lead follow-up; P3-06 only logs its own structured `release_sync.tick` events.
 
+## NeMo trainer notes (from P3-02 review)
+
+- Fake-only reference implementation is content-addressed and deterministic; real
+  `CheckpointSource`, `NeMoFinetuneBackend`, `ArtifactStore` and confidence adapters
+  remain injection seams. No real fine-tune, GPU, network or promotion claim.
+- Word confidences are schema-shaped and reach P2-01 through public seams only;
+  P2-01 was not edited. Before real wiring, align the fake derivation model with
+  `stt.model_id`, scope the “no plaintext” docs statement to artifacts/checkpoints
+  (schema-required events carry text/audio URI), and revisit token-span allocation
+  when token count exceeds duration.
+
 ## §14 escalation — P4-04 teacher signal (BLOCKED)
 
 - Harness rework PASS: no improvement-claim keys; per-depth `n`, TP counts, Wilson 95% CIs, overlap flags and confidence notes; CLI and docs state `P4-04 is NOT DONE`.

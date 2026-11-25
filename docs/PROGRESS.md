@@ -64,7 +64,7 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 ## Phase 3 — STT path, release safety
 
 - [ ] P3-01 Whisper trainer
-- [ ] P3-02 Parakeet/NeMo trainer
+- [x] P3-02 Parakeet/NeMo trainer (fake-only; confidence-to-P2-01 seam verified)
 - [ ] P3-03 Augmentation
 - [ ] P3-04 Conversion and artifact tests
 - [x] P3-05 Benchmark harness for base-model swaps (synthetic candidates; delta CIs)
@@ -94,4 +94,4 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - **Phase 1 wave 3:** P1-08 `docs/baseline.md` → CP-1 gate.
 - **Boundary rules:** P1-01 must not create `services/ingest/consent/` (owned by P1-09). P1-07 owns `services/evalgate/` root only; later gate/artifact/benchmarks tasks own their own subdirectories. P2-05 owns `services/datasets/` root and must only import, not edit, `golden/` and `filters/`.
 
-**Overall:** 31/40 tasks reviewed · 2/4 checkpoints passed.
+**Overall:** 32/40 tasks reviewed · 2/4 checkpoints passed.
