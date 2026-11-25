@@ -83,6 +83,15 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - P3-06 consumes gate aliases read-only and never flips aliases or changes thresholds. Failed releases are not auto-retried; retries belong in the caller's scheduler with a bounded budget, not inside `tick()`. For real serving adapters, harden rollback by comparing post-rollback state against `SwapPlan.before` and downgrading `reverted` to `rollback_failed` on mismatch.
 - Gate-side write-ahead audit from P2-09 remains a lead follow-up; P3-06 only logs its own structured `release_sync.tick` events.
 
+## Lineage and access-control notes (from P2-12 re-review, CP-2)
+
+- All manifest/trainer/tombstone/audit/identity adapters are labelled fakes. Production wiring must supply real adapters with cross-sink transaction/write-ahead semantics; deletion is tombstone/flag/audit only, not physical deletion or unlearning.
+- P2-13 must inject the exact example index (`P205ExampleIdResolver`) because manifest 1.0.0 has `source_call_ids` but no per-example IDs; without it lineage fails closed by design.
+- Dataset builds must pass `tombstones.excluded_call_ids()` into the builder before hashing and call `guard_manifest()` afterward.
+- A production identity provider must verify credentials and construct `Principal`; no role-assignment endpoint exists, and tenant scoping is P4-05 scope.
+- `tests/integration/test_failure_injection.py::test_card_number_as_mapping_key_is_still_leaked` is XFAIL: a tracked P2-05/P1-09 integration defect, not a P2-12 issue. Do not treat it as resolved.
+- The immutable role matrix is module-local; use `capabilities_for()` only. Raw capability/resource/purpose inputs produce fixed-code DENY audits and structured errors.
+
 ## Dataset builder notes (from P2-05 re-review, CP-2)
 
 - P2-13 failure injection must include a malformed slot object with a card number as a mapping key; `_iter_json_strings` screens string values, and `additionalProperties: false` prevents conforming review results from expressing that case.

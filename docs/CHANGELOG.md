@@ -76,6 +76,8 @@ changes require a schema version bump and an entry under the matching version.
   inter-reviewer agreement; P4-03 go/no-go input only.
 - `P3-10`: fake audio/text redaction with merged padded spans, consent-gated
   CLI, stable pseudonyms, cued-name expansion and raw-only retention rehearsal.
+- `P2-12`: bidirectional lineage, tombstone-based deletion with affected-model
+  flags, and immutable default-deny roles with fixed-code audit events.
 
 ### Changed
 

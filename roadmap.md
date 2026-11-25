@@ -222,11 +222,11 @@ Goal: the first complete loop on the cheap path (tiers 1–2), with manual promo
 
 ### Lane H: Governance (governance)
 
-- [ ] **P2-12 Lineage and access control** — Role: `governance` — Deps: P2-05 — Paths: `services/datasets/lineage/`, `services/*/auth/`
-  - [ ] P2-12.1 Lineage queries: training example → call; call → every model trained on it
-  - [ ] P2-12.2 Deletion workflow that removes a call from future datasets and flags affected models
-  - [ ] P2-12.3 Roles: reviewer, ML engineer, admin
-  - **Done when:** deleting a fixture call produces a report of impacted datasets and models.
+- [x] **P2-12 Lineage and access control** — Role: `governance` — Deps: P2-05 — Paths: `services/datasets/lineage/`, `services/*/auth/`
+  - [x] P2-12.1 Lineage queries: training example → call; call → every model trained on it — exact IDs, dedupe, fail-closed unknown handling
+  - [x] P2-12.2 Deletion workflow that removes a call from future datasets and flags affected models — tombstone/flag/audit only, no physical-deletion claim
+  - [x] P2-12.3 Roles: reviewer, ML engineer, admin — immutable capability matrix, fixed-code audit, default-deny escalation
+  - **Done when:** deleting a fixture call produces a report of impacted datasets and models. **Lead note:** all adapters are labelled fakes; real identity/registry/audit/transaction adapters and tenant scoping remain integration seams.
 
 ### Lane I: Integration (qa)
 
