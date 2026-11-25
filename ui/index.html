@@ -1,0 +1,1595 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VoiceLoop review UI — synthetic stand-in</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="banner">
+    <h1>VoiceLoop custom review UI</h1>
+    <p id="synthetic-label" class="stand-in">SYNTHETIC/FIXTURE STAND-IN - NOT A HUMAN USABILITY RESULT</p>
+    <p id="usability-status">STATUS: NOT DONE</p>
+    <p id="usability-acceptance">OPEN - RELEASE BLOCKER: an independent usability test must show time per item no worse than the adapter-based tool</p>
+    <p class="small">No audio bytes, network access or human review data is present in this page.</p>
+  </header>
+
+  <main>
+    <section id="queue-section" aria-label="Synthetic fixture queue">
+      <h2>Fixture queue</h2>
+      <ul id="item-list" data-item-count="0"></ul>
+    </section>
+
+    <section id="player-section" aria-label="Synthetic waveform player">
+      <h2>Waveform timeline (synthetic, no audio playback)</h2>
+      <div id="waveform" role="img" aria-label="Synthetic amplitude bars derived from a pseudonymous item ID" data-bar-count="0"></div>
+      <div id="playback-controls">
+        <button type="button" id="play-toggle" data-state="paused">Play synthetic timeline</button>
+        <label for="speed-select">Speed</label>
+        <select id="speed-select" data-speed="1">
+          <option value="0.5">0.5x</option>
+          <option value="0.75">0.75x</option>
+          <option value="1" selected>1x</option>
+          <option value="1.25">1.25x</option>
+          <option value="1.5">1.5x</option>
+          <option value="2">2x</option>
+        </select>
+        <button type="button" id="loop-toggle" aria-pressed="false" data-loop="false">Loop: off</button>
+        <output id="position-readout" data-position-ms="0">0 ms / 0 ms</output>
+        <output id="loop-count" data-loop-count="0">loops: 0</output>
+      </div>
+      <p id="low-confidence-legend">Highlighted bars are low-confidence token spans from the fixture metadata, never decoded audio.</p>
+    </section>
+
+    <section id="transcript-section" aria-label="Token diff view">
+      <h2>Hypothesis → correction (pseudonymous token diff)</h2>
+      <div id="diff-view" data-diff-ops="0"></div>
+    </section>
+
+    <section id="stage1-section" aria-label="Stage 1 transcript correction">
+      <h2>Stage 1 — corrected transcript tokens</h2>
+      <label for="corrected-transcript">Space-separated token IDs</label>
+      <textarea id="corrected-transcript" rows="3" spellcheck="false"></textarea>
+    </section>
+
+    <section id="stage2-section" aria-label="Stage 2 slot form">
+      <h2>Stage 2 — schema-generated slot form</h2>
+      <form id="slot-form" data-schema-version="" novalidate></form>
+      <div id="slot-issues" role="status" data-issue-count="0"></div>
+    </section>
+
+    <aside id="booking-panel" aria-label="Booking record side panel">
+      <h2>Booking record side panel</h2>
+      <dl id="final-record"></dl>
+      <h3>Record comparison</h3>
+      <ul id="record-diff"></ul>
+    </aside>
+
+    <section id="routing-section" aria-label="Routing labels">
+      <fieldset>
+        <legend>Routing label (adaptation ladder)</legend>
+        <div id="routing-buttons"></div>
+      </fieldset>
+      <output id="routing-selected" data-routing=""></output>
+    </section>
+
+    <section id="second-opinion-section" aria-label="Second opinion flow">
+      <h2>Second opinion</h2>
+      <label for="second-reviewer-id">Second reviewer token</label>
+      <input id="second-reviewer-id" type="text" placeholder="reviewer-token-02" autocomplete="off">
+      <label for="approval-id">Approval token</label>
+      <input id="approval-id" type="text" placeholder="approval-token-01" autocomplete="off">
+      <button type="button" id="second-opinion-request" disabled>Request second opinion</button>
+      <p id="second-opinion-state" data-allowed="false">Blocked until a completed review, distinct reviewer ID and approval token are supplied.</p>
+    </section>
+
+    <section id="go-no-go-section" aria-label="Go/no-go decision from review metrics">
+      <h2>P4-03.1 go/no-go from P2-04 metrics</h2>
+      <pre id="go-no-go"></pre>
+    </section>
+  </main>
+
+  <script type="application/json" id="review-state">[
+  {
+    "blind_mode": {
+      "active": false,
+      "prefill_slots": {
+        "check_in": "2026-12-05",
+        "check_out": "2026-12-07",
+        "guest_name": "guest-token-0001",
+        "guests": 1,
+        "room_type": "standard"
+      },
+      "prefill_withheld": false
+    },
+    "contract_version": "internal-1.0.0",
+    "diff": [
+      {
+        "corrected_index": 0,
+        "hypothesis_index": 0,
+        "op": "equal",
+        "token": "tok-a"
+      },
+      {
+        "corrected_index": 1,
+        "hypothesis_index": 1,
+        "op": "replace",
+        "token": "tok-x"
+      },
+      {
+        "corrected_index": 2,
+        "hypothesis_index": 2,
+        "op": "equal",
+        "token": "tok-c"
+      }
+    ],
+    "final_record": {
+      "check_in": "2026-12-05",
+      "check_out": "2026-12-08",
+      "guest_name": "guest-token-0001",
+      "guests": 1,
+      "room_type": "standard"
+    },
+    "form": {
+      "allow_unknown_fields": false,
+      "cross_field_rules": [
+        "check_out_after_check_in"
+      ],
+      "fields": [
+        {
+          "description": "ISO 8601 check-in date (YYYY-MM-DD).",
+          "enum": [],
+          "format": "date",
+          "json_type": "string",
+          "max_length": null,
+          "maximum": null,
+          "min_length": null,
+          "minimum": null,
+          "path": "check_in",
+          "required": true
+        },
+        {
+          "description": "ISO 8601 check-out date (YYYY-MM-DD); must be after check_in.",
+          "enum": [],
+          "format": "date",
+          "json_type": "string",
+          "max_length": null,
+          "maximum": null,
+          "min_length": null,
+          "minimum": null,
+          "path": "check_out",
+          "required": true
+        },
+        {
+          "description": "",
+          "enum": [],
+          "format": "email",
+          "json_type": "string",
+          "max_length": null,
+          "maximum": null,
+          "min_length": null,
+          "minimum": null,
+          "path": "contact.email",
+          "required": false
+        },
+        {
+          "description": "",
+          "enum": [],
+          "format": null,
+          "json_type": "string",
+          "max_length": null,
+          "maximum": null,
+          "min_length": 1,
+          "minimum": null,
+          "path": "contact.phone",
+          "required": false
+        },
+        {
+          "description": "",
+          "enum": [],
+          "format": null,
+          "json_type": "string",
+          "max_length": null,
+          "maximum": null,
+          "min_length": 1,
+          "minimum": null,
+          "path": "guest_name",
+          "required": true
+        },
+        {
+          "description": "",
+          "enum": [],
+          "format": null,
+          "json_type": "integer",
+          "max_length": null,
+          "maximum": null,
+          "min_length": null,
+          "minimum": 1.0,
+          "path": "guests",
+          "required": true
+        },
+        {
+          "description": "Room type must be one of the room types known to the booking system.",
+          "enum": [
+            "standard",
+            "deluxe",
+            "suite"
+          ],
+          "format": null,
+          "json_type": "string",
+          "max_length": null,
+          "maximum": null,
+          "min_length": null,
+          "minimum": null,
+          "path": "room_type",
+          "required": true
+        }
+      ],
+      "schema_sha256": "27e9553ce1d70ba94230738a26fedd8bcf7703afe6e41d1cc8d87f55b9d382aa",
+      "schema_version": "1.0.0"
+    },
+    "item": {
+      "audio_ref": "audio-token-0001",
+      "blind": false,
+      "call_id": "call-token-0001",
+      "corrected_tokens": [
+        "tok-a",
+        "tok-x",
+        "tok-c"
+      ],
+      "duration_ms": 320,
+      "final_record": {
+        "check_in": "2026-12-05",
+        "check_out": "2026-12-08",
+        "guest_name": "guest-token-0001",
+        "guests": 1,
+        "room_type": "standard"
+      },
+      "hypothesis_tokens": [
+        "tok-a",
+        "tok-b",
+        "tok-c"
+      ],
+      "item_id": "item-token-0001",
+      "low_confidence_spans": [
+        {
+          "confidence": 0.41,
+          "end_ms": 279,
+          "start_ms": 160,
+          "token_id": "tok-b"
+        }
+      ],
+      "prefill_slots": {
+        "check_in": "2026-12-05",
+        "check_out": "2026-12-07",
+        "guest_name": "guest-token-0001",
+        "guests": 1,
+        "room_type": "standard"
+      },
+      "reviewer_id": "reviewer-token-01",
+      "turn_index": 2
+    },
+    "label": "SYNTHETIC/FIXTURE STAND-IN - NOT A HUMAN USABILITY RESULT",
+    "player": {
+      "audio_playback": false,
+      "bars": [
+        {
+          "amplitude": 55,
+          "index": 0,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 44,
+          "index": 1,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 89,
+          "index": 2,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 94,
+          "index": 3,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 21,
+          "index": 4,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 79,
+          "index": 5,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 14,
+          "index": 6,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 52,
+          "index": 7,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 28,
+          "index": 8,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 11,
+          "index": 9,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 26,
+          "index": 10,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 23,
+          "index": 11,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 61,
+          "index": 12,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 62,
+          "index": 13,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 49,
+          "index": 14,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 61,
+          "index": 15,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 21,
+          "index": 16,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 66,
+          "index": 17,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 56,
+          "index": 18,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 16,
+          "index": 19,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 70,
+          "index": 20,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 62,
+          "index": 21,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 62,
+          "index": 22,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 18,
+          "index": 23,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 17,
+          "index": 24,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 57,
+          "index": 25,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 30,
+          "index": 26,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 89,
+          "index": 27,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 59,
+          "index": 28,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 67,
+          "index": 29,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 59,
+          "index": 30,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 10,
+          "index": 31,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 55,
+          "index": 32,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 44,
+          "index": 33,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 89,
+          "index": 34,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 94,
+          "index": 35,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 21,
+          "index": 36,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 79,
+          "index": 37,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 14,
+          "index": 38,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 52,
+          "index": 39,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 28,
+          "index": 40,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 11,
+          "index": 41,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 26,
+          "index": 42,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 23,
+          "index": 43,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 61,
+          "index": 44,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 62,
+          "index": 45,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 49,
+          "index": 46,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 61,
+          "index": 47,
+          "low_confidence": false
+        }
+      ],
+      "duration_ms": 320,
+      "item_id": "item-token-0001",
+      "loop": false,
+      "loop_count": 0,
+      "playing": false,
+      "position_ms": 0,
+      "spans": [
+        {
+          "confidence": 0.41,
+          "end_ms": 279,
+          "start_ms": 160,
+          "token_id": "tok-b"
+        }
+      ],
+      "speed": 1.0,
+      "waveform_source": "sha256_of_pseudonymous_item_id"
+    },
+    "record_diff": [
+      {
+        "field": "check_in",
+        "status": "same"
+      },
+      {
+        "field": "check_out",
+        "status": "different"
+      },
+      {
+        "field": "guest_name",
+        "status": "same"
+      },
+      {
+        "field": "guests",
+        "status": "same"
+      },
+      {
+        "field": "room_type",
+        "status": "same"
+      }
+    ],
+    "routing": {
+      "labels": [
+        "stt_wrong",
+        "parser_wrong",
+        "both_fine",
+        "unusable_audio"
+      ],
+      "selected": null
+    },
+    "second_opinion": {
+      "allowed": false,
+      "audit_event": null,
+      "reasons": [
+        "missing_approval_id",
+        "missing_second_reviewer_id",
+        "unknown_item_id"
+      ]
+    },
+    "slot_issues": [],
+    "usability_acceptance": "OPEN - RELEASE BLOCKER: an independent usability test must show time per item no worse than the adapter-based tool",
+    "usability_status": "NOT DONE"
+  },
+  {
+    "blind_mode": {
+      "active": true,
+      "prefill_slots": {},
+      "prefill_withheld": true
+    },
+    "contract_version": "internal-1.0.0",
+    "diff": [
+      {
+        "corrected_index": 0,
+        "hypothesis_index": 0,
+        "op": "equal",
+        "token": "tok-d"
+      },
+      {
+        "corrected_index": 1,
+        "hypothesis_index": 1,
+        "op": "equal",
+        "token": "tok-e"
+      }
+    ],
+    "final_record": {
+      "check_in": "2027-01-08",
+      "check_out": "2027-01-10",
+      "guest_name": "guest-token-0002",
+      "guests": 2,
+      "room_type": "deluxe"
+    },
+    "form": {
+      "allow_unknown_fields": false,
+      "cross_field_rules": [
+        "check_out_after_check_in"
+      ],
+      "fields": [
+        {
+          "description": "ISO 8601 check-in date (YYYY-MM-DD).",
+          "enum": [],
+          "format": "date",
+          "json_type": "string",
+          "max_length": null,
+          "maximum": null,
+          "min_length": null,
+          "minimum": null,
+          "path": "check_in",
+          "required": true
+        },
+        {
+          "description": "ISO 8601 check-out date (YYYY-MM-DD); must be after check_in.",
+          "enum": [],
+          "format": "date",
+          "json_type": "string",
+          "max_length": null,
+          "maximum": null,
+          "min_length": null,
+          "minimum": null,
+          "path": "check_out",
+          "required": true
+        },
+        {
+          "description": "",
+          "enum": [],
+          "format": "email",
+          "json_type": "string",
+          "max_length": null,
+          "maximum": null,
+          "min_length": null,
+          "minimum": null,
+          "path": "contact.email",
+          "required": false
+        },
+        {
+          "description": "",
+          "enum": [],
+          "format": null,
+          "json_type": "string",
+          "max_length": null,
+          "maximum": null,
+          "min_length": 1,
+          "minimum": null,
+          "path": "contact.phone",
+          "required": false
+        },
+        {
+          "description": "",
+          "enum": [],
+          "format": null,
+          "json_type": "string",
+          "max_length": null,
+          "maximum": null,
+          "min_length": 1,
+          "minimum": null,
+          "path": "guest_name",
+          "required": true
+        },
+        {
+          "description": "",
+          "enum": [],
+          "format": null,
+          "json_type": "integer",
+          "max_length": null,
+          "maximum": null,
+          "min_length": null,
+          "minimum": 1.0,
+          "path": "guests",
+          "required": true
+        },
+        {
+          "description": "Room type must be one of the room types known to the booking system.",
+          "enum": [
+            "standard",
+            "deluxe",
+            "suite"
+          ],
+          "format": null,
+          "json_type": "string",
+          "max_length": null,
+          "maximum": null,
+          "min_length": null,
+          "minimum": null,
+          "path": "room_type",
+          "required": true
+        }
+      ],
+      "schema_sha256": "27e9553ce1d70ba94230738a26fedd8bcf7703afe6e41d1cc8d87f55b9d382aa",
+      "schema_version": "1.0.0"
+    },
+    "item": {
+      "audio_ref": "audio-token-0002",
+      "blind": true,
+      "call_id": "call-token-0002",
+      "corrected_tokens": [
+        "tok-d",
+        "tok-e"
+      ],
+      "duration_ms": 240,
+      "final_record": {
+        "check_in": "2027-01-08",
+        "check_out": "2027-01-10",
+        "guest_name": "guest-token-0002",
+        "guests": 2,
+        "room_type": "deluxe"
+      },
+      "hypothesis_tokens": [
+        "tok-d",
+        "tok-e"
+      ],
+      "item_id": "item-token-0002",
+      "low_confidence_spans": [],
+      "prefill_slots": {},
+      "reviewer_id": "reviewer-token-01",
+      "turn_index": 1
+    },
+    "label": "SYNTHETIC/FIXTURE STAND-IN - NOT A HUMAN USABILITY RESULT",
+    "player": {
+      "audio_playback": false,
+      "bars": [
+        {
+          "amplitude": 82,
+          "index": 0,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 90,
+          "index": 1,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 43,
+          "index": 2,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 56,
+          "index": 3,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 68,
+          "index": 4,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 85,
+          "index": 5,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 47,
+          "index": 6,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 65,
+          "index": 7,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 68,
+          "index": 8,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 67,
+          "index": 9,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 37,
+          "index": 10,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 54,
+          "index": 11,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 11,
+          "index": 12,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 83,
+          "index": 13,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 61,
+          "index": 14,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 58,
+          "index": 15,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 31,
+          "index": 16,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 9,
+          "index": 17,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 12,
+          "index": 18,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 94,
+          "index": 19,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 90,
+          "index": 20,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 27,
+          "index": 21,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 50,
+          "index": 22,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 69,
+          "index": 23,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 89,
+          "index": 24,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 53,
+          "index": 25,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 10,
+          "index": 26,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 67,
+          "index": 27,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 70,
+          "index": 28,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 71,
+          "index": 29,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 88,
+          "index": 30,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 54,
+          "index": 31,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 82,
+          "index": 32,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 90,
+          "index": 33,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 43,
+          "index": 34,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 56,
+          "index": 35,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 68,
+          "index": 36,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 85,
+          "index": 37,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 47,
+          "index": 38,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 65,
+          "index": 39,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 68,
+          "index": 40,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 67,
+          "index": 41,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 37,
+          "index": 42,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 54,
+          "index": 43,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 11,
+          "index": 44,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 83,
+          "index": 45,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 61,
+          "index": 46,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 58,
+          "index": 47,
+          "low_confidence": false
+        }
+      ],
+      "duration_ms": 240,
+      "item_id": "item-token-0002",
+      "loop": false,
+      "loop_count": 0,
+      "playing": false,
+      "position_ms": 0,
+      "spans": [],
+      "speed": 1.0,
+      "waveform_source": "sha256_of_pseudonymous_item_id"
+    },
+    "record_diff": [
+      {
+        "field": "check_in",
+        "status": "missing"
+      },
+      {
+        "field": "check_out",
+        "status": "missing"
+      },
+      {
+        "field": "guest_name",
+        "status": "missing"
+      },
+      {
+        "field": "guests",
+        "status": "missing"
+      },
+      {
+        "field": "room_type",
+        "status": "missing"
+      }
+    ],
+    "routing": {
+      "labels": [
+        "stt_wrong",
+        "parser_wrong",
+        "both_fine",
+        "unusable_audio"
+      ],
+      "selected": null
+    },
+    "second_opinion": {
+      "allowed": false,
+      "audit_event": null,
+      "reasons": [
+        "missing_approval_id",
+        "missing_second_reviewer_id",
+        "unknown_item_id"
+      ]
+    },
+    "slot_issues": [
+      {
+        "code": "required",
+        "field": "check_in"
+      },
+      {
+        "code": "required",
+        "field": "check_out"
+      },
+      {
+        "code": "required",
+        "field": "guest_name"
+      },
+      {
+        "code": "required",
+        "field": "guests"
+      },
+      {
+        "code": "required",
+        "field": "room_type"
+      }
+    ],
+    "usability_acceptance": "OPEN - RELEASE BLOCKER: an independent usability test must show time per item no worse than the adapter-based tool",
+    "usability_status": "NOT DONE"
+  },
+  {
+    "blind_mode": {
+      "active": false,
+      "prefill_slots": {
+        "check_in": "2027-02-02",
+        "check_out": "2027-02-01",
+        "guest_name": "guest-token-0003",
+        "guests": 2,
+        "room_type": "suite"
+      },
+      "prefill_withheld": false
+    },
+    "contract_version": "internal-1.0.0",
+    "diff": [
+      {
+        "corrected_index": 0,
+        "hypothesis_index": 0,
+        "op": "equal",
+        "token": "tok-f"
+      },
+      {
+        "corrected_index": 1,
+        "hypothesis_index": 1,
+        "op": "equal",
+        "token": "tok-g"
+      },
+      {
+        "corrected_index": 2,
+        "hypothesis_index": null,
+        "op": "insert",
+        "token": "tok-h"
+      }
+    ],
+    "final_record": {
+      "check_in": "2027-02-02",
+      "check_out": "2027-02-06",
+      "guest_name": "guest-token-0003",
+      "guests": 2,
+      "room_type": "suite"
+    },
+    "form": {
+      "allow_unknown_fields": false,
+      "cross_field_rules": [
+        "check_out_after_check_in"
+      ],
+      "fields": [
+        {
+          "description": "ISO 8601 check-in date (YYYY-MM-DD).",
+          "enum": [],
+          "format": "date",
+          "json_type": "string",
+          "max_length": null,
+          "maximum": null,
+          "min_length": null,
+          "minimum": null,
+          "path": "check_in",
+          "required": true
+        },
+        {
+          "description": "ISO 8601 check-out date (YYYY-MM-DD); must be after check_in.",
+          "enum": [],
+          "format": "date",
+          "json_type": "string",
+          "max_length": null,
+          "maximum": null,
+          "min_length": null,
+          "minimum": null,
+          "path": "check_out",
+          "required": true
+        },
+        {
+          "description": "",
+          "enum": [],
+          "format": "email",
+          "json_type": "string",
+          "max_length": null,
+          "maximum": null,
+          "min_length": null,
+          "minimum": null,
+          "path": "contact.email",
+          "required": false
+        },
+        {
+          "description": "",
+          "enum": [],
+          "format": null,
+          "json_type": "string",
+          "max_length": null,
+          "maximum": null,
+          "min_length": 1,
+          "minimum": null,
+          "path": "contact.phone",
+          "required": false
+        },
+        {
+          "description": "",
+          "enum": [],
+          "format": null,
+          "json_type": "string",
+          "max_length": null,
+          "maximum": null,
+          "min_length": 1,
+          "minimum": null,
+          "path": "guest_name",
+          "required": true
+        },
+        {
+          "description": "",
+          "enum": [],
+          "format": null,
+          "json_type": "integer",
+          "max_length": null,
+          "maximum": null,
+          "min_length": null,
+          "minimum": 1.0,
+          "path": "guests",
+          "required": true
+        },
+        {
+          "description": "Room type must be one of the room types known to the booking system.",
+          "enum": [
+            "standard",
+            "deluxe",
+            "suite"
+          ],
+          "format": null,
+          "json_type": "string",
+          "max_length": null,
+          "maximum": null,
+          "min_length": null,
+          "minimum": null,
+          "path": "room_type",
+          "required": true
+        }
+      ],
+      "schema_sha256": "27e9553ce1d70ba94230738a26fedd8bcf7703afe6e41d1cc8d87f55b9d382aa",
+      "schema_version": "1.0.0"
+    },
+    "item": {
+      "audio_ref": "audio-token-0003",
+      "blind": false,
+      "call_id": "call-token-0003",
+      "corrected_tokens": [
+        "tok-f",
+        "tok-g",
+        "tok-h"
+      ],
+      "duration_ms": 400,
+      "final_record": {
+        "check_in": "2027-02-02",
+        "check_out": "2027-02-06",
+        "guest_name": "guest-token-0003",
+        "guests": 2,
+        "room_type": "suite"
+      },
+      "hypothesis_tokens": [
+        "tok-f",
+        "tok-g"
+      ],
+      "item_id": "item-token-0003",
+      "low_confidence_spans": [
+        {
+          "confidence": 0.35,
+          "end_ms": 120,
+          "start_ms": 20,
+          "token_id": "tok-f"
+        },
+        {
+          "confidence": 0.85,
+          "end_ms": 300,
+          "start_ms": 160,
+          "token_id": "tok-g"
+        }
+      ],
+      "prefill_slots": {
+        "check_in": "2027-02-02",
+        "check_out": "2027-02-01",
+        "guest_name": "guest-token-0003",
+        "guests": 2,
+        "room_type": "suite"
+      },
+      "reviewer_id": "reviewer-token-02",
+      "turn_index": 3
+    },
+    "label": "SYNTHETIC/FIXTURE STAND-IN - NOT A HUMAN USABILITY RESULT",
+    "player": {
+      "audio_playback": false,
+      "bars": [
+        {
+          "amplitude": 33,
+          "index": 0,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 49,
+          "index": 1,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 29,
+          "index": 2,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 86,
+          "index": 3,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 12,
+          "index": 4,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 64,
+          "index": 5,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 11,
+          "index": 6,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 71,
+          "index": 7,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 80,
+          "index": 8,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 51,
+          "index": 9,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 25,
+          "index": 10,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 44,
+          "index": 11,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 15,
+          "index": 12,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 92,
+          "index": 13,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 34,
+          "index": 14,
+          "low_confidence": true
+        },
+        {
+          "amplitude": 61,
+          "index": 15,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 83,
+          "index": 16,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 73,
+          "index": 17,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 44,
+          "index": 18,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 47,
+          "index": 19,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 22,
+          "index": 20,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 54,
+          "index": 21,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 27,
+          "index": 22,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 57,
+          "index": 23,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 10,
+          "index": 24,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 20,
+          "index": 25,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 16,
+          "index": 26,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 55,
+          "index": 27,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 39,
+          "index": 28,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 19,
+          "index": 29,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 20,
+          "index": 30,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 69,
+          "index": 31,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 33,
+          "index": 32,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 49,
+          "index": 33,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 29,
+          "index": 34,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 86,
+          "index": 35,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 12,
+          "index": 36,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 64,
+          "index": 37,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 11,
+          "index": 38,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 71,
+          "index": 39,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 80,
+          "index": 40,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 51,
+          "index": 41,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 25,
+          "index": 42,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 44,
+          "index": 43,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 15,
+          "index": 44,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 92,
+          "index": 45,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 34,
+          "index": 46,
+          "low_confidence": false
+        },
+        {
+          "amplitude": 61,
+          "index": 47,
+          "low_confidence": false
+        }
+      ],
+      "duration_ms": 400,
+      "item_id": "item-token-0003",
+      "loop": false,
+      "loop_count": 0,
+      "playing": false,
+      "position_ms": 0,
+      "spans": [
+        {
+          "confidence": 0.35,
+          "end_ms": 120,
+          "start_ms": 20,
+          "token_id": "tok-f"
+        },
+        {
+          "confidence": 0.85,
+          "end_ms": 300,
+          "start_ms": 160,
+          "token_id": "tok-g"
+        }
+      ],
+      "speed": 1.0,
+      "waveform_source": "sha256_of_pseudonymous_item_id"
+    },
+    "record_diff": [
+      {
+        "field": "check_in",
+        "status": "same"
+      },
+      {
+        "field": "check_out",
+        "status": "different"
+      },
+      {
+        "field": "guest_name",
+        "status": "same"
+      },
+      {
+        "field": "guests",
+        "status": "same"
+      },
+      {
+        "field": "room_type",
+        "status": "same"
+      }
+    ],
+    "routing": {
+      "labels": [
+        "stt_wrong",
+        "parser_wrong",
+        "both_fine",
+        "unusable_audio"
+      ],
+      "selected": null
+    },
+    "second_opinion": {
+      "allowed": false,
+      "audit_event": null,
+      "reasons": [
+        "missing_approval_id",
+        "missing_second_reviewer_id",
+        "unknown_item_id"
+      ]
+    },
+    "slot_issues": [
+      {
+        "code": "check_out_after_check_in",
+        "field": "check_out"
+      }
+    ],
+    "usability_acceptance": "OPEN - RELEASE BLOCKER: an independent usability test must show time per item no worse than the adapter-based tool",
+    "usability_status": "NOT DONE"
+  }
+]</script>
+  <script type="application/json" id="go-no-go-state">{
+  "alias_threshold_change": "none",
+  "clicks_that_hurt": [],
+  "decision": "no_go_fail_closed",
+  "decision_scope": "ui_build_evaluation_only_not_a_release_or_promotion_decision",
+  "label": "SYNTHETIC/FIXTURE STAND-IN - NOT A HUMAN USABILITY RESULT",
+  "measured_comparison": {},
+  "p2_04_summary": {
+    "edit_distance_summary": {
+      "count": 72,
+      "max_distance": 22,
+      "mean_distance": 1.4722222222222223,
+      "median_distance": 0.0,
+      "min_distance": 0,
+      "total_distance": 106
+    },
+    "routing_label_distribution": {
+      "both_fine": 52,
+      "parser_wrong": 8,
+      "stt_wrong": 4,
+      "unusable_audio": 8
+    },
+    "time_summary": {
+      "count": 72,
+      "max_seconds": 72.0,
+      "mean_seconds": 72.0,
+      "median_seconds": 72.0,
+      "min_seconds": 72.0,
+      "total_seconds": 5184.0
+    }
+  },
+  "promotion": "not_evaluated",
+  "reasons": [
+    "no_clickstream_or_ui_timing_measured",
+    "no_real_reviewed_metrics",
+    "p2_04_synthetic_fixture_stand_in"
+  ],
+  "usability_acceptance": "OPEN - RELEASE BLOCKER: an independent usability test must show time per item no worse than the adapter-based tool",
+  "usability_status": "NOT DONE"
+}</script>
+  <script src="app.js"></script>
+</body>
+</html>

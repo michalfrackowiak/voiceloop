@@ -81,7 +81,7 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 
 - [x] P4-01 Canary with auto-rollback (fake-only; audited idempotent rollback)
 - [x] P4-02 Scheduled and drift-triggered retraining (fake-only; calendar tick never triggers)
-- [ ] P4-03 Custom review UI
+- [!] P4-03 Custom review UI — harness PASS; acceptance NOT DONE pending independent human time-per-item comparison
 - [!] P4-04 Teacher-model triage signal at scale — harness PASS; BLOCKED pending human-reviewed labels, real teacher and pre-declared operating point
 - [!] P4-05 Multi-project support — BLOCKED pending §14 contract bump and cross-service wiring
 - [!] P4-06 Operations docs — harness PASS; acceptance NOT DONE pending independent human follow-through

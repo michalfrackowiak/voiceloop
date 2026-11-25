@@ -1,0 +1,98 @@
+{
+  "allow_unknown_fields": false,
+  "cross_field_rules": [
+    "check_out_after_check_in"
+  ],
+  "fields": [
+    {
+      "description": "ISO 8601 check-in date (YYYY-MM-DD).",
+      "enum": [],
+      "format": "date",
+      "json_type": "string",
+      "max_length": null,
+      "maximum": null,
+      "min_length": null,
+      "minimum": null,
+      "path": "check_in",
+      "required": true
+    },
+    {
+      "description": "ISO 8601 check-out date (YYYY-MM-DD); must be after check_in.",
+      "enum": [],
+      "format": "date",
+      "json_type": "string",
+      "max_length": null,
+      "maximum": null,
+      "min_length": null,
+      "minimum": null,
+      "path": "check_out",
+      "required": true
+    },
+    {
+      "description": "",
+      "enum": [],
+      "format": "email",
+      "json_type": "string",
+      "max_length": null,
+      "maximum": null,
+      "min_length": null,
+      "minimum": null,
+      "path": "contact.email",
+      "required": false
+    },
+    {
+      "description": "",
+      "enum": [],
+      "format": null,
+      "json_type": "string",
+      "max_length": null,
+      "maximum": null,
+      "min_length": 1,
+      "minimum": null,
+      "path": "contact.phone",
+      "required": false
+    },
+    {
+      "description": "",
+      "enum": [],
+      "format": null,
+      "json_type": "string",
+      "max_length": null,
+      "maximum": null,
+      "min_length": 1,
+      "minimum": null,
+      "path": "guest_name",
+      "required": true
+    },
+    {
+      "description": "",
+      "enum": [],
+      "format": null,
+      "json_type": "integer",
+      "max_length": null,
+      "maximum": null,
+      "min_length": null,
+      "minimum": 1.0,
+      "path": "guests",
+      "required": true
+    },
+    {
+      "description": "Room type must be one of the room types known to the booking system.",
+      "enum": [
+        "standard",
+        "deluxe",
+        "suite"
+      ],
+      "format": null,
+      "json_type": "string",
+      "max_length": null,
+      "maximum": null,
+      "min_length": null,
+      "minimum": null,
+      "path": "room_type",
+      "required": true
+    }
+  ],
+  "schema_sha256": "27e9553ce1d70ba94230738a26fedd8bcf7703afe6e41d1cc8d87f55b9d382aa",
+  "schema_version": "1.0.0"
+}

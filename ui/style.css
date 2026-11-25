@@ -1,0 +1,46 @@
+/* Static styles for the P4-03 synthetic review UI. No external assets. */
+:root {
+  color-scheme: light;
+  font-family: system-ui, sans-serif;
+  line-height: 1.45;
+}
+
+body { margin: 1rem auto; max-width: 68rem; padding: 0 1rem; }
+.banner { border-left: 0.4rem solid #8a5a00; background: #fff7e6; padding: 0.5rem 1rem; }
+.stand-in { font-weight: 700; color: #7a3e00; }
+.small { font-size: 0.85rem; }
+h1, h2, h3 { margin-block: 0.6rem; }
+section, aside { border: 1px solid #d0d0d0; border-radius: 0.4rem; margin: 0.75rem 0; padding: 0.75rem 1rem; }
+#queue-section ul { display: flex; flex-wrap: wrap; gap: 0.5rem; list-style: none; padding: 0; }
+.item-button { cursor: pointer; padding: 0.4rem 0.6rem; }
+.item-button[aria-current="true"] { outline: 2px solid #1b5e20; }
+.badge { border-radius: 0.25rem; font-size: 0.75rem; padding: 0.1rem 0.35rem; }
+.badge-blind { background: #e8eaf6; }
+.blind-active .form-prefill { display: none; }
+
+#waveform { align-items: end; display: flex; gap: 2px; height: 7rem; }
+.wave-bar { background: #477a9c; flex: 1 1 0; min-width: 2px; }
+.wave-bar.low-confidence { background: #c62828; }
+#low-confidence-legend::before { background: #c62828; content: " "; display: inline-block; height: 0.7rem; margin-right: 0.3rem; width: 0.7rem; }
+#playback-controls { align-items: center; display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.5rem; }
+#position-readout, #loop-count { font-variant-numeric: tabular-nums; }
+
+.diff-token { border-radius: 0.15rem; margin-right: 0.15rem; padding: 0.05rem 0.2rem; }
+.diff-equal { background: #e8f5e9; }
+.diff-replace { background: #fff3e0; text-decoration: underline dotted; }
+.diff-delete { background: #ffebee; text-decoration: line-through; }
+.diff-insert { background: #e3f2fd; text-decoration: underline; }
+
+#slot-form { display: grid; gap: 0.6rem; max-width: 34rem; }
+.form-field { display: grid; gap: 0.15rem; }
+.form-field label { font-weight: 600; }
+.form-field input, .form-field select { padding: 0.3rem; }
+.form-field [data-invalid="true"] { border: 2px solid #c62828; }
+.form-error { color: #c62828; font-size: 0.8rem; min-height: 1rem; }
+#slot-issues { color: #c62828; }
+#final-record { display: grid; grid-template-columns: max-content 1fr; gap: 0.15rem 0.75rem; }
+#record-diff .same { color: #2e7d32; }
+#record-diff .different, #record-diff .missing { color: #c62828; }
+#routing-buttons { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+#routing-buttons button[aria-pressed="true"] { outline: 2px solid #1b5e20; }
+#go-no-go { background: #f5f5f5; overflow-x: auto; padding: 0.5rem; white-space: pre-wrap; }

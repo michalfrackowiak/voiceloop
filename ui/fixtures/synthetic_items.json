@@ -1,0 +1,85 @@
+[
+  {
+    "audio_ref": "audio-token-0001",
+    "blind": false,
+    "call_id": "call-token-0001",
+    "corrected_tokens": ["tok-a", "tok-x", "tok-c"],
+    "duration_ms": 320,
+    "final_record": {
+      "check_in": "2026-12-05",
+      "check_out": "2026-12-08",
+      "guest_name": "guest-token-0001",
+      "guests": 1,
+      "room_type": "standard"
+    },
+    "hypothesis_tokens": ["tok-a", "tok-b", "tok-c"],
+    "item_id": "item-token-0001",
+    "low_confidence_spans": [
+      {"confidence": 0.41, "end_ms": 279, "start_ms": 160, "token_id": "tok-b"}
+    ],
+    "prefill_slots": {
+      "check_in": "2026-12-05",
+      "check_out": "2026-12-07",
+      "guest_name": "guest-token-0001",
+      "guests": 1,
+      "room_type": "standard"
+    },
+    "reviewer_id": "reviewer-token-01",
+    "turn_index": 2
+  },
+  {
+    "audio_ref": "audio-token-0002",
+    "blind": true,
+    "call_id": "call-token-0002",
+    "corrected_tokens": ["tok-d", "tok-e"],
+    "duration_ms": 240,
+    "final_record": {
+      "check_in": "2027-01-08",
+      "check_out": "2027-01-10",
+      "guest_name": "guest-token-0002",
+      "guests": 2,
+      "room_type": "deluxe"
+    },
+    "hypothesis_tokens": ["tok-d", "tok-e"],
+    "item_id": "item-token-0002",
+    "low_confidence_spans": [],
+    "prefill_slots": {
+      "check_in": "2027-01-08",
+      "check_out": "2027-01-10",
+      "guest_name": "guest-token-0002",
+      "guests": 2,
+      "room_type": "deluxe"
+    },
+    "reviewer_id": "reviewer-token-01",
+    "turn_index": 1
+  },
+  {
+    "audio_ref": "audio-token-0003",
+    "blind": false,
+    "call_id": "call-token-0003",
+    "corrected_tokens": ["tok-f", "tok-g", "tok-h"],
+    "duration_ms": 400,
+    "final_record": {
+      "check_in": "2027-02-02",
+      "check_out": "2027-02-06",
+      "guest_name": "guest-token-0003",
+      "guests": 2,
+      "room_type": "suite"
+    },
+    "hypothesis_tokens": ["tok-f", "tok-g"],
+    "item_id": "item-token-0003",
+    "low_confidence_spans": [
+      {"confidence": 0.35, "end_ms": 120, "start_ms": 20, "token_id": "tok-f"},
+      {"confidence": 0.85, "end_ms": 300, "start_ms": 160, "token_id": "tok-g"}
+    ],
+    "prefill_slots": {
+      "check_in": "2027-02-02",
+      "check_out": "2027-02-01",
+      "guest_name": "guest-token-0003",
+      "guests": 2,
+      "room_type": "suite"
+    },
+    "reviewer_id": "reviewer-token-02",
+    "turn_index": 3
+  }
+]

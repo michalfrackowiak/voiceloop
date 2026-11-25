@@ -1,0 +1,40 @@
+{
+  "alias_threshold_change": "none",
+  "clicks_that_hurt": [],
+  "decision": "no_go_fail_closed",
+  "decision_scope": "ui_build_evaluation_only_not_a_release_or_promotion_decision",
+  "label": "SYNTHETIC/FIXTURE STAND-IN - NOT A HUMAN USABILITY RESULT",
+  "measured_comparison": {},
+  "p2_04_summary": {
+    "edit_distance_summary": {
+      "count": 72,
+      "max_distance": 22,
+      "mean_distance": 1.4722222222222223,
+      "median_distance": 0.0,
+      "min_distance": 0,
+      "total_distance": 106
+    },
+    "routing_label_distribution": {
+      "both_fine": 52,
+      "parser_wrong": 8,
+      "stt_wrong": 4,
+      "unusable_audio": 8
+    },
+    "time_summary": {
+      "count": 72,
+      "max_seconds": 72.0,
+      "mean_seconds": 72.0,
+      "median_seconds": 72.0,
+      "min_seconds": 72.0,
+      "total_seconds": 5184.0
+    }
+  },
+  "promotion": "not_evaluated",
+  "reasons": [
+    "no_clickstream_or_ui_timing_measured",
+    "no_real_reviewed_metrics",
+    "p2_04_synthetic_fixture_stand_in"
+  ],
+  "usability_acceptance": "OPEN - RELEASE BLOCKER: an independent usability test must show time per item no worse than the adapter-based tool",
+  "usability_status": "NOT DONE"
+}

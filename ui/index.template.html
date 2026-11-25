@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VoiceLoop review UI — synthetic stand-in</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="banner">
+    <h1>VoiceLoop custom review UI</h1>
+    <p id="synthetic-label" class="stand-in">{{SYNTHETIC_LABEL}}</p>
+    <p id="usability-status">STATUS: {{USABILITY_STATUS}}</p>
+    <p id="usability-acceptance">{{USABILITY_ACCEPTANCE}}</p>
+    <p class="small">No audio bytes, network access or human review data is present in this page.</p>
+  </header>
+
+  <main>
+    <section id="queue-section" aria-label="Synthetic fixture queue">
+      <h2>Fixture queue</h2>
+      <ul id="item-list" data-item-count="0"></ul>
+    </section>
+
+    <section id="player-section" aria-label="Synthetic waveform player">
+      <h2>Waveform timeline (synthetic, no audio playback)</h2>
+      <div id="waveform" role="img" aria-label="Synthetic amplitude bars derived from a pseudonymous item ID" data-bar-count="0"></div>
+      <div id="playback-controls">
+        <button type="button" id="play-toggle" data-state="paused">Play synthetic timeline</button>
+        <label for="speed-select">Speed</label>
+        <select id="speed-select" data-speed="1">
+          <option value="0.5">0.5x</option>
+          <option value="0.75">0.75x</option>
+          <option value="1" selected>1x</option>
+          <option value="1.25">1.25x</option>
+          <option value="1.5">1.5x</option>
+          <option value="2">2x</option>
+        </select>
+        <button type="button" id="loop-toggle" aria-pressed="false" data-loop="false">Loop: off</button>
+        <output id="position-readout" data-position-ms="0">0 ms / 0 ms</output>
+        <output id="loop-count" data-loop-count="0">loops: 0</output>
+      </div>
+      <p id="low-confidence-legend">Highlighted bars are low-confidence token spans from the fixture metadata, never decoded audio.</p>
+    </section>
+
+    <section id="transcript-section" aria-label="Token diff view">
+      <h2>Hypothesis → correction (pseudonymous token diff)</h2>
+      <div id="diff-view" data-diff-ops="0"></div>
+    </section>
+
+    <section id="stage1-section" aria-label="Stage 1 transcript correction">
+      <h2>Stage 1 — corrected transcript tokens</h2>
+      <label for="corrected-transcript">Space-separated token IDs</label>
+      <textarea id="corrected-transcript" rows="3" spellcheck="false"></textarea>
+    </section>
+
+    <section id="stage2-section" aria-label="Stage 2 slot form">
+      <h2>Stage 2 — schema-generated slot form</h2>
+      <form id="slot-form" data-schema-version="" novalidate></form>
+      <div id="slot-issues" role="status" data-issue-count="0"></div>
+    </section>
+
+    <aside id="booking-panel" aria-label="Booking record side panel">
+      <h2>Booking record side panel</h2>
+      <dl id="final-record"></dl>
+      <h3>Record comparison</h3>
+      <ul id="record-diff"></ul>
+    </aside>
+
+    <section id="routing-section" aria-label="Routing labels">
+      <fieldset>
+        <legend>Routing label (adaptation ladder)</legend>
+        <div id="routing-buttons"></div>
+      </fieldset>
+      <output id="routing-selected" data-routing=""></output>
+    </section>
+
+    <section id="second-opinion-section" aria-label="Second opinion flow">
+      <h2>Second opinion</h2>
+      <label for="second-reviewer-id">Second reviewer token</label>
+      <input id="second-reviewer-id" type="text" placeholder="reviewer-token-02" autocomplete="off">
+      <label for="approval-id">Approval token</label>
+      <input id="approval-id" type="text" placeholder="approval-token-01" autocomplete="off">
+      <button type="button" id="second-opinion-request" disabled>Request second opinion</button>
+      <p id="second-opinion-state" data-allowed="false">Blocked until a completed review, distinct reviewer ID and approval token are supplied.</p>
+    </section>
+
+    <section id="go-no-go-section" aria-label="Go/no-go decision from review metrics">
+      <h2>P4-03.1 go/no-go from P2-04 metrics</h2>
+      <pre id="go-no-go"></pre>
+    </section>
+  </main>
+
+  <script type="application/json" id="review-state">{{STATE_JSON}}</script>
+  <script type="application/json" id="go-no-go-state">{{GONOGO_JSON}}</script>
+  <script src="app.js"></script>
+</body>
+</html>
