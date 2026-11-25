@@ -1,6 +1,8 @@
-# Byte-pinned inputs: keep committed bytes verbatim in working trees and archives.
-# Platform EOL translation previously turned the LF booking schema into CRLF on
-# checkout, breaking its protected SHA-256 pin in fresh clones.
-schemas/** -text
-tests/fixtures/** -text
-services/datasets/golden/artifacts/** -text
+# Hash-pinned inputs need deterministic bytes in every checkout/archive.
+# The committed blobs are LF; the protected pins expect LF for schema JSON and
+# CRLF for the fixture/golden JSON data written by the Windows generator.
+schemas/** text eol=lf
+tests/fixtures/*.json text eol=crlf
+tests/fixtures/*.jsonl text eol=crlf
+services/datasets/golden/artifacts/*.json text eol=crlf
+services/datasets/golden/artifacts/audit.jsonl -text

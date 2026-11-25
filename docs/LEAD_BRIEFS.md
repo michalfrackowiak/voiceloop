@@ -266,9 +266,11 @@ xfailed`; full static gates green). The initial clean-checkout full suite failed
 because `core.autocrlf=true` converted `schemas/booking.schema.json` to CRLF in
 fresh worktrees/archives, breaking the protected LF SHA-256 pin used by P4-03.
 The committed blob already carried LF bytes; the lead added `.gitattributes`
-with `-text` rules for byte-pinned schemas, fixtures and golden artifacts so
-platform EOL translation cannot recur. The stale P3-12 handoff was also brought
-into roadmap-template form. CP-3 remains unchecked until an independent
+with explicit per-path EOL rules: LF for schema JSON, CRLF for the fixture and
+golden JSON data whose protected pins were generated on Windows, and verbatim
+bytes for `audit.jsonl`. A blanket `-text` rule was rejected after it broke the
+CRLF-pinned fixture in a clean checkout. The stale P3-12 handoff was also
+brought into roadmap-template form. CP-3 remains unchecked until an independent
 reviewer signs the corrected clean snapshot.
 
 ## Phase 3 wave plan (pre-drafted)
