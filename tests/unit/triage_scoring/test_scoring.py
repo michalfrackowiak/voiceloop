@@ -95,9 +95,7 @@ def test_each_failure_explanation_lists_its_fired_signals(
             assert signal.weight >= 0.0
             assert 0.0 < signal.severity <= 1.0
             assert signal.contribution == round(signal.weight * signal.severity, 6)
-        assert explanation.signal_names == tuple(
-            signal.name for signal in explanation.signals
-        )
+        assert explanation.signal_names == tuple(signal.name for signal in explanation.signals)
 
 
 def test_no_fixture_final_record_mismatch_is_faked(
@@ -145,9 +143,7 @@ def test_weights_are_configurable(turns_path: Path) -> None:
     adjusted = next(row for row in rows if row.label["case_id"] == "misheard_surname")
     assert adjusted.explanation.score < baseline
     low_conf = next(
-        signal
-        for signal in adjusted.explanation.signals
-        if signal.name == "low_word_confidence"
+        signal for signal in adjusted.explanation.signals if signal.name == "low_word_confidence"
     )
     assert low_conf.weight == 0.0
     strong_mismatch = TriageScoringSettings(weight_final_record_mismatch=2.0)

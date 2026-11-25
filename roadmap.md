@@ -135,13 +135,13 @@ Goal: the first complete loop on the cheap path (tiers 1–2), with manual promo
 
 ### Lane A: Triage (backend)
 
-- [ ] **P2-01 Failure scoring** — Role: `backend` — Deps: CP-1 — Paths: `services/triage/scoring/`
-  - [ ] P2-01.1 Signal extractors: word confidence, decoder stats, schema validity, parse probability
-  - [ ] P2-01.2 Repair-behaviour detector (guest correction, agent re-ask, transfer)
-  - [ ] P2-01.3 Parser-vs-booking-record mismatch signal (highest weight)
-  - [ ] P2-01.4 Optional offline teacher-model disagreement signal
-  - [ ] P2-01.5 Configurable weights; score explanation stored per turn
-  - **Done when:** on fixtures, known failures rank above clean turns; each score shows which signals fired.
+- [x] **P2-01 Failure scoring** — Role: `backend` — Deps: CP-1 — Paths: `services/triage/scoring/`
+  - [x] P2-01.1 Signal extractors: word confidence, decoder stats, schema validity, parse probability
+  - [x] P2-01.2 Repair-behaviour detector (guest correction, agent re-ask, transfer)
+  - [x] P2-01.3 Parser-vs-booking-record mismatch signal (highest weight)
+  - [x] P2-01.4 Optional offline teacher-model disagreement signal
+  - [x] P2-01.5 Configurable weights; score explanation stored per turn
+  - **Done when:** on fixtures, known failures rank above clean turns; each score shows which signals fired. **Lead note:** min known-failure score 0.136 > max clean 0.0; 36/36 explanations persisted (clean turns truthfully carry `signals: []`).
 
 - [ ] **P2-02 Sampling, clustering, queue** — Role: `backend` — Deps: P2-01 — Paths: `services/triage/queue/`
   - [ ] P2-02.1 3–5% random slice outside the failure filter, tagged as such

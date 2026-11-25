@@ -38,9 +38,7 @@ def test_final_record_mismatch_has_the_highest_weight_and_is_detected(
         next(
             load_event(row["event_path"])
             for row in load_labels()
-            if row["case_id"] is None
-            and row["turn_index"] == 5
-            and row["call_id"] == "call-0002"
+            if row["case_id"] is None and row["turn_index"] == 5 and row["call_id"] == "call-0002"
         )
     )
     assert detect_final_record_mismatch(event, settings) == []

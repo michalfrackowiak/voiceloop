@@ -28,7 +28,7 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 
 ## Phase 2 — Triage, review, parser loop, gate
 
-- [~] P2-01 Failure scoring
+- [x] P2-01 Failure scoring
 - [~] P2-02 Sampling, clustering, queue
 - [ ] P2-03 Review adapter
 - [ ] P2-04 Review UX measurement
@@ -76,4 +76,4 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - **Phase 1 wave 3:** P1-08 `docs/baseline.md` → CP-1 gate.
 - **Boundary rules:** P1-01 must not create `services/ingest/consent/` (owned by P1-09). P1-07 owns `services/evalgate/` root only; later gate/artifact/benchmarks tasks own their own subdirectories. P2-05 owns `services/datasets/` root and must only import, not edit, `golden/` and `filters/`.
 
-**Overall:** 17/40 tasks reviewed · 1/4 checkpoints passed.
+**Overall:** 18/40 tasks reviewed · 1/4 checkpoints passed.

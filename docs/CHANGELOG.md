@@ -48,6 +48,8 @@ changes require a schema version bump and an entry under the matching version.
 - `P1-09`: consent eligibility filter and strict transcript PII screening with
   card-number hard-drop across separators and long digit runs; retention config
   is an engineering placeholder pending counsel.
+- `P2-01`: deterministic failure scoring signals with strict final-record
+  mismatch weight, per-turn explanations and injectable teacher seam.
 
 ### Changed
 

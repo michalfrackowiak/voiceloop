@@ -45,6 +45,11 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - **P1-04 → P1-03:** the Pipecat observer uses a narrow `TurnSink` protocol with a lazy `sdk.log_turn` adapter. After both pass review, the lead must confirm the real SDK API matches the adapter and switch the default sink from in-memory to the SDK.
 - **P1-05 → P1-01:** the outcome connector emits `PATCH /v1/calls/{call_id}/outcome` payloads; verify the ingest endpoint accepts them after both land.
 
+## Failure scoring notes (from P2-01 review, lead follow-ups)
+
+- Clean turns (26/36) truthfully carry `signals: []`; do not fabricate signals to satisfy a literal reading of "each score shows which signals fired" — that would destroy the failure/clean separation required by §2 #6.
+- Env overrides can currently make a non-mismatch weight exceed `final_record_mismatch` (`services/triage/scoring/settings.py:30-37`); defaults satisfy the highest-weight rule. Add a validator if the invariant must hold under all configs.
+
 ## Promotion gate escalation (from P2-09 review, §14)
 
 - New engineering defaults: `min_e2e_margin=0.01`, `min_ci_level=0.95`, CI tolerance `0.0` (`services/evalgate/gate/settings.py:4-6`). These are NOT approved production thresholds; §14 requires human sign-off before any real promotion uses them.

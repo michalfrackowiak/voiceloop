@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
 from pathlib import Path
 from typing import Any
 
@@ -20,7 +20,7 @@ from services.triage.scoring.signals import (
 class DisagreeingTeacher:
     """Stub teacher that disagrees on every turn."""
 
-    def judge(self, event: dict[str, Any]) -> TeacherVerdict:
+    def judge(self, event: Mapping[str, Any]) -> TeacherVerdict:
         """Always report a disagreement."""
         return TeacherVerdict(disagrees=True, reason="teacher heard a different surname")
 
@@ -46,9 +46,7 @@ def test_no_slot_parse_is_exempt_from_schema_and_logprob_signals(
 ) -> None:
     """Greeting turns legitimately carry schema_valid=false with empty output."""
     label = next(
-        row
-        for row in load_labels()
-        if row["failure_type"] == "clean" and row["turn_index"] == 0
+        row for row in load_labels() if row["failure_type"] == "clean" and row["turn_index"] == 0
     )
     event = load_event(label["event_path"])
     assert event["parser"]["schema_valid"] is False

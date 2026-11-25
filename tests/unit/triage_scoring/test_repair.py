@@ -24,9 +24,7 @@ def _event(text: str, status: str | None = None) -> dict[str, Any]:
 
 def test_guest_correction_phrase_is_detected() -> None:
     """An explicit self-correction fires the guest_correction signal."""
-    observations = detect_repair(
-        _event("No, I said Smith."), TriageScoringSettings()
-    )
+    observations = detect_repair(_event("No, I said Smith."), TriageScoringSettings())
     assert [item.name for item in observations] == ["guest_correction"]
     assert "correction" in observations[0].reason
 
