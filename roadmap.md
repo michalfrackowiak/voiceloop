@@ -289,9 +289,9 @@ Goal: safely add STT improvement (tier 3) and staged release.
   - [x] P3-07.2 Candidate-vs-champion comparison on live traffic with outcome-based scoring — fixture-only, call_id join, `promotion_decision: not_evaluated`
   - **Done when:** shadow runs add no call latency (verified) and produce a comparison report. **Lead note:** fake-only reference implementation; no live traffic, GPU or promotion decision.
 
-- [ ] **P3-08 Promotion workflow update** — Role: `ml-eval` — Deps: P3-04, P3-07 — Paths: `services/evalgate/gate/`
-  - [ ] P3-08.1 Require shadow evidence before promotion for STT changes
-  - **Done when:** gate refuses STT promotion without shadow results.
+- [x] **P3-08 Promotion workflow update** — Role: `ml-eval` — Deps: P3-04, P3-07 — Paths: `services/evalgate/gate/`
+  - [x] P3-08.1 Require shadow evidence before promotion for STT changes — fresh, complete, synthetic-labelled P3-07 evidence; parser path unchanged
+  - **Done when:** gate refuses STT promotion without shadow results. **Lead note:** fail-closed fake-only rule with structured, hash-chained, PII-free refusals; no shadow-only promotion, threshold/alias change or §14 sign-off.
 
 ### Lane D: Review quality (data)
 

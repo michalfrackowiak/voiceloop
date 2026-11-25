@@ -76,6 +76,8 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - Shadow reports carry point deltas but no paired-bootstrap CIs. P3-08 must add CIs or consume benchmark CIs before any promotion judgment.
 - `_reject_banned_keys()` blocks exact key names only. If the public report builder is ever exposed to untrusted payloads, replace it with a nested allowlist plus value-level PII scan.
 - P3-12 must add a real `SystemClock` integration latency test; fake-clock evidence is not wall-clock proof.
+- P3-08 PASS (fake-only). Before wiring any real `ShadowEvidenceSource`, reject future-dated reports in `services/evalgate/gate/shadow.py:452-458` (small clock-skew tolerance) and add cross-field count bounds at `:502-513` (`calls_scored <= turns_observed`, `results_* <= turns_observed`, `successful_results <= results_candidate + results_champion`) with regression tests.
+- Concurrent-lane full-suite failures observed during P3-08 review (`golden_maintenance::test_duplicate_pair_bundle_is_rejected_before_any_version_write`, `review_ui::test_incomplete_click_measurement_fails_closed`) passed in isolation and are not P3-08 regressions.
 
 ## Benchmark and release-sync notes (from P3-05/P3-06 reviews, CP-3)
 

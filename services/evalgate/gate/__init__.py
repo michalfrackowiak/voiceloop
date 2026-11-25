@@ -1,4 +1,4 @@
-"""P2-09 gate and promotion logic: rules, conversion hook, alias flip and audit."""
+"""Gate and promotion logic: rules, conversion hook, alias flip, audit and shadow evidence."""
 
 from __future__ import annotations
 
@@ -19,8 +19,10 @@ from .audit import (
     PromotionRecord,
 )
 from .gate import (
+    CHANGE_KINDS,
     ArtifactConverter,
     ArtifactEvaluator,
+    ChangeKind,
     ConvertedArtifact,
     Gate,
     GateResult,
@@ -35,21 +37,52 @@ from .rules import (
     decide_gate,
 )
 from .settings import GateSettings
+from .shadow import (
+    REFUSAL_CODES,
+    SHADOW_ARTIFACT_TYPE,
+    SHADOW_PROMOTION_DECISION,
+    SHADOW_SCHEMA_VERSION,
+    TASK_ID,
+    CollectingRefusalLog,
+    CollectingShadowEvidenceSource,
+    GateRefusal,
+    PromotionRefusalLog,
+    RefusalAuditRecord,
+    RefusalCode,
+    RefusalSink,
+    ShadowEvidenceError,
+    ShadowEvidenceRequest,
+    ShadowEvidenceSettings,
+    ShadowEvidenceSource,
+    ShadowEvidenceSummary,
+    StaticShadowEvidenceSource,
+    verify_shadow_evidence,
+)
 
 __all__ = [
     "ACCEPTED_EVAL_SETS",
     "AUDIT_TASK_ID",
+    "CHANGE_KINDS",
     "CHALLENGER_ALIAS",
     "CHAMPION_ALIAS",
     "CRITICAL_SLICES",
+    "REFUSAL_CODES",
+    "SHADOW_ARTIFACT_TYPE",
+    "SHADOW_PROMOTION_DECISION",
+    "SHADOW_SCHEMA_VERSION",
+    "TASK_ID",
     "AliasStore",
     "ArtifactConverter",
     "ArtifactEvaluator",
     "AuditLog",
+    "ChangeKind",
+    "CollectingRefusalLog",
+    "CollectingShadowEvidenceSource",
     "ConvertedArtifact",
     "Gate",
     "GateDecision",
     "GateError",
+    "GateRefusal",
     "GateResult",
     "GateSettings",
     "InMemoryAliasStore",
@@ -57,9 +90,20 @@ __all__ = [
     "PromotionAction",
     "PromotionAuditLog",
     "PromotionRecord",
+    "PromotionRefusalLog",
+    "RefusalAuditRecord",
+    "RefusalCode",
+    "RefusalSink",
+    "ShadowEvidenceError",
+    "ShadowEvidenceRequest",
+    "ShadowEvidenceSettings",
+    "ShadowEvidenceSource",
+    "ShadowEvidenceSummary",
     "StaticReportEvaluator",
+    "StaticShadowEvidenceSource",
     "decide_gate",
     "promote",
     "rollback",
     "rollback_promotion",
+    "verify_shadow_evidence",
 ]

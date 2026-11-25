@@ -1,4 +1,4 @@
-"""Converted-artifact evaluation and promotion orchestration for P2-09.
+"""Converted-artifact evaluation and promotion orchestration.
 
 The gate never evaluates a training checkpoint: an injected
 :class:`ArtifactConverter` produces the deployable artifact, and an injected
@@ -6,23 +6,42 @@ The gate never evaluates a training checkpoint: an injected
 (``context.md`` section 2 invariant 3). A report whose ``artifact_uri`` differs
 is refused. P3-04 will supply the real converted-artifact runner; this module
 ships only fakes and protocol hooks.
+
+P3-08 adds a read-only shadow-evidence precondition for STT promotions. It is
+additive: the P2-09 paired e2e accuracy rule and critical-slice checks still
+apply, parser promotions keep their original behaviour, and a shadow refusal
+never flips an alias or changes a threshold.
 """
 
 from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
 from copy import deepcopy
-from dataclasses import dataclass
-from typing import Any, Protocol
+from dataclasses import dataclass, replace
+from typing import Any, Literal, Protocol
 
-from voiceloop_common import ValidationError, validate
+from voiceloop_common import Clock, ValidationError, validate
 
-from .aliases import AliasStore, promote, rollback_promotion
+from .aliases import CHAMPION_ALIAS, AliasStore, promote, rollback_promotion
 from .audit import AuditLog, PromotionRecord
 from .rules import GateDecision, GateError, decide_gate
 from .settings import GateSettings
+from .shadow import (
+    TASK_ID,
+    GateRefusal,
+    PromotionRefusalLog,
+    RefusalSink,
+    ShadowEvidenceError,
+    ShadowEvidenceRequest,
+    ShadowEvidenceSettings,
+    ShadowEvidenceSource,
+    ShadowEvidenceSummary,
+    verify_shadow_evidence,
+)
 
 EVAL_REPORT_SCHEMA = "eval_report"
+ChangeKind = Literal["parser", "stt"]
+CHANGE_KINDS: frozenset[str] = frozenset({"parser", "stt"})
 
 
 @dataclass(frozen=True)
@@ -61,6 +80,8 @@ class GateResult:
     decision: GateDecision
     converted_artifact_uri: str
     promotion: PromotionRecord | None = None
+    refusal: GateRefusal | None = None
+    shadow_evidence: ShadowEvidenceSummary | None = None
 
 
 class PrefixArtifactConverter:
@@ -111,13 +132,27 @@ class Gate:
         evaluator: ArtifactEvaluator,
         alias_store: AliasStore,
         audit_log: AuditLog,
+        shadow_source: ShadowEvidenceSource | None = None,
+        shadow_settings: ShadowEvidenceSettings | None = None,
+        refusal_log: RefusalSink | None = None,
+        clock: Clock | None = None,
     ) -> None:
-        """Inject settings, conversion/evaluation hooks, alias store and audit log."""
+        """Inject evaluation hooks, alias store, audits and shadow seams.
+
+        The shadow args are optional so the P2-09 parser path is unchanged. STT
+        runs must supply ``shadow_source``; evidence is read-only.
+        """
         self._settings = settings
         self._converter = converter
         self._evaluator = evaluator
         self._alias_store = alias_store
         self._audit_log = audit_log
+        self._shadow_source = shadow_source
+        self._shadow_settings = shadow_settings or ShadowEvidenceSettings()
+        self._refusal_log = refusal_log or PromotionRefusalLog(
+            self._shadow_settings.refusal_log_path
+        )
+        self._clock = clock
 
     def evaluate(
         self, source_artifact_uri: str, champion_report: Mapping[str, Any]
@@ -139,6 +174,7 @@ class Gate:
         challenger_version: str,
         actor_id: str,
         reason: str,
+        change_kind: ChangeKind = "parser",
     ) -> GateResult:
         """Evaluate the converted artifact and flip aliases only on a pass.
 
@@ -148,14 +184,49 @@ class Gate:
             challenger_version: MLflow version whose artifact was evaluated.
             actor_id: Human or service identity authorising a promotion.
             reason: Human-readable justification for the promotion.
+            change_kind: ``"stt"`` requires valid shadow evidence; ``"parser"``
+                keeps the P2-09 behaviour. Callers must label STT changes.
 
         Returns:
             A :class:`GateResult`; ``promotion`` is None when the gate fails.
 
+        Raises:
+            GateError: If ``change_kind`` is unknown or refusal auditing fails.
+
         """
-        converted, decision, _ = self._evaluate(source_artifact_uri, champion_report)
-        if not decision.passed:
-            return GateResult(decision=decision, converted_artifact_uri=converted.artifact_uri)
+        if change_kind not in CHANGE_KINDS:
+            raise GateError(f"unknown change kind: {change_kind!r}")
+
+        converted, decision, challenger_report = self._evaluate(
+            source_artifact_uri, champion_report
+        )
+        champion_artifact_uri = champion_report.get("artifact_uri")
+        if not isinstance(champion_artifact_uri, str) or not champion_artifact_uri.strip():
+            raise GateError("champion report has no artifact_uri")
+
+        summary: ShadowEvidenceSummary | None = None
+        refusal: GateRefusal | None = None
+        if change_kind == "stt":
+            request = ShadowEvidenceRequest(
+                candidate_version=challenger_version,
+                champion_version=str(self._alias_store.get(CHAMPION_ALIAS) or ""),
+                candidate_artifact_uri=converted.artifact_uri,
+                champion_artifact_uri=champion_artifact_uri,
+                evaluated_at=str(challenger_report.get("generated_at") or ""),
+            )
+            summary, refusal = self._check_shadow(request, actor_id=actor_id)
+
+        if not decision.passed or refusal is not None:
+            reasons = list(decision.reasons)
+            if refusal is not None:
+                reasons.extend(refusal.reasons)
+            return GateResult(
+                decision=replace(decision, passed=False, reasons=tuple(reasons)),
+                converted_artifact_uri=converted.artifact_uri,
+                refusal=refusal,
+                shadow_evidence=summary,
+            )
+
         promotion = promote(
             self._alias_store,
             challenger_version,
@@ -167,7 +238,47 @@ class Gate:
             decision=decision,
             converted_artifact_uri=converted.artifact_uri,
             promotion=promotion,
+            shadow_evidence=summary,
         )
+
+    def _check_shadow(
+        self, request: ShadowEvidenceRequest, *, actor_id: str
+    ) -> tuple[ShadowEvidenceSummary | None, GateRefusal | None]:
+        """Load and verify read-only shadow evidence, auditing any refusal."""
+        report: Mapping[str, Any] | None = None
+        try:
+            if self._shadow_source is None:
+                raise ShadowEvidenceError(
+                    "shadow_evidence_missing", "no shadow evidence source is configured for STT"
+                )
+            report = self._shadow_source.load(request)
+            summary = verify_shadow_evidence(
+                report,
+                request,
+                self._shadow_settings,
+                now=self._clock() if self._clock is not None else None,
+            )
+        except ShadowEvidenceError as exc:
+            refusal = GateRefusal(code=exc.code, reasons=exc.reasons, task_id=TASK_ID)
+        except Exception:
+            refusal = GateRefusal(
+                code="shadow_evidence_invalid",
+                reasons=("shadow evidence source failed; no promotion is allowed",),
+                task_id=TASK_ID,
+            )
+        else:
+            return summary, None
+
+        self._refusal_log.record_refusal(
+            actor_id=actor_id,
+            code=refusal.code,
+            reasons=refusal.reasons,
+            champion_version=request.champion_version,
+            challenger_version=request.candidate_version,
+            candidate_artifact_uri=request.candidate_artifact_uri,
+            task_id=refusal.task_id,
+        )
+        return None, refusal
 
     def rollback(
         self, promotion: PromotionRecord, *, actor_id: str, reason: str

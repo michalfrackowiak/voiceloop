@@ -85,6 +85,9 @@ changes require a schema version bump and an entry under the matching version.
 - `P4-04` (blocked work product only): read-only exploratory teacher-disagreement
   harness with per-depth counts and Wilson CIs; no precision-improvement claim
   and no roadmap completion.
+- `P3-08`: STT promotions require fresh, complete, synthetic-labelled shadow
+  evidence; missing/partial/stale/mismatched evidence fails closed with
+  structured, hash-chained, PII-free refusals. Parser and P2-09 rules unchanged.
 - `P2-13`: synthetic parser-path loop rehearsal with exact P2-12 lineage queries,
   pre-hash tombstone exclusions, failure injections and a strict tracked XFAIL.
 - `P3-01`: fake Whisper LoRA/conversion pipeline with call-disjoint replay,
