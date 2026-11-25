@@ -256,11 +256,11 @@ Goal: safely add STT improvement (tier 3) and staged release.
   - [x] P3-02.2 Per-word confidence output wired to the triage signal — schema-shaped words drive P2-01 scoring through public seams
   - **Done when:** fixture fine-tune runs; confidences flow into events. **Lead note:** fake-only reference implementation; CP-2 pending and real NeMo/GPU/checkpoint validation remains a documented seam.
 
-- [ ] **P3-03 Augmentation** — Role: `ml-train` — Deps: P3-01 — Paths: `services/datasets/augment/`
-  - [ ] P3-03.1 TTS-synthesised variants for repeated failure classes (e.g. new name lists)
-  - [ ] P3-03.2 Noise and telephony-band augmentation
-  - [ ] P3-03.3 Tag all synthetic data; keep it out of golden and regression sets
-  - **Done when:** synthetic examples are labelled as such in manifests and excluded from evaluation sets.
+- [x] **P3-03 Augmentation** — Role: `ml-train` — Deps: P3-01 — Paths: `services/datasets/augment/`
+  - [x] P3-03.1 TTS-synthesised variants for repeated failure classes — deterministic fake TTS variants tagged `synthetic: true`
+  - [x] P3-03.2 Noise and telephony-band augmentation — transform lineage and parameters recorded
+  - [x] P3-03.3 Tag all synthetic data; keep it out of golden and regression sets — explicit exclusion proof; leak attempts rejected
+  - **Done when:** synthetic examples are labelled as such in manifests and excluded from evaluation sets. **Lead note:** fake-only; the reviewer's seam-level PII screening gap must be fixed before any real TTS/audio backend is injected.
 
 ### Lane B: Artifact safety (ml-eval)
 

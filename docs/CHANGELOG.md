@@ -80,6 +80,8 @@ changes require a schema version bump and an entry under the matching version.
   flags, and immutable default-deny roles with fixed-code audit events.
 - `P3-02`: fake Parakeet/NeMo fine-tune with content-addressed artifacts and
   schema-shaped per-word confidences wired through the public P2-01 scoring seam.
+- `P3-03`: deterministic synthetic augmentation manifests with transform lineage,
+  explicit golden/regression exclusion, and leak-rejection guards.
 - `P4-04` (blocked work product only): read-only exploratory teacher-disagreement
   harness with per-depth counts and Wilson CIs; no precision-improvement claim
   and no roadmap completion.

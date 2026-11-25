@@ -83,6 +83,17 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - P3-06 consumes gate aliases read-only and never flips aliases or changes thresholds. Failed releases are not auto-retried; retries belong in the caller's scheduler with a bounded budget, not inside `tick()`. For real serving adapters, harden rollback by comparing post-rollback state against `SwapPlan.before` and downgrading `reverted` to `rollback_failed` on mismatch.
 - Gate-side write-ahead audit from P2-09 remains a lead follow-up; P3-06 only logs its own structured `release_sync.tick` events.
 
+## Augmentation notes (from P3-03 review)
+
+- Fake-only for this task. Real TTS/audio backends require §2 human approval and a full adversarial PII re-review.
+- **Blocking before real backend wiring:** `_iter_strings()` in
+  `services/datasets/augment/manifest.py` skips configured digest keys and all
+  non-string values, so an injected backend can smuggle PII through a digest
+  key or integer value. Screen the full canonical JSON (keys plus scalars),
+  exempt only 64-hex digest fields, and add injected-backend regression tests.
+- README should say “cued person names” rather than unqualified names; CLI
+  byte-identical reproducibility needs an injected clock/`created_at` seam.
+
 ## NeMo trainer notes (from P3-02 review)
 
 - Fake-only reference implementation is content-addressed and deterministic; real
