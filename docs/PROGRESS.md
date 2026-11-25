@@ -24,7 +24,25 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - [x] P1-07 Evaluation harness v0
 - [x] P1-08 Baseline measurement (provisional synthetic stand-in only)
 - [x] P1-09 Consent and PII basics
-- [ ] CP-1 SDK → ingest → storage; golden set sealed; baseline recorded
+- [x] CP-1 — PROVISIONAL, SYNTHETIC-FIXTURE SCOPE ONLY — NOT PRODUCTION READY.
+  Independent reviewer PASS: public SDK `log_turn` → HTTP ingest → in-memory
+  Postgres/S3 fakes verified with `tests/fixtures/events/call-0001/turn-001.json`
+  (GET /v1/turns/{id} 200 `persisted`; GET /v1/calls/{id} 200; duplicate idempotent
+  `X-VoiceLoop-Idempotent: hit`; invalid event 422 `{code,message,details}`).
+  Outcome connector PATCH merged `edited_by_staff` + final_record at call level;
+  ingest stores outcomes per call, connector fake merges all 6 fixture turns.
+  Golden stand-in sealed: independent SHA-256 662cdaf43ee2d5fde03faf5e69fde196114d4f312406d94c00bf53714d03da8e
+  matches manifest/seal/docs; read-only seal verify ok, 36 synthetic labels / 6 calls.
+  Baseline is SYNTHETIC STAND-IN / NOT A PRODUCTION BASELINE; PRIMARY metric is
+  e2e booking-field accuracy from audio; no promotion or champion claim.
+  Limitations: no Docker/real Postgres/S3/GPU/deployed STT-parser artifacts;
+  no human-reviewed golden set; P1-02 buffer not wired into ingest app and outage
+  coverage is fake-only; promotion thresholds pending §14 sign-off; retention is an
+  engineering placeholder and compliance OPEN. At CP-1 review time, repo-wide
+  pytest/ruff/format/mypy were red ONLY in untracked Phase 2/3 WIP
+  (P2-07/P2-10/P2-11/P3-05); Phase 1-scoped gates green (245 pytest passed,
+  ruff clean, mypy 109 files clean). No promotion on this baseline; real-artifact
+  re-run required before production readiness.
 
 ## Phase 2 — Triage, review, parser loop, gate
 
@@ -76,4 +94,4 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - **Phase 1 wave 3:** P1-08 `docs/baseline.md` → CP-1 gate.
 - **Boundary rules:** P1-01 must not create `services/ingest/consent/` (owned by P1-09). P1-07 owns `services/evalgate/` root only; later gate/artifact/benchmarks tasks own their own subdirectories. P2-05 owns `services/datasets/` root and must only import, not edit, `golden/` and `filters/`.
 
-**Overall:** 18/40 tasks reviewed · 1/4 checkpoints passed.
+**Overall:** 18/40 tasks reviewed · 2/4 checkpoints passed.

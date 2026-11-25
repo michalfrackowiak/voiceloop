@@ -74,6 +74,10 @@ quoted values are removed so transcript text or PII cannot leak into errors.
 - Late outcomes merge into one `outcomes` row per `call_id`: later `updated_at`
   wins for status, `final_record` objects merge key by key, and `unknown` never
   overwrites a known status. An outcome for an unknown call creates a call row.
+  Outcomes are stored **call-level**; `GET /v1/calls/{call_id}` returns a
+  top-level `outcome` object and leaves each `turns[].outcome` as originally
+  submitted. Consumers must join by `call_id` and must not expect per-turn
+  propagation from this endpoint.
 
 ## Audio upload path
 

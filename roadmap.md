@@ -125,7 +125,7 @@ Goal: measure reality before building anything else. Nothing after this is trust
   - [x] P1-09.3 Retention policy config for raw audio
   - **Done when:** non-consented and card-containing rows are provably excluded in tests. **Lead note:** card hard-drop verified across 42 adversarial cases; retention is an engineering placeholder, not a legal/compliance decision (`docs/compliance.md` remains OPEN pending counsel).
 
-**CP-1 (lead):** live or fixture traffic flows through SDK → ingest → storage; golden set sealed; baseline recorded.
+**CP-1 (lead):** live or fixture traffic flows through SDK → ingest → storage; golden set sealed; baseline recorded. **PASS (provisional synthetic-fixture scope only, NOT production ready)** — see `docs/PROGRESS.md` for the exact scope statement and remaining production-readiness follow-ups.
 
 ---
 

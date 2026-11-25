@@ -45,6 +45,12 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - **P1-04 → P1-03:** the Pipecat observer uses a narrow `TurnSink` protocol with a lazy `sdk.log_turn` adapter. After both pass review, the lead must confirm the real SDK API matches the adapter and switch the default sink from in-memory to the SDK.
 - **P1-05 → P1-01:** the outcome connector emits `PATCH /v1/calls/{call_id}/outcome` payloads; verify the ingest endpoint accepts them after both land.
 
+## Baseline and governance escalation (from CP-1 review, §14)
+
+- P1-08 baseline is a SYNTHETIC STAND-IN only. Re-run the harness on real converted/quantised STT + parser artifacts with production decoding settings before making any CP-1 production claim or replacing the champion reference.
+- P1-09 retention is an engineering placeholder, not a legal or compliance decision. `docs/compliance.md` stays `OPEN — counsel review required`; no numeric retention decision has been made.
+- Transcript screening remains `stt.text`-only. Reviewed/corrected transcripts and audio redaction are P3-10 scope; P2-05 must screen slots/context as well (review finding under rework).
+
 ## Failure scoring notes (from P2-01 review, lead follow-ups)
 
 - Clean turns (26/36) truthfully carry `signals: []`; do not fabricate signals to satisfy a literal reading of "each score shows which signals fired" — that would destroy the failure/clean separation required by §2 #6.
@@ -84,7 +90,7 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 
 ## CP-1 gate (lead)
 
-Verify SDK → ingest → storage with fixtures, golden set sealed, baseline recorded, all Phase 1 handoffs present, ruff/mypy/pytest green. Only then open Phase 2 lanes.
+**PASS (provisional, synthetic-fixture scope only; NOT production readiness).** Independent reviewer verified SDK `log_turn` → HTTP ingest → in-memory fakes, golden seal, baseline labelling and all nine Phase 1 handoffs. At review time repo-wide gates were red only in untracked Phase 2/3 WIP; Phase 1-scoped gates were green. Restore full-repo green before CP-2 and complete the production-readiness follow-ups listed in `docs/PROGRESS.md`. No promotion on the synthetic baseline.
 
 ## Phase 2 wave plan (pre-drafted)
 
