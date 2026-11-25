@@ -66,7 +66,7 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 
 ## Review adapter notes (from P2-03 review, CP-2)
 
-- Real Label Studio/Argilla compose service and Postgres `ReviewStore` are documentation-only seams. The lead must wire both before CP-2 or any production claim; the fake-tool passing result is not human review.
+- Real Label Studio/Argilla compose service and Postgres `ReviewStore` are documentation-only seams. The lead must wire both before any production claim / CP-3; the fake-tool passing result is not human review.
 - `Stage2Answer.warnings` are copied verbatim from the tool today. Sanitise/allowlist warning codes when a real adapter is added so tool-supplied text cannot carry PII into the result store.
 - OpenAPI 1.0.0 has `additionalProperties: false`; warnings and original item ID remain internal. Exposing them over HTTP requires a lead-owned contract bump plus a `docs/CHANGELOG.md` entry.
 
@@ -257,6 +257,19 @@ Non-blocking CP-2 follow-ups:
 - Reword `tests/integration/README.md:3` and `tests/integration/__init__.py:4` from “NOT CP-2 EVIDENCE” to “SCOPED synthetic CP-2 rehearsal evidence; NOT production-readiness evidence.”
 - Add an explicit result→reviewed-item routing/failure-type assertion, or narrow the invariant #11 claim to the cheapest-tier unit evidence.
 - Update `docs/LEAD_BRIEFS.md:69` from “before CP-2” to “before any production claim / CP-3.”
+
+## CP-3 gate (lead)
+
+**Initial gate FAIL, lead fix applied, re-review pending.** The STT rehearsal
+itself passed in both the working tree and a clean snapshot (`22 passed / 1
+xfailed`; full static gates green). The initial clean-checkout full suite failed
+because `core.autocrlf=true` converted `schemas/booking.schema.json` to CRLF in
+fresh worktrees/archives, breaking the protected LF SHA-256 pin used by P4-03.
+The committed blob already carried LF bytes; the lead added `.gitattributes`
+with `-text` rules for byte-pinned schemas, fixtures and golden artifacts so
+platform EOL translation cannot recur. The stale P3-12 handoff was also brought
+into roadmap-template form. CP-3 remains unchecked until an independent
+reviewer signs the corrected clean snapshot.
 
 ## Phase 3 wave plan (pre-drafted)
 

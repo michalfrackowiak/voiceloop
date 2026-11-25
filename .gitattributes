@@ -1,0 +1,6 @@
+# Byte-pinned inputs: keep committed bytes verbatim in working trees and archives.
+# Platform EOL translation previously turned the LF booking schema into CRLF on
+# checkout, breaking its protected SHA-256 pin in fresh clones.
+schemas/** -text
+tests/fixtures/** -text
+services/datasets/golden/artifacts/** -text
