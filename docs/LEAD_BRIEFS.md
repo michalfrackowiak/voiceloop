@@ -47,7 +47,7 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 
 ## Vocabulary and rules notes (from P2-08 re-review, CP-2)
 
-- P2-04 metrics were generated from synthetic fixture replay only. Real CTranslate2/ONNX hotword, initial-prompt and `condition_on_previous_text` behaviour, including empty/truncated outputs on converted models, must be validated in P3-04 against the deployed artifact.
+- P2-08 metrics were generated from synthetic fixture replay only. Real CTranslate2/ONNX hotword, initial-prompt and `condition_on_previous_text` behaviour, including empty/truncated outputs on converted models, must be validated in P3-04 against the deployed artifact.
 - Room aliases remain limited to phrases observed in fixtures. Any real review-data alias additions require audit; no automatic learning from the sealed golden set is implemented.
 - WER improvement from rules is fixture evidence only and never promotion justification (§2 invariant 4).
 
