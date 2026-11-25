@@ -57,7 +57,7 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - [x] P2-09 Gate and promotion logic (thresholds pending sign-off)
 - [x] P2-10 Pipelines and triggers
 - [x] P2-11 Dashboards
-- [ ] P2-12 Lineage and access control
+- [~] P2-12 Lineage and access control
 - [ ] P2-13 Loop rehearsal
 - [ ] CP-2 First full parser-path loop; all §2 invariants tested
 
@@ -72,7 +72,7 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - [ ] P3-07 Shadow mode
 - [ ] P3-08 Promotion workflow update
 - [ ] P3-09 Golden-set maintenance
-- [ ] P3-10 Audio redaction and pseudonymisation
+- [~] P3-10 Audio redaction and pseudonymisation
 - [x] P3-11 Compliance checklist
 - [ ] P3-12 STT loop rehearsal
 - [ ] CP-3 STT path gated end to end; rollback rehearsed
