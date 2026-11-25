@@ -75,7 +75,7 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - [x] P3-10 Audio redaction and pseudonymisation (fake seams; consent-gated CLI)
 - [x] P3-11 Compliance checklist
 - [x] P3-12 STT loop rehearsal (fake STT loop; fail-closed shadow/artifact injections; real-clock latency assertion)
-- [ ] CP-3 STT path gated end to end; rollback rehearsed
+- [x] CP-3 — PROVISIONAL, SYNTHETIC/FIXTURE SCOPE ONLY — NOT PRODUCTION READY. Independent reviewer PASS: current tree `22 passed / 1 xfailed` scoped and `1368 passed / 1 skipped / 1 xfailed` full; clean `ecf0f62` archive/worktree reproduced all protected hashes and green ruff/format/mypy. Initial EOL clean-checkout defect fixed by path-scoped `.gitattributes`; real runtime, traffic, registry, labels, human follow-through and §14 sign-off remain open.
 
 ## Phase 4 — Hardening and scale
 
@@ -94,4 +94,4 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - **Phase 1 wave 3:** P1-08 `docs/baseline.md` → CP-1 gate.
 - **Boundary rules:** P1-01 must not create `services/ingest/consent/` (owned by P1-09). P1-07 owns `services/evalgate/` root only; later gate/artifact/benchmarks tasks own their own subdirectories. P2-05 owns `services/datasets/` root and must only import, not edit, `golden/` and `filters/`.
 
-**Overall:** 41/45 tasks reviewed · 3/4 checkpoints passed. Denominator corrected to the audited 45 roadmap tasks.
+**Overall:** 41/45 tasks reviewed · 4/4 checkpoints passed. Denominator corrected to the audited 45 roadmap tasks.

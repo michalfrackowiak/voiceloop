@@ -320,7 +320,7 @@ Goal: safely add STT improvement (tier 3) and staged release.
   - [x] P3-12.2 Failure injection: hallucinating adapter, empty output after conversion, forgetting in another language — plus invalid/missing/stale/mismatched shadow evidence and checkpoint substitution
   - **Done when:** each injected failure is caught before promotion. **Lead note:** fake-only synthetic rehearsal; no live traffic, real registry, GPU or promotion decision.
 
-**CP-3 (lead):** STT path gated end to end with shadow evidence; rollback rehearsed.
+**CP-3 (lead): PASS — PROVISIONAL, SYNTHETIC/FIXTURE SCOPE ONLY — NOT PRODUCTION READY.** STT path gated end to end with shadow evidence; rollback rehearsed. Independent reviewer verified current tree (`22 passed / 1 xfailed`, full `1368 passed / 1 skipped / 1 xfailed`, green ruff/format/mypy) and a clean `ecf0f62` archive/worktree with all protected hashes and the same green gates. Initial clean-checkout failure from EOL translation was fixed by path-scoped `.gitattributes`; no schema content or threshold changed. Real runtime, traffic, registry, labels, human follow-through and §14 sign-off remain open.
 
 ---
 

@@ -114,6 +114,10 @@ changes require a schema version bump and an entry under the matching version.
 - `P4-05` (blocked work product only): synthetic project ID, registry and
   namespace-seam fakes; no contract bump, cross-service wiring or multi-project
   guarantee, and roadmap acceptance remains OPEN.
+- `CP-3` (checkpoint, PASS at provisional synthetic-fixture scope only): clean
+  `ecf0f62` archive/worktree reproduced all protected hashes and green scoped,
+  full and static gates; STT path gated end to end with synthetic shadow
+  evidence and rollback rehearsed. Not a production-readiness milestone.
 - `CP-2` (checkpoint, PASS at provisional synthetic-fixture scope only): clean
   committed snapshot verified with all §2 invariants mapped to exercised fake
   behaviour; not a production-readiness milestone.
@@ -122,6 +126,9 @@ changes require a schema version bump and an entry under the matching version.
 
 - `P0-01`: extended seeded `pyproject.toml` with `pre-commit` in the `dev`
   extra.
+- Lead fix (CP-3): path-scoped `.gitattributes` rules preserve the distinct LF
+  and CRLF bytes expected by protected hash pins in fresh checkouts and
+  archives; no schema content or pin changed.
 - Lead decision (CP-0): two schema helper APIs are intentional —
   `voiceloop_common.schemas` for runtime code (raises
   `voiceloop_common.errors.ValidationError`) and the `schemas` package for

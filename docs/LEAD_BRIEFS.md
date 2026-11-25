@@ -260,18 +260,27 @@ Non-blocking CP-2 follow-ups:
 
 ## CP-3 gate (lead)
 
-**Initial gate FAIL, lead fix applied, re-review pending.** The STT rehearsal
-itself passed in both the working tree and a clean snapshot (`22 passed / 1
-xfailed`; full static gates green). The initial clean-checkout full suite failed
-because `core.autocrlf=true` converted `schemas/booking.schema.json` to CRLF in
-fresh worktrees/archives, breaking the protected LF SHA-256 pin used by P4-03.
-The committed blob already carried LF bytes; the lead added `.gitattributes`
-with explicit per-path EOL rules: LF for schema JSON, CRLF for the fixture and
-golden JSON data whose protected pins were generated on Windows, and verbatim
-bytes for `audit.jsonl`. A blanket `-text` rule was rejected after it broke the
-CRLF-pinned fixture in a clean checkout. The stale P3-12 handoff was also
-brought into roadmap-template form. CP-3 remains unchecked until an independent
-reviewer signs the corrected clean snapshot.
+**PASS — PROVISIONAL, SYNTHETIC/FIXTURE SCOPE ONLY; NOT production readiness.**
+Independent re-review at `ecf0f62` verified the current tree (`22 passed / 1
+xfailed` scoped; `1368 passed / 1 skipped / 1 xfailed` full; green ruff/format/
+mypy) and both a fresh `git archive` extraction and detached worktree with the
+same full-suite and static-gate results. All protected hashes reproduce in both
+clean forms, including LF `booking.schema.json` (`27e9553c...`), CRLF fixture
+(`aca23a30...`), CRLF golden JSONs and verbatim `audit.jsonl`.
+
+The initial CP-3 gate FAILED only on clean-checkout EOL handling:
+`core.autocrlf=true` converted the LF booking schema to CRLF, breaking its pin.
+The first lead fix used a blanket `-text` rule, which broke the CRLF-pinned
+fixture; `ecf0f62` replaced it with path-scoped rules (LF schema JSON, CRLF
+fixture/golden JSON, verbatim `audit.jsonl`). No schema content, hash pin,
+threshold or golden artifact changed. The stale P3-12 handoff was also brought
+into roadmap-template form.
+
+Excluded from CP-3: P4-03 human usability, P4-04 reviewed labels/real teacher,
+P4-05 §14 contract bumps and cross-service wiring, and P4-06 human runbook
+follow-through. Open real seams remain CTranslate2/ONNX/GPU, live
+traffic/registry/MLflow, human-reviewed golden/multilingual labels, real shadow
+or canary traffic, and §14 threshold sign-off.
 
 ## Phase 3 wave plan (pre-drafted)
 
