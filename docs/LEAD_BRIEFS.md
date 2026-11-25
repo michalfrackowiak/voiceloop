@@ -83,6 +83,13 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - P3-06 consumes gate aliases read-only and never flips aliases or changes thresholds. Failed releases are not auto-retried; retries belong in the caller's scheduler with a bounded budget, not inside `tick()`. For real serving adapters, harden rollback by comparing post-rollback state against `SwapPlan.before` and downgrading `reverted` to `rollback_failed` on mismatch.
 - Gate-side write-ahead audit from P2-09 remains a lead follow-up; P3-06 only logs its own structured `release_sync.tick` events.
 
+## §14 escalation — P4-05 multi-project support (BLOCKED)
+
+- Lead mapping found no existing project/tenant field in any cross-service contract. `turn_event`, `dataset_manifest`, `trainer_contract`, `eval_report` and `review_adapter` all use `additionalProperties: false` and pin `1.0.0`; adding `project_id` requires at least a minor version bump and §14 approval before any worker edits schemas.
+- Full satisfaction also requires wiring project identity through ingest storage keys/Postgres primary keys, SDK envelopes, review IDs, dataset IDs, gate aliases/audit, lineage/auth audit events, release artifacts, pipelines and per-project booking/eval schemas. These cross active lanes; no safe full-implementation boundary exists yet.
+- The current lane is only an isolated `services/projects/` fake namespace/registry seam. It must be committed as a blocked work product and excluded from the completed count; roadmap done-when (“two projects run side by side with no data crossing”) remains OPEN.
+- `booking.schema.json` already supports a per-project external schema via `VOICELOOP_BOOKING_SCHEMA`, but its hard-coded error messages require a per-project validator seam for genuinely different schemas.
+
 ## Full-gate flake note (P3-09 review window)
 
 - One full-suite run failed only
