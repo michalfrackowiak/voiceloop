@@ -45,6 +45,11 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - **P1-04 → P1-03:** the Pipecat observer uses a narrow `TurnSink` protocol with a lazy `sdk.log_turn` adapter. After both pass review, the lead must confirm the real SDK API matches the adapter and switch the default sink from in-memory to the SDK.
 - **P1-05 → P1-01:** the outcome connector emits `PATCH /v1/calls/{call_id}/outcome` payloads; verify the ingest endpoint accepts them after both land.
 
+## Trainer core notes (from P2-06 review, lead follow-ups)
+
+- Default job lock is per-`TrainerRunner` instance, not per-interpreter (`services/trainers/core/lock.py:52-57`, `runner.py:52`). Two runners can train concurrently today. Fix to a shared module-level lock, correct the "per-interpreter" wording, and add a two-runner contention test. Must be closed at the P2-10 integration checkpoint before process-wide locking is claimed.
+- Missing `lineage` in a plugin result yields a bare `KeyError` (`runner.py:90`) instead of the documented `ValidationError`; schema makes lineage optional. Fix with `result.get("lineage")` and an explicit validation error plus test.
+
 ## Outcome connector notes (from P1-05 review, lead follow-ups)
 
 - Poller source outage is logged but not counted (`sdk/connectors/poller.py:43-47`); `SyncReport.failed` stays 0 for a total source outage. Fail-open holds, but observability is misleading. Fix by propagating a failure signal so `failed` increments.

@@ -180,9 +180,9 @@ Goal: the first complete loop on the cheap path (tiers 1–2), with manual promo
 
 ### Lane D: Parser training (ml-train)
 
-- [ ] **P2-06 Trainer plugin interface** — Role: `ml-train` — Deps: P0-04 — Paths: `services/trainers/core/`
-  - [ ] P2-06.1 Base class and registry implementing the contract
-  - [ ] P2-06.2 Pinned-image job runner, single-job lock, MLflow logging (dataset hash, git SHA, image digest)
+- [x] **P2-06 Trainer plugin interface** — Role: `ml-train` — Deps: P0-04 — Paths: `services/trainers/core/`
+  - [x] P2-06.1 Base class and registry implementing the contract
+  - [x] P2-06.2 Pinned-image job runner, single-job lock, MLflow logging (dataset hash, git SHA, image digest)
   - **Done when:** a dummy trainer runs through the runner and logs a run with all lineage fields.
 
 - [ ] **P2-07 Parser trainer** — Role: `ml-train` — Deps: P2-05, P2-06 — Paths: `services/trainers/parser/`

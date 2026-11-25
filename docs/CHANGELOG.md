@@ -36,6 +36,8 @@ changes require a schema version bump and an entry under the matching version.
   slice breakdown; explicitly NOT a production champion reference.
 - `P1-01`: ingest API with idempotent turn POST, audio upload, OTel endpoint,
   late-outcome PATCH and Postgres migrations; fail-open bounded queue.
+- `P2-06`: trainer plugin base/registry, pinned-image runner with single-job
+  lock and MLflow lineage logging (fakes by default).
 
 ### Changed
 
