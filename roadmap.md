@@ -271,18 +271,18 @@ Goal: safely add STT improvement (tier 3) and staged release.
   - [ ] P3-04.4 Multilingual forgetting test on other served languages
   - **Done when:** a fixture model with injected empty-output behaviour is caught; hallucination metric reported in every STT report.
 
-- [ ] **P3-05 Benchmark harness for base-model swaps** — Role: `ml-eval` — Deps: P1-07 — Paths: `services/evalgate/benchmarks/`
-  - [ ] P3-05.1 Pluggable candidate-model runner (Whisper variants, Parakeet, Qwen3-ASR, others)
-  - [ ] P3-05.2 Comparison report on our own golden set, not public leaderboards
-  - **Done when:** two candidate models compared in one command with CIs.
+- [x] **P3-05 Benchmark harness for base-model swaps** — Role: `ml-eval` — Deps: P1-07 — Paths: `services/evalgate/benchmarks/`
+  - [x] P3-05.1 Pluggable candidate-model runner (Whisper variants, Parakeet, Qwen3-ASR, others) — **fixture stand-in:** injectable `CandidateRunner`, real adapters documented only
+  - [x] P3-05.2 Comparison report on our own golden set, not public leaderboards
+  - **Done when:** two candidate models compared in one command with CIs. **Lead note:** CIs are candidate A−B deltas; primary metric is e2e booking accuracy from audio; no promotion/champion claim; sealed golden stand-in read-only.
 
 ### Lane C: Release (backend)
 
-- [ ] **P3-06 Alias sync agent** — Role: `backend` — Deps: P2-09 — Paths: `services/release/sync/`
-  - [ ] P3-06.1 Poll MLflow `@champion`; download artifact; atomic swap on the serving side
-  - [ ] P3-06.2 STT swap (CTranslate2/ONNX) and parser adapter load/unload via vLLM endpoints
-  - [ ] P3-06.3 Health check after swap; auto-revert on failure
-  - **Done when:** flipping the alias updates a local serving stack; a broken artifact auto-reverts.
+- [x] **P3-06 Alias sync agent** — Role: `backend` — Deps: P2-09 — Paths: `services/release/sync/`
+  - [x] P3-06.1 Poll MLflow `@champion`; download artifact; atomic swap on the serving side — **fake registry/store seams only**
+  - [x] P3-06.2 STT swap (CTranslate2/ONNX) and parser adapter load/unload via vLLM endpoints — shared transactional protocol, fake serving adapters
+  - [x] P3-06.3 Health check after swap; auto-revert on failure
+  - **Done when:** flipping the alias updates a local serving stack; a broken artifact auto-reverts. **Lead note:** read-only gate alias input, hash-before-serve, exact-version rollback; failed releases are operator-driven, not auto-retried.
 
 - [ ] **P3-07 Shadow mode** — Role: `backend` — Deps: P3-06 — Paths: `services/release/shadow/`
   - [ ] P3-07.1 Mirror live turn audio to the candidate; log results without affecting the call

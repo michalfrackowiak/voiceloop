@@ -45,6 +45,12 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - **P1-04 → P1-03:** the Pipecat observer uses a narrow `TurnSink` protocol with a lazy `sdk.log_turn` adapter. After both pass review, the lead must confirm the real SDK API matches the adapter and switch the default sink from in-memory to the SDK.
 - **P1-05 → P1-01:** the outcome connector emits `PATCH /v1/calls/{call_id}/outcome` payloads; verify the ingest endpoint accepts them after both land.
 
+## Benchmark and release-sync notes (from P3-05/P3-06 reviews, CP-3)
+
+- P3-05 reports are SYNTHETIC/FIXTURE STAND-IN only. Both candidates' embedded reports validate against `eval_report.schema.json`; comparison CIs are candidate A−B deltas, not absolute intervals, and no promotion/champion decision is made. Real Whisper/Parakeet/Qwen3-ASR adapters are seams only. The sealed golden stand-in and fixture hashes were verified unchanged.
+- P3-06 consumes gate aliases read-only and never flips aliases or changes thresholds. Failed releases are not auto-retried; retries belong in the caller's scheduler with a bounded budget, not inside `tick()`. For real serving adapters, harden rollback by comparing post-rollback state against `SwapPlan.before` and downgrading `reverted` to `rollback_failed` on mismatch.
+- Gate-side write-ahead audit from P2-09 remains a lead follow-up; P3-06 only logs its own structured `release_sync.tick` events.
+
 ## Dataset builder notes (from P2-05 re-review, CP-2)
 
 - P2-13 failure injection must include a malformed slot object with a card number as a mapping key; `_iter_json_strings` screens string values, and `additionalProperties: false` prevents conforming review results from expressing that case.

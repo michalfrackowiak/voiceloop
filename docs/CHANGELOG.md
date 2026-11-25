@@ -61,6 +61,10 @@ changes require a schema version bump and an entry under the matching version.
 - `P2-05`: split-by-call dataset builder with non-vacuous property tests,
   content-addressed manifest, three export shapes, and card PII hard-drop
   across transcripts, hypotheses, nested slots and dialogue context.
+- `P3-05`: fixture-only two-candidate benchmark harness with schema-valid
+  reports, candidate A−B delta CIs and read-only sealed-golden handling.
+- `P3-06`: read-only alias sync agent with hash-before-serve transactional
+  STT/parser swaps and exact-version health-check auto-revert.
 
 ### Changed
 

@@ -67,8 +67,8 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - [ ] P3-02 Parakeet/NeMo trainer
 - [ ] P3-03 Augmentation
 - [ ] P3-04 Conversion and artifact tests
-- [~] P3-05 Benchmark harness for base-model swaps
-- [~] P3-06 Alias sync agent
+- [x] P3-05 Benchmark harness for base-model swaps (synthetic candidates; delta CIs)
+- [x] P3-06 Alias sync agent (fake serving stack; exact-version auto-revert)
 - [ ] P3-07 Shadow mode
 - [ ] P3-08 Promotion workflow update
 - [ ] P3-09 Golden-set maintenance
@@ -94,4 +94,4 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - **Phase 1 wave 3:** P1-08 `docs/baseline.md` → CP-1 gate.
 - **Boundary rules:** P1-01 must not create `services/ingest/consent/` (owned by P1-09). P1-07 owns `services/evalgate/` root only; later gate/artifact/benchmarks tasks own their own subdirectories. P2-05 owns `services/datasets/` root and must only import, not edit, `golden/` and `filters/`.
 
-**Overall:** 23/40 tasks reviewed · 2/4 checkpoints passed.
+**Overall:** 25/40 tasks reviewed · 2/4 checkpoints passed.
