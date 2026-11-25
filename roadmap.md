@@ -235,7 +235,7 @@ Goal: the first complete loop on the cheap path (tiers 1–2), with manual promo
   - [x] P2-13.2 Failure injection: bad data, regressing model, storage outage — plus tombstone guard and strict tracked XFAIL
   - **Done when:** the test passes in CI; injected failures are caught by the intended stage. **Lead note:** synthetic fixtures/fakes only; no real human review, audio, serving artifacts or backends. CP-2 scope is provisional, not production readiness.
 
-**CP-2 (lead):** first full loop on the parser path works with manual promotion; all invariants in `context.md` §2 have at least one test.
+**CP-2 (lead): PASS — PROVISIONAL, SYNTHETIC-FIXTURE SCOPE ONLY — NOT PRODUCTION READY.** First full loop on the parser path works with manual promotion; all invariants in `context.md` §2 have at least one test. Independent reviewer verified a clean committed snapshot (`42cf8fb`) with 1132 passed / 1 skipped / 1 xfailed and green static gates. Real review tool/Postgres, human labels, converted artifacts, backends, ingest app wiring, process-wide trainer lock and the tracked card-mapping-key XFAIL remain open.
 
 ---
 
@@ -249,12 +249,12 @@ Goal: safely add STT improvement (tier 3) and staged release.
   - [x] P3-01.1 Transformers + PEFT LoRA with conservative alpha/r (default well below 2.0; documented evidence)
   - [x] P3-01.2 Replay data mixing; 8 kHz-aware preprocessing — call-disjoint and exclusion-aware
   - [x] P3-01.3 Merge adapter, then convert to CTranslate2 — deterministic fake merged/converted artifacts with logged hyperparameters and scaling
-  - **Done when:** fixture fine-tune produces a converted model that transcribes fixtures; hyperparameters and scaling logged. **Lead note:** fake-only; CP-2 pending and real Transformers/PEFT/CTranslate2/GPU validation remains a seam.
+  - **Done when:** fixture fine-tune produces a converted model that transcribes fixtures; hyperparameters and scaling logged. **Lead note:** fake-only; CP-2 passed at provisional synthetic scope and real Transformers/PEFT/CTranslate2/GPU validation remains a seam.
 
 - [x] **P3-02 Parakeet/NeMo trainer** — Role: `ml-train` — Deps: CP-2 — Paths: `services/trainers/nemo/`
   - [x] P3-02.1 Fine-tune from checkpoint using the NeMo manifest export — deterministic content-addressed fake checkpoint/artifact from read-only export
   - [x] P3-02.2 Per-word confidence output wired to the triage signal — schema-shaped words drive P2-01 scoring through public seams
-  - **Done when:** fixture fine-tune runs; confidences flow into events. **Lead note:** fake-only reference implementation; CP-2 pending and real NeMo/GPU/checkpoint validation remains a documented seam.
+  - **Done when:** fixture fine-tune runs; confidences flow into events. **Lead note:** fake-only reference implementation; CP-2 passed at provisional synthetic scope and real NeMo/GPU/checkpoint validation remains a documented seam.
 
 - [x] **P3-03 Augmentation** — Role: `ml-train` — Deps: P3-01 — Paths: `services/datasets/augment/`
   - [x] P3-03.1 TTS-synthesised variants for repeated failure classes — deterministic fake TTS variants tagged `synthetic: true`

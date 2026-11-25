@@ -233,6 +233,15 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - **Boundary rules:** P2-05 owns `services/datasets/` root only; it may import but not edit `golden/`, `filters/`, `lineage/`. P2-12 may add `auth/` subpackages inside services but must not edit a service's core files. P2-11 and P2-10 own disjoint `infra/` subdirectories. P2-09 owns `services/evalgate/gate/` only; P1-07 owns the evalgate root. P2-13 is the only task writing `tests/integration/`.
 - **CP-2 invariant coverage:** P2-13 must produce a matrix mapping each of the 11 invariants in `context.md` §2 to at least one test (e.g. fail-open SDK test, golden-set sealed test, converted-artifact gate test, e2e-accuracy promotion test, call-level split property test, consent/PII filter test, lineage test, alias-flip rollback test, cheapest-tier routing test). Gate refuses promotion on deliberately worse models; rollback restores the previous champion.
 
+## CP-2 gate (lead)
+
+**PASS (provisional, synthetic-fixture scope only; NOT production readiness).** Independent reviewer verified the committed snapshot at `42cf8fb`: clean `git archive` run `1132 passed / 1 skipped / 1 xfailed`, green ruff/format/mypy, and the full §2 invariant matrix in `tests/integration/README.md` / `docs/handoffs/P2-13.md`. The card-number-as-mapping-key XFAIL remains tracked and unresolved. Production-readiness seams still open: real review tool/Postgres, human-reviewed golden labels, converted/quantised artifacts, real backends, P1-02 ingest app wiring, process-wide trainer lock and §14 threshold sign-off.
+
+Non-blocking CP-2 follow-ups:
+- Reword `tests/integration/README.md:3` and `tests/integration/__init__.py:4` from “NOT CP-2 EVIDENCE” to “SCOPED synthetic CP-2 rehearsal evidence; NOT production-readiness evidence.”
+- Add an explicit result→reviewed-item routing/failure-type assertion, or narrow the invariant #11 claim to the cheapest-tier unit evidence.
+- Update `docs/LEAD_BRIEFS.md:69` from “before CP-2” to “before any production claim / CP-3.”
+
 ## Phase 3 wave plan (pre-drafted)
 
 - **Wave A (after CP-2):** P3-01 `services/trainers/whisper/` · P3-02 `services/trainers/nemo/` · P3-05 `services/evalgate/benchmarks/` · P3-06 `services/release/sync/` · P3-09 `services/datasets/golden/` (audited extension only; sealed-set rules still apply) · P3-10 `services/datasets/redaction/`.

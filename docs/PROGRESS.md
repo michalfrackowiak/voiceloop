@@ -59,7 +59,7 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - [x] P2-11 Dashboards
 - [x] P2-12 Lineage and access control (immutable roles; fail-closed audit)
 - [x] P2-13 Loop rehearsal (synthetic full loop; exact lineage/tombstone assertions; strict tracked XFAIL)
-- [ ] CP-2 First full parser-path loop; all §2 invariants tested — gate review pending
+- [x] CP-2 — PROVISIONAL, SYNTHETIC-FIXTURE SCOPE ONLY — NOT PRODUCTION READY. Independent reviewer PASS: clean committed snapshot at `42cf8fb` ran 1132 passed / 1 skipped / 1 xfailed with green ruff/format/mypy; all 11 §2 invariants mapped to exercised fake behaviour. Real review tool/Postgres, human labels, converted artifacts, real backends, ingest app wiring, process-wide trainer lock and the tracked card-mapping-key XFAIL remain open.
 
 ## Phase 3 — STT path, release safety
 
@@ -94,4 +94,4 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - **Phase 1 wave 3:** P1-08 `docs/baseline.md` → CP-1 gate.
 - **Boundary rules:** P1-01 must not create `services/ingest/consent/` (owned by P1-09). P1-07 owns `services/evalgate/` root only; later gate/artifact/benchmarks tasks own their own subdirectories. P2-05 owns `services/datasets/` root and must only import, not edit, `golden/` and `filters/`.
 
-**Overall:** 39/45 tasks reviewed · 2/4 checkpoints passed. Denominator corrected to the audited 45 roadmap tasks.
+**Overall:** 39/45 tasks reviewed · 3/4 checkpoints passed. Denominator corrected to the audited 45 roadmap tasks.
