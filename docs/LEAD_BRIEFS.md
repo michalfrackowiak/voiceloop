@@ -57,6 +57,13 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - `Stage2Answer.warnings` are copied verbatim from the tool today. Sanitise/allowlist warning codes when a real adapter is added so tool-supplied text cannot carry PII into the result store.
 - OpenAPI 1.0.0 has `additionalProperties: false`; warnings and original item ID remain internal. Exposing them over HTTP requires a lead-owned contract bump plus a `docs/CHANGELOG.md` entry.
 
+## Shadow mode notes (from P3-07 review, CP-3)
+
+- `AuditSink.record()` is synchronous on the call path; at integration wiring use a bounded async/drop-on-full writer and add a wall-clock latency assertion. The current proof uses an injected frozen clock only.
+- Shadow reports carry point deltas but no paired-bootstrap CIs. P3-08 must add CIs or consume benchmark CIs before any promotion judgment.
+- `_reject_banned_keys()` blocks exact key names only. If the public report builder is ever exposed to untrusted payloads, replace it with a nested allowlist plus value-level PII scan.
+- P3-12 must add a real `SystemClock` integration latency test; fake-clock evidence is not wall-clock proof.
+
 ## Benchmark and release-sync notes (from P3-05/P3-06 reviews, CP-3)
 
 - P3-05 reports are SYNTHETIC/FIXTURE STAND-IN only. Both candidates' embedded reports validate against `eval_report.schema.json`; comparison CIs are candidate A−B deltas, not absolute intervals, and no promotion/champion decision is made. Real Whisper/Parakeet/Qwen3-ASR adapters are seams only. The sealed golden stand-in and fixture hashes were verified unchanged.

@@ -69,6 +69,8 @@ changes require a schema version bump and an entry under the matching version.
   prefill skip, routing labels and idempotent fake-tool result storage.
 - `P2-08`: fixture-derived aliases/normalisation rules with schema-validated
   room canonicals, fail-closed date handling and an internal boosting config seam.
+- `P3-07`: fake-only shadow mode with bounded fail-open mirroring, deferred
+  candidate/champion runs and call_id-joined outcome comparison reports.
 
 ### Changed
 

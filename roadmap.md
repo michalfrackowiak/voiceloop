@@ -284,10 +284,10 @@ Goal: safely add STT improvement (tier 3) and staged release.
   - [x] P3-06.3 Health check after swap; auto-revert on failure
   - **Done when:** flipping the alias updates a local serving stack; a broken artifact auto-reverts. **Lead note:** read-only gate alias input, hash-before-serve, exact-version rollback; failed releases are operator-driven, not auto-retried.
 
-- [ ] **P3-07 Shadow mode** — Role: `backend` — Deps: P3-06 — Paths: `services/release/shadow/`
-  - [ ] P3-07.1 Mirror live turn audio to the candidate; log results without affecting the call
-  - [ ] P3-07.2 Candidate-vs-champion comparison on live traffic with outcome-based scoring
-  - **Done when:** shadow runs add no call latency (verified) and produce a comparison report.
+- [x] **P3-07 Shadow mode** — Role: `backend` — Deps: P3-06 — Paths: `services/release/shadow/`
+  - [x] P3-07.1 Mirror live turn audio to the candidate; log results without affecting the call — bounded fail-open mirror, deferred runner, fake-clock isolation proof
+  - [x] P3-07.2 Candidate-vs-champion comparison on live traffic with outcome-based scoring — fixture-only, call_id join, `promotion_decision: not_evaluated`
+  - **Done when:** shadow runs add no call latency (verified) and produce a comparison report. **Lead note:** fake-only reference implementation; no live traffic, GPU or promotion decision.
 
 - [ ] **P3-08 Promotion workflow update** — Role: `ml-eval` — Deps: P3-04, P3-07 — Paths: `services/evalgate/gate/`
   - [ ] P3-08.1 Require shadow evidence before promotion for STT changes
