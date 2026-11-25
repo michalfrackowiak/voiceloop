@@ -35,7 +35,7 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - [~] P2-05 Dataset builder
 - [x] P2-06 Trainer plugin interface
 - [~] P2-07 Parser trainer
-- [ ] P2-08 Vocabulary and rules tier
+- [~] P2-08 Vocabulary and rules tier
 - [x] P2-09 Gate and promotion logic (thresholds pending sign-off)
 - [~] P2-10 Pipelines and triggers
 - [~] P2-11 Dashboards
@@ -49,8 +49,8 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - [ ] P3-02 Parakeet/NeMo trainer
 - [ ] P3-03 Augmentation
 - [ ] P3-04 Conversion and artifact tests
-- [ ] P3-05 Benchmark harness for base-model swaps
-- [ ] P3-06 Alias sync agent
+- [~] P3-05 Benchmark harness for base-model swaps
+- [~] P3-06 Alias sync agent
 - [ ] P3-07 Shadow mode
 - [ ] P3-08 Promotion workflow update
 - [ ] P3-09 Golden-set maintenance
