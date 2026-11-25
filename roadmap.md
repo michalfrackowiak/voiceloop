@@ -152,14 +152,14 @@ Goal: the first complete loop on the cheap path (tiers 1–2), with manual promo
 
 ### Lane B: Review (backend; frontend later)
 
-- [ ] **P2-03 Review adapter (Label Studio or Argilla)** — Role: `backend` — Deps: P0-04, P2-02 — Paths: `services/review_adapter/`
-  - [ ] P2-03.1 Pick tool (see open questions); stand it up in compose
-  - [ ] P2-03.2 Push items with audio, hypothesis, low-confidence highlights
-  - [ ] P2-03.3 Two-stage task: transcript correction, then slot form generated from the booking JSON Schema
-  - [ ] P2-03.4 Pre-fill stage 2 by running the current parser on the corrected transcript (skipped for blind items)
-  - [ ] P2-03.5 Routing label capture: `stt_wrong` / `parser_wrong` / `both_fine` / `unusable_audio`
-  - [ ] P2-03.6 Pull back results; store with reviewer ID and timestamps
-  - **Done when:** a fixture item completes both stages and its result lands in Postgres; swapping the tool requires changes only inside the adapter.
+- [x] **P2-03 Review adapter (Label Studio or Argilla)** — Role: `backend` — Deps: P0-04, P2-02 — Paths: `services/review_adapter/`
+  - [x] P2-03.1 Pick tool (see open questions); stand it up in compose — **fake-tool stand-in**; real compose service is a documented lead follow-up
+  - [x] P2-03.2 Push items with audio, hypothesis, low-confidence highlights
+  - [x] P2-03.3 Two-stage task: transcript correction, then slot form generated from the booking JSON Schema
+  - [x] P2-03.4 Pre-fill stage 2 by running the current parser on the corrected transcript (skipped for blind items)
+  - [x] P2-03.5 Routing label capture: `stt_wrong` / `parser_wrong` / `both_fine` / `unusable_audio`
+  - [x] P2-03.6 Pull back results; store with reviewer ID and timestamps
+  - **Done when:** a fixture item completes both stages and its result lands in Postgres; swapping the tool requires changes only inside the adapter. **Lead note:** fake tool/in-memory store only; OpenAPI 1.0.0 consumed unchanged, warnings/item ID kept internal until a lead-owned contract bump.
 
 - [ ] **P2-04 Review UX measurement** — Role: `ml-eval` — Deps: P2-03 — Paths: `docs/review_metrics.md`, `services/review_adapter/metrics/`
   - [ ] P2-04.1 Per-item time, edit distance from hypothesis, label distribution

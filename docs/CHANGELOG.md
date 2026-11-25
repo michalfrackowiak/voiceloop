@@ -65,6 +65,8 @@ changes require a schema version bump and an entry under the matching version.
   reports, candidate A−B delta CIs and read-only sealed-golden handling.
 - `P3-06`: read-only alias sync agent with hash-before-serve transactional
   STT/parser swaps and exact-version health-check auto-revert.
+- `P2-03`: two-stage review adapter with schema-generated slot forms, blind
+  prefill skip, routing labels and idempotent fake-tool result storage.
 
 ### Changed
 

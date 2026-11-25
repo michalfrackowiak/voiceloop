@@ -45,6 +45,12 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - **P1-04 → P1-03:** the Pipecat observer uses a narrow `TurnSink` protocol with a lazy `sdk.log_turn` adapter. After both pass review, the lead must confirm the real SDK API matches the adapter and switch the default sink from in-memory to the SDK.
 - **P1-05 → P1-01:** the outcome connector emits `PATCH /v1/calls/{call_id}/outcome` payloads; verify the ingest endpoint accepts them after both land.
 
+## Review adapter notes (from P2-03 review, CP-2)
+
+- Real Label Studio/Argilla compose service and Postgres `ReviewStore` are documentation-only seams. The lead must wire both before CP-2 or any production claim; the fake-tool passing result is not human review.
+- `Stage2Answer.warnings` are copied verbatim from the tool today. Sanitise/allowlist warning codes when a real adapter is added so tool-supplied text cannot carry PII into the result store.
+- OpenAPI 1.0.0 has `additionalProperties: false`; warnings and original item ID remain internal. Exposing them over HTTP requires a lead-owned contract bump plus a `docs/CHANGELOG.md` entry.
+
 ## Benchmark and release-sync notes (from P3-05/P3-06 reviews, CP-3)
 
 - P3-05 reports are SYNTHETIC/FIXTURE STAND-IN only. Both candidates' embedded reports validate against `eval_report.schema.json`; comparison CIs are candidate A−B deltas, not absolute intervals, and no promotion/champion decision is made. Real Whisper/Parakeet/Qwen3-ASR adapters are seams only. The sealed golden stand-in and fixture hashes were verified unchanged.
