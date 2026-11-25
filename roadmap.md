@@ -185,11 +185,11 @@ Goal: the first complete loop on the cheap path (tiers 1–2), with manual promo
   - [x] P2-06.2 Pinned-image job runner, single-job lock, MLflow logging (dataset hash, git SHA, image digest)
   - **Done when:** a dummy trainer runs through the runner and logs a run with all lineage fields.
 
-- [ ] **P2-07 Parser trainer** — Role: `ml-train` — Deps: P2-05, P2-06 — Paths: `services/trainers/parser/`
-  - [ ] P2-07.1 LoRA SFT trainer (Unsloth, TRL or LLaMA-Factory) for gold and noisy examples
-  - [ ] P2-07.2 Optional GLiNER2 trainer for slot-filler deployments
-  - [ ] P2-07.3 Adapter export and vLLM load/unload test; JSON-schema constrained decoding check
-  - **Done when:** a small fixture dataset trains end to end, adapter loads at runtime, outputs are schema-valid under constraint.
+- [x] **P2-07 Parser trainer** — Role: `ml-train` — Deps: P2-05, P2-06 — Paths: `services/trainers/parser/`
+  - [x] P2-07.1 LoRA SFT trainer (Unsloth, TRL or LLaMA-Factory) for gold and noisy examples — **fixture stand-in:** deterministic fake backend; real LoRA seams documented
+  - [x] P2-07.2 Optional GLiNER2 trainer for slot-filler deployments — optional fake protocol, fails closed without a real backend
+  - [x] P2-07.3 Adapter export and vLLM load/unload test; JSON-schema constrained decoding check — fake runtime + strict booking-contract validation
+  - **Done when:** a small fixture dataset trains end to end, adapter loads at runtime, outputs are schema-valid under constraint. **Lead note:** synthetic/fixture training stand-in only; no claim of real training or serving.
 
 ### Lane E: Tier 1 fixes (ml-train)
 

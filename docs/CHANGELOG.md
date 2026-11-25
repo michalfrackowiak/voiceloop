@@ -56,6 +56,8 @@ changes require a schema version bump and an entry under the matching version.
   policy-gated cron ticks and fail-fast step reporting.
 - `P2-11`: read-only static dashboards from synthetic/local providers with
   explicit provenance and no fabricated version or promotion.
+- `P2-07`: deterministic parser LoRA training stand-in with content-addressed
+  adapter export, fake runtime load/unload and schema-valid constrained decoding.
 
 ### Changed
 
