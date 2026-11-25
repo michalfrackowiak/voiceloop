@@ -83,6 +83,14 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - P3-06 consumes gate aliases read-only and never flips aliases or changes thresholds. Failed releases are not auto-retried; retries belong in the caller's scheduler with a bounded budget, not inside `tick()`. For real serving adapters, harden rollback by comparing post-rollback state against `SwapPlan.before` and downgrading `reverted` to `rollback_failed` on mismatch.
 - Gate-side write-ahead audit from P2-09 remains a lead follow-up; P3-06 only logs its own structured `release_sync.tick` events.
 
+## Full-gate flake note (P3-09 review window)
+
+- One full-suite run failed only
+  `tests/unit/ingest/test_failopen.py::test_storage_outage_does_not_block_or_raise_into_callers`
+  with p95 `0.112s` against a `0.1s` bound. Neighbouring full runs were green;
+  treat as a load-sensitive P1-02 performance assertion, not a P3-09 defect.
+  Re-run under quiet CI before CP-3 and do not relax the bound without evidence.
+
 ## Augmentation notes (from P3-03 review)
 
 - Fake-only for this task. Real TTS/audio backends require §2 human approval and a full adversarial PII re-review.
