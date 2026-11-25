@@ -315,10 +315,10 @@ Goal: safely add STT improvement (tier 3) and staged release.
 
 ### Lane F: Integration (qa)
 
-- [ ] **P3-12 STT loop rehearsal** — Role: `qa` — Deps: P3-01, P3-04, P3-07 — Paths: `tests/integration/`
-  - [ ] P3-12.1 End-to-end test of STT fine-tune → conversion → gate → shadow → promotion → rollback
-  - [ ] P3-12.2 Failure injection: hallucinating adapter, empty output after conversion, forgetting in another language
-  - **Done when:** each injected failure is caught before promotion.
+- [x] **P3-12 STT loop rehearsal** — Role: `qa` — Deps: P3-01, P3-04, P3-07 — Paths: `tests/integration/`
+  - [x] P3-12.1 End-to-end test of STT fine-tune → conversion → gate → shadow → promotion → rollback — fake Whisper/conversion/probe/shadow/sync/rollback with real SystemClock latency assertion
+  - [x] P3-12.2 Failure injection: hallucinating adapter, empty output after conversion, forgetting in another language — plus invalid/missing/stale/mismatched shadow evidence and checkpoint substitution
+  - **Done when:** each injected failure is caught before promotion. **Lead note:** fake-only synthetic rehearsal; no live traffic, real registry, GPU or promotion decision.
 
 **CP-3 (lead):** STT path gated end to end with shadow evidence; rollback rehearsed.
 

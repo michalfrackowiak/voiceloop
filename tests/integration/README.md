@@ -1,8 +1,9 @@
-# P2-13 loop rehearsal — scoped integration tests
+# P2-13 / P3-12 loop rehearsal — scoped integration tests
 
 **SYNTHETIC / FIXTURE STAND-IN. NOT CP-2 EVIDENCE. NOT A PRODUCTION CLAIM.**
 
-This package rehearses the parser loop with committed modules wired together
+This package rehearses the parser loop and the P3-12 STT loop with committed
+modules wired together
 through their public APIs. Everything is fake-backed: in-memory SDK transport,
 P2-01 scoring, P2-02 queue, P2-03 scripted two-stage review, P2-05 dataset
 builder/exporters, P2-07 fake LoRA trainer, P1-07 evaluator, P2-09 gate and
@@ -45,6 +46,11 @@ autouse fixture. Pinned values:
 | Parser training | `services.trainers.core.TrainerRunner`, `TrainerRegistry`, `services.trainers.parser.ParserLoraTrainer`, `SftJsonlExampleLoader` | deterministic fake adapter and in-memory MLflow logger |
 | Evaluation | `services.evalgate.harness.evaluate`, `EvalgateSettings` | identity/oracle fake artifacts on a derived fixture |
 | Gate/promotion | `services.evalgate.gate.Gate`, `PrefixArtifactConverter`, `StaticReportEvaluator`, `InMemoryAliasStore`, `PromotionAuditLog` | converted-URI lineage check, alias flip and hash-chained audit |
+| STT training | `services.trainers.core.TrainerRunner`, `services.trainers.whisper.WhisperLoraTrainer`, `HfJsonExampleLoader` | P3-01 fake Whisper LoRA, non-golden fixture stand-ins, in-memory lineage log |
+| STT artifact safety | `services.evalgate.artifact.create_fake_artifact`, `ReadOnlyArtifactStore`, `evaluate_artifact`, `validate_stt_report`, `write_stt_report` | P3-04 exact converted-artifact probe/evaluation; checkpoint substitution cannot change the result; read-only safety evidence only |
+| STT shadow evidence | `services.release.shadow.ShadowMirror`, `ShadowRunner`, `ScriptedModelRunner`, `score_comparison`, `build_shadow_report` | P3-07 synthetic-labelled, bounded mirror/comparison evidence with a `SystemClock` latency test and explicit `promotion_decision: not_evaluated` |
+| STT shadow gate | `services.evalgate.gate.Gate(change_kind="stt")`, `ShadowEvidenceSettings`, `StaticShadowEvidenceSource`, `PromotionRefusalLog` | P3-08 consumer-only verifier; promotion requires fresh, complete, synthetic-labelled evidence keyed by `(challenger, champion)` and bound to both exact artifact URIs |
+| Serving sync/rollback | `services.release.sync.AliasSyncAgent`, `GateAliasChampionRegistry`, `FakeServingStack`, `StructuredLogger` | P3-06 fake STT/parser alias mirroring after promotion and one-step rollback |
 | Lineage / tombstones | `services.datasets.lineage.LineageGraph`, `P205ExampleIdResolver`, `FakeManifestSource`, `FakeTrainerLineageSource`, `InMemoryTombstoneSink`, `guard_manifest` | exact example index injected from committed build; in-memory fake manifest/trainer/tombstone stores; pseudonym-only guard error |
 | Fail-open | `services.ingest.failopen.BoundedBuffer`, `RecordingSink`, `FailOpenSettings` | bounded queue, down-sink injection and health counters |
 
@@ -72,6 +78,27 @@ by this package.
   manifest and proves that an unguarded manifest is rejected with a pseudonym.
 - `test_failure_injection.py::test_storage_outage_is_bounded_and_visible`
   proves that a down sink is shed/retried within a bound and reported in health.
+- `test_stt_loop.py::test_stt_loop_rehearsal_with_shadow_gated_promotion_and_rollback`
+  rehearses ingest/review/dataset -> fake Whisper LoRA -> exact-artifact P3-04
+  probe -> P1-07 paired reports -> synthetic P3-07 shadow evidence -> P3-08 STT
+  promotion -> P3-06 serving sync -> one-step rollback. The P3-04 pass is a
+  safety probe only; the promotion decision comes from the e2e report plus
+  valid shadow evidence.
+- `test_stt_loop.py::test_shadow_mirror_with_system_clock_is_bounded` provides a
+  real `SystemClock` integration latency check; no fake clock is presented as
+  wall-clock proof.
+- `test_stt_failure_injection.py` covers stale, non-synthetic, promotion-claiming,
+  mismatched, incomplete, invalid and missing shadow evidence; chained multi-
+  refusal logging; valid shadow evidence with a regressing report (no
+  promotion); empty/truncated/hallucinating/forgetting artifacts; checkpoint
+  URI substitution; and unchanged parser/P2-09 behaviour without a shadow source.
+
+All derived STT reports, shadow reports, audit/refusal logs and structured sync
+logs carry `SYNTHETIC/FIXTURE STAND-IN - NOT A PRODUCTION STT RELEASE`. Refusal
+codes are stable, hash-chained and PII-free; no audio bytes, names, emails,
+phones, card digits or raw transcripts are written to reports or logs.
+The autouse `read_only_source_hashes` fixture verifies the committed fixture and
+golden artifact hashes before and after every test.
 
 ## CP-2 invariant matrix
 
@@ -90,6 +117,19 @@ Each of the 11 invariants in `context.md` §2 has at least one test assertion.
 | 9 | Lineage everywhere | `test_fixture_loop...`: a `LineageGraph` uses `P205ExampleIdResolver` over `bundle.build.examples`, `FakeManifestSource([bundle.manifest])` and `FakeTrainerLineageSource([training.result])`; every `example_to_call(...).call_id` equals the committed example's call, and `models_for_call(...)` returns the single fake run joined by dataset hash (`content_hash` = trainer `lineage.dataset_hash`). Also chains event/queue/review IDs to dataset hash, logger run, converted URI and gate report. |
 | 10 | Rollback is one step | `test_fixture_loop...`: promotion and rollback are single alias flips with two hash-chained audit records; `test_regressing_model...`: refusal changes neither. |
 | 11 | Cheapest fix first | `test_fixture_loop...`: review routing labels are preserved into `ReviewedItem.routing`/`failure_type` for the adaptation ladder; no retraining decision is inferred from fixture labels alone. |
+
+## P3-12 STT invariant matrix
+
+| Requirement | Test(s) and assertion |
+|---|---|
+| P3-01 fake training/conversion | `test_stt_loop...`: public `whisper-lora` runner returns a distinct `converted://` URI and logs one run. |
+| P3-04 exact artifact safety | `test_stt_loop...` and `test_artifact_injections...`: converted artifact is stored, probed, evaluated and validated; checkpoint substitution is inert. |
+| Fresh synthetic P3-07 evidence | `test_stt_loop...` and `test_shadow_evidence_injections...`: report is synthetically labelled, bound to exact URIs, within budget, not evaluated for promotion, and keyed by `(challenger_version, champion_version)`. |
+| No promotion from shadow alone | `test_valid_shadow_alone_cannot_promote_a_regressing_report` and `test_parser_path_keeps_p2_09_behaviour_without_shadow_source`: STT still requires the e2e gate; parser path keeps P2-09 defaults. |
+| Fail closed before promotion | All `test_stt_failure_injection.py` refusals assert no alias flip, no audit write and a labelled chained `PromotionRefusalLog` record. |
+| Hallucination / empty / forgetting | `test_artifact_injections_fail_closed_before_promotion` asserts `silence_hallucination`, `empty_output`/`truncated_output` and `multilingual_forgetting` probe codes. |
+| One-step rollback | `test_stt_loop...`: promotion and rollback are single alias flips; the sync agent mirrors both to STT and parser serving. |
+| Real wall-clock evidence | `test_shadow_mirror_with_system_clock_is_bounded` uses `SystemClock`, not `FakeClock`, to bound mirror latency. |
 
 ## Explicit conflicts and scope tensions with `context.md`
 
@@ -119,6 +159,12 @@ Each of the 11 invariants in `context.md` §2 has at least one test assertion.
    but no per-example IDs. The rehearsal injects `P205ExampleIdResolver` over
    committed `example.example_id` values; no production example index or real
    lineage store is exercised.
+8. **STT evidence is stand-in evidence.** P3-12 deliberately consumes P3-01
+   fake Whisper output, P3-04 fake artifacts and P3-07 scripted shadow models.
+   It proves the promotion/rollback wiring and fail-closed contracts, not STT
+   quality, fake audio decoding, real multilingual capability or CP-2 release
+   readiness. The shadow/refusal gate and rollback are the only promotion path
+   exercised; no owner-lane implementation was edited.
 
 The `other_languages` slice evidence needed by the gate uses a temporary
 derived fixture with `expected_transcript` suffixed by ` (SYNTHETIC-\u00d8)`.

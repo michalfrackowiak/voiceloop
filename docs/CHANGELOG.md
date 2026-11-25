@@ -85,6 +85,10 @@ changes require a schema version bump and an entry under the matching version.
 - `P4-04` (blocked work product only): read-only exploratory teacher-disagreement
   harness with per-depth counts and Wilson CIs; no precision-improvement claim
   and no roadmap completion.
+- `P3-12`: fake STT loop rehearsal through Whisper conversion, artifact probe,
+  evaluation, synthetic shadow evidence, gated promotion, serving sync and
+  rollback; artifact/shadow failures refuse before promotion with hash-chained,
+  PII-free audit.
 - `P3-09`: audited golden-set extension harness with per-candidate second-review
   coverage, trusted reviewer pins, allowlisted actors and an explicit human-review
   drift gate; sealed golden artifacts remain read-only.

@@ -86,6 +86,11 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - P3-06 consumes gate aliases read-only and never flips aliases or changes thresholds. Failed releases are not auto-retried; retries belong in the caller's scheduler with a bounded budget, not inside `tick()`. For real serving adapters, harden rollback by comparing post-rollback state against `SwapPlan.before` and downgrading `reverted` to `rollback_failed` on mismatch.
 - Gate-side write-ahead audit from P2-09 remains a lead follow-up; P3-06 only logs its own structured `release_sync.tick` events.
 
+## STT rehearsal notes (from P3-12 review)
+
+- Rehearsal PASS (fake-only): exact-artifact probe, evaluation, fresh synthetic shadow evidence, STT promotion, serving sync and rollback are exercised; all injected failures refuse before promotion. No live traffic, registry, GPU or promotion claim.
+- Non-blocking doc fixes: `docs/handoffs/P3-12.md` needs explicit roadmap-template headings and must not say P3-04 is in flight (it landed). Before real wiring, feed the P3-04 probe/gate decision into the promotion input or bind the probed artifact SHA to the exact converted URI.
+
 ## Golden maintenance notes (from P3-09 re-review)
 
 - Re-review PASS: per-candidate second-review coverage, trusted reviewer pins, allowlisted non-reviewer actors and the `required_before_any_golden_or_threshold_change` drift gate are enforced and probed independently. Sealed golden files and fixture hashes are unchanged.
