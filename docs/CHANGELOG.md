@@ -71,6 +71,11 @@ changes require a schema version bump and an entry under the matching version.
   room canonicals, fail-closed date handling and an internal boosting config seam.
 - `P3-07`: fake-only shadow mode with bounded fail-open mirroring, deferred
   candidate/champion runs and call_id-joined outcome comparison reports.
+- `P2-04`: fixture-only review UX metrics with injected-clock timing, edit
+  distances, label distribution, paired anchoring comparison and scripted
+  inter-reviewer agreement; P4-03 go/no-go input only.
+- `P3-10`: fake audio/text redaction with merged padded spans, consent-gated
+  CLI, stable pseudonyms, cued-name expansion and raw-only retention rehearsal.
 
 ### Changed
 

@@ -161,11 +161,11 @@ Goal: the first complete loop on the cheap path (tiers 1–2), with manual promo
   - [x] P2-03.6 Pull back results; store with reviewer ID and timestamps
   - **Done when:** a fixture item completes both stages and its result lands in Postgres; swapping the tool requires changes only inside the adapter. **Lead note:** fake tool/in-memory store only; OpenAPI 1.0.0 consumed unchanged, warnings/item ID kept internal until a lead-owned contract bump.
 
-- [ ] **P2-04 Review UX measurement** — Role: `ml-eval` — Deps: P2-03 — Paths: `docs/review_metrics.md`, `services/review_adapter/metrics/`
-  - [ ] P2-04.1 Per-item time, edit distance from hypothesis, label distribution
-  - [ ] P2-04.2 Prefill-anchoring comparison (blind vs prefilled agreement)
-  - [ ] P2-04.3 Inter-reviewer agreement on golden-set candidates
-  - **Done when:** metrics report generated from fixture reviews; used later to decide whether a custom UI is worth building.
+- [x] **P2-04 Review UX measurement** — Role: `ml-eval` — Deps: P2-03 — Paths: `docs/review_metrics.md`, `services/review_adapter/metrics/`
+  - [x] P2-04.1 Per-item time, edit distance from hypothesis, label distribution
+  - [x] P2-04.2 Prefill-anchoring comparison (blind vs prefilled agreement)
+  - [x] P2-04.3 Inter-reviewer agreement on golden-set candidates — scripted synthetic reviewers only
+  - **Done when:** metrics report generated from fixture reviews; used later to decide whether a custom UI is worth building. **Lead note:** synthetic fixture stand-in, not human-review evidence; P4-03 go/no-go input only.
 
 ### Lane C: Dataset builder (data)
 
@@ -302,11 +302,11 @@ Goal: safely add STT improvement (tier 3) and staged release.
 
 ### Lane E: Governance (governance)
 
-- [ ] **P3-10 Audio redaction and pseudonymisation** — Role: `governance` — Deps: P1-09 — Paths: `services/datasets/redaction/`
-  - [ ] P3-10.1 Timestamp-based audio redaction for detected PII spans
-  - [ ] P3-10.2 Pseudonymisation of names in transcripts used for training
-  - [ ] P3-10.3 Retention job deleting expired raw audio
-  - **Done when:** redacted fixtures contain no PII spans in audio or text; retention job tested.
+- [x] **P3-10 Audio redaction and pseudonymisation** — Role: `governance` — Deps: P1-09 — Paths: `services/datasets/redaction/`
+  - [x] P3-10.1 Timestamp-based audio redaction for detected PII spans — merged/padded spans; invalid spans fail closed
+  - [x] P3-10.2 Pseudonymisation of names in transcripts used for training — stable salted tokens; cued-title expansion; cards hard-dropped
+  - [x] P3-10.3 Retention job deleting expired raw audio — raw-only, inclusive boundary, idempotent; fake store
+  - **Done when:** redacted fixtures contain no PII spans in audio or text; retention job tested. **Lead note:** fake-only seams; consent enforced at CLI seam (library callers must apply P1-09 first); padding/retention are engineering placeholders; `docs/compliance.md` remains OPEN pending counsel.
 
 - [x] **P3-11 Compliance checklist** — Role: `governance` — Deps: — Paths: `docs/compliance.md`
   - [x] P3-11.1 List AI Act Article 50 transparency and GDPR lawful-basis questions for counsel

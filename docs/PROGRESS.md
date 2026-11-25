@@ -49,7 +49,7 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - [x] P2-01 Failure scoring
 - [x] P2-02 Sampling, clustering, queue
 - [x] P2-03 Review adapter (fake tool/store; two-stage flow)
-- [~] P2-04 Review UX measurement
+- [x] P2-04 Review UX measurement (synthetic fixture stand-in; P4-03 input only)
 - [x] P2-05 Dataset builder (synthetic fixtures; card PII screened in slots/context)
 - [x] P2-06 Trainer plugin interface
 - [x] P2-07 Parser trainer (synthetic training stand-in)
@@ -72,7 +72,7 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - [x] P3-07 Shadow mode (fake-only; bounded fail-open mirror)
 - [ ] P3-08 Promotion workflow update
 - [ ] P3-09 Golden-set maintenance
-- [~] P3-10 Audio redaction and pseudonymisation
+- [x] P3-10 Audio redaction and pseudonymisation (fake seams; consent-gated CLI)
 - [x] P3-11 Compliance checklist
 - [ ] P3-12 STT loop rehearsal
 - [ ] CP-3 STT path gated end to end; rollback rehearsed
@@ -94,4 +94,4 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - **Phase 1 wave 3:** P1-08 `docs/baseline.md` → CP-1 gate.
 - **Boundary rules:** P1-01 must not create `services/ingest/consent/` (owned by P1-09). P1-07 owns `services/evalgate/` root only; later gate/artifact/benchmarks tasks own their own subdirectories. P2-05 owns `services/datasets/` root and must only import, not edit, `golden/` and `filters/`.
 
-**Overall:** 28/40 tasks reviewed · 2/4 checkpoints passed.
+**Overall:** 30/40 tasks reviewed · 2/4 checkpoints passed.

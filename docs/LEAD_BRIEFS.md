@@ -51,6 +51,19 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - Room aliases remain limited to phrases observed in fixtures. Any real review-data alias additions require audit; no automatic learning from the sealed golden set is implemented.
 - WER improvement from rules is fixture evidence only and never promotion justification (§2 invariant 4).
 
+## Review metrics notes (from P2-04 review, CP-2)
+
+- P2-04 reports are SYNTHETIC/FIXTURE STAND-IN only: scripted reviewers, injected clocks and sealed synthetic golden candidates. No human UX evidence, custom-UI decision, promotion claim or production-readiness claim.
+- Provenance booleans in `services/review_adapter/metrics/report.py` are hardcoded for the default sealed-source CLI path. If injected sources are exposed to untrusted callers, derive those flags from source protocols or omit them to avoid overclaiming.
+- `ID_PATTERN` permits all-digit IDs. If injected review sources are ever untrusted, reject 13–19 digit runs in `event_id`/`call_id`/`reviewer_id` before serialization.
+
+## Audio redaction notes (from P3-10 re-review, CP-3)
+
+- Consent filtering is enforced in the P3-10 CLI before redaction. Library consumers that call text/audio APIs directly must apply P1-09 consent filtering themselves; that is a lead integration seam.
+- Padding (50 ms), retention (30 days) and salt remain engineering placeholders; `docs/compliance.md` stays OPEN — counsel review required.
+- P1-09 still misses names with no cue and spelled-out phone numbers. The narrower cued-title case is now covered by shared expansion/fail-closed handling; reviewed `known_names` remain necessary for the residual gap.
+- No real audio decoding, object store or deletion is involved; production readiness requires a real-artifact rehearsal.
+
 ## Review adapter notes (from P2-03 review, CP-2)
 
 - Real Label Studio/Argilla compose service and Postgres `ReviewStore` are documentation-only seams. The lead must wire both before CP-2 or any production claim; the fake-tool passing result is not human review.
