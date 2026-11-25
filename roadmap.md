@@ -215,10 +215,10 @@ Goal: the first complete loop on the cheap path (tiers 1–2), with manual promo
   - [x] P2-10.2 Trigger policy: enough new verified data, drift alarm, or manual (not calendar alone)
   - **Done when:** manual trigger runs the full chain on fixtures. **Lead note:** CLI overrides re-validated (0/-5 threshold exits 2); `--dry-run` never records `manual_override`; cron has policy-gated execution tick plus audit-only `--check`.
 
-- [ ] **P2-11 Dashboards** — Role: `infra` — Deps: P1-01, P2-02 — Paths: `infra/dashboards/`
-  - [ ] P2-11.1 Failure rate, queue depth, review throughput
-  - [ ] P2-11.2 Model version in service and last promotion
-  - **Done when:** dashboards render from fixture or local data.
+- [x] **P2-11 Dashboards** — Role: `infra` — Deps: P1-01, P2-02 — Paths: `infra/dashboards/`
+  - [x] P2-11.1 Failure rate, queue depth, review throughput
+  - [x] P2-11.2 Model version in service and last promotion
+  - **Done when:** dashboards render from fixture or local data. **Lead note:** read-only static HTML from synthetic/local providers; unknown version/promotion shown as unknown, never fabricated.
 
 ### Lane H: Governance (governance)
 

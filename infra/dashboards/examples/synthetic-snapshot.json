@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "synthetic": true,
+  "notice": "SYNTHETIC EXAMPLE - LOCAL DEMONSTRATION DATA, NOT LIVE METRICS",
+  "generated_at": "2026-11-25T00:00:00Z",
+  "source": "infra/dashboards/examples/synthetic-snapshot.json",
+  "queue": {
+    "depth": 3,
+    "observed_at": "2026-11-25T00:00:00Z",
+    "note": "Synthetic example queue depth; no triage queue service was queried."
+  },
+  "review": {
+    "completed": 5,
+    "window_start": "2026-11-24T00:00:00Z",
+    "window_end": "2026-11-25T00:00:00Z",
+    "observed_at": "2026-11-25T00:00:00Z",
+    "note": "Synthetic example review count; no review adapter was queried."
+  },
+  "model": {
+    "version_in_service": null,
+    "promotion": null,
+    "observed_at": "2026-11-25T00:00:00Z",
+    "note": "No real version or promotion is recorded in this synthetic example; values stay unknown."
+  }
+}

@@ -1,0 +1,70 @@
+"""P2-11: deterministic, static dashboards rendered from local or injected data.
+
+This package never calls a network service and never promotes a model. All
+metrics carry source, observation time and synthetic/stale labels.
+"""
+
+from .data import (
+    FAILURE_LABELS,
+    UNKNOWN_PROMOTION,
+    UNKNOWN_VERSION,
+    DashboardData,
+    DashboardSection,
+    FailureProvider,
+    FailureSnapshot,
+    FakeModelStateProvider,
+    FakeQueueDepthProvider,
+    FakeReviewThroughputProvider,
+    FixtureFailureProvider,
+    JsonSnapshotProvider,
+    Metric,
+    MetricProvenance,
+    ModelStateProvider,
+    ModelStateSnapshot,
+    PromotionRecord,
+    QueueDepthProvider,
+    QueueSnapshot,
+    ReviewSnapshot,
+    ReviewThroughputProvider,
+    UnavailableModelStateProvider,
+    UnavailableQueueDepthProvider,
+    UnavailableReviewThroughputProvider,
+    collect_dashboard,
+    failure_rate,
+    resolve_local_path,
+)
+from .render import render_dashboard
+from .settings import DashboardFormat, DashboardSettings
+
+__all__ = [
+    "FAILURE_LABELS",
+    "UNKNOWN_PROMOTION",
+    "UNKNOWN_VERSION",
+    "DashboardData",
+    "DashboardFormat",
+    "DashboardSection",
+    "DashboardSettings",
+    "FailureProvider",
+    "FailureSnapshot",
+    "FakeModelStateProvider",
+    "FakeQueueDepthProvider",
+    "FakeReviewThroughputProvider",
+    "FixtureFailureProvider",
+    "JsonSnapshotProvider",
+    "Metric",
+    "MetricProvenance",
+    "ModelStateProvider",
+    "ModelStateSnapshot",
+    "PromotionRecord",
+    "QueueDepthProvider",
+    "QueueSnapshot",
+    "ReviewSnapshot",
+    "ReviewThroughputProvider",
+    "UnavailableModelStateProvider",
+    "UnavailableQueueDepthProvider",
+    "UnavailableReviewThroughputProvider",
+    "collect_dashboard",
+    "failure_rate",
+    "render_dashboard",
+    "resolve_local_path",
+]

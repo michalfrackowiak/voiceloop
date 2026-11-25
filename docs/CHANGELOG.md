@@ -54,6 +54,8 @@ changes require a schema version bump and an entry under the matching version.
   clustering, daily cap/prioritisation and blind-item flags.
 - `P2-10`: dry-run dataset→train→evaluate chain with validated CLI overrides,
   policy-gated cron ticks and fail-fast step reporting.
+- `P2-11`: read-only static dashboards from synthetic/local providers with
+  explicit provenance and no fabricated version or promotion.
 
 ### Changed
 
