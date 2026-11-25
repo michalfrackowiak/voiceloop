@@ -98,13 +98,23 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - The current lane is only an isolated `services/projects/` fake namespace/registry seam. It must be committed as a blocked work product and excluded from the completed count; roadmap done-when (“two projects run side by side with no data crossing”) remains OPEN.
 - `booking.schema.json` already supports a per-project external schema via `VOICELOOP_BOOKING_SCHEMA`, but its hard-coded error messages require a per-project validator seam for genuinely different schemas.
 
-## Full-gate flake note (P3-09 review window)
+## Full-gate flake and commit-completeness notes
 
 - One full-suite run failed only
   `tests/unit/ingest/test_failopen.py::test_storage_outage_does_not_block_or_raise_into_callers`
   with p95 `0.112s` against a `0.1s` bound. Neighbouring full runs were green;
   treat as a load-sensitive P1-02 performance assertion, not a P3-09 defect.
   Re-run under quiet CI before CP-3 and do not relax the bound without evidence.
+- A separate load-full run failed only
+  `tests/unit/sdk/test_client.py::test_retry_queue_flushes_when_transport_recovers`
+  (`wait_until_idle(timeout_seconds=2.0)` returned false after injected failure).
+  Neighbouring full runs were green; treat as a P1-03 timing flake, not a P4-01
+  canary defect. Do not relax the timeout without a quiet-CI reproduction.
+- Lead integration fix: the original P2-05 commit included `builder.py` and
+  `README.md` but omitted several root modules it imports (`__init__.py`,
+  `examples.py`, `exporters.py`, `manifest.py`, `regression.py`, `replay.py`,
+  `settings.py`, `splits.py`). They are being committed in a follow-up so a
+  clean checkout is importable; scoped gates are green.
 
 ## Augmentation notes (from P3-03 review)
 
