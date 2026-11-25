@@ -82,7 +82,7 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - [ ] P4-01 Canary with auto-rollback
 - [ ] P4-02 Scheduled and drift-triggered retraining
 - [ ] P4-03 Custom review UI
-- [~] P4-04 Teacher-model triage signal at scale
+- [!] P4-04 Teacher-model triage signal at scale — harness PASS; BLOCKED pending human-reviewed labels, real teacher and pre-declared operating point
 - [ ] P4-05 Multi-project support
 - [ ] P4-06 Operations docs
 

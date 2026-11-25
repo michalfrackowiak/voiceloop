@@ -83,6 +83,13 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - P3-06 consumes gate aliases read-only and never flips aliases or changes thresholds. Failed releases are not auto-retried; retries belong in the caller's scheduler with a bounded budget, not inside `tick()`. For real serving adapters, harden rollback by comparing post-rollback state against `SwapPlan.before` and downgrading `reverted` to `rollback_failed` on mismatch.
 - Gate-side write-ahead audit from P2-09 remains a lead follow-up; P3-06 only logs its own structured `release_sync.tick` events.
 
+## §14 escalation — P4-04 teacher signal (BLOCKED)
+
+- Harness rework PASS: no improvement-claim keys; per-depth `n`, TP counts, Wilson 95% CIs, overlap flags and confidence notes; CLI and docs state `P4-04 is NOT DONE`.
+- Roadmap acceptance remains NOT DONE. Unmet criterion: “signal improves precision of the review queue against reviewed labels.”
+- Required before completion: a pre-declared operating point, an adequately sized human-reviewed label set injected through `ReviewedLabelSource`, and a real teacher through `TeacherTranscriber`, with a paired CI showing improved overall queue precision. Fixture annotations and post-hoc depth selection are not acceptable.
+- No promotion, alias flip, gate decision or production-readiness claim is unblocked by this harness.
+
 ## Lineage and access-control notes (from P2-12 re-review, CP-2)
 
 - All manifest/trainer/tombstone/audit/identity adapters are labelled fakes. Production wiring must supply real adapters with cross-sink transaction/write-ahead semantics; deletion is tombstone/flag/audit only, not physical deletion or unlearning.

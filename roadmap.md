@@ -345,9 +345,9 @@ Tasks are independent unless noted; each can run as its own lane.
   - [ ] P4-03.4 Routing buttons; blind-item mode; second-opinion flow
   - **Done when:** usability test shows time per item no worse than the adapter-based tool.
 
-- [ ] **P4-04 Teacher-model triage signal at scale** — Role: `ml-train` — Deps: P2-01
-  - [ ] P4-04.1 Batch offline transcription with a larger model; disagreement scoring
-  - **Done when:** signal improves precision of the review queue against reviewed labels.
+- [ ] **P4-04 Teacher-model triage signal at scale** — Role: `ml-train` — Deps: P2-01 — **BLOCKED (harness reviewed PASS, acceptance NOT DONE)**: original done-when requires a pre-declared operating point, adequate human-reviewed labels via `ReviewedLabelSource` and a real teacher via `TeacherTranscriber`. See `docs/LEAD_BRIEFS.md` §14 escalation.
+  - [x] P4-04.1 Batch offline transcription with a larger model; disagreement scoring — deterministic read-only harness only
+  - **Done when:** signal improves precision of the review queue against reviewed labels. **Lead note:** synthetic depth curve is exploratory with counts and overlapping Wilson CIs; overall delta is 0.0 at every depth; no improvement claim, promotion or gate decision.
 
 - [ ] **P4-05 Multi-project support** — Role: `lead` — Deps: CP-3
   - [ ] P4-05.1 Project/tenant scoping across schemas, storage, and registry

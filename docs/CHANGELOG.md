@@ -78,6 +78,9 @@ changes require a schema version bump and an entry under the matching version.
   CLI, stable pseudonyms, cued-name expansion and raw-only retention rehearsal.
 - `P2-12`: bidirectional lineage, tombstone-based deletion with affected-model
   flags, and immutable default-deny roles with fixed-code audit events.
+- `P4-04` (blocked work product only): read-only exploratory teacher-disagreement
+  harness with per-depth counts and Wilson CIs; no precision-improvement claim
+  and no roadmap completion.
 
 ### Changed
 
