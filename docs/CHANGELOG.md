@@ -40,6 +40,8 @@ changes require a schema version bump and an entry under the matching version.
   lock and MLflow lineage logging (fakes by default).
 - `P1-06`: synthetic golden workflow stand-in with strict content-addressed
   seal, second-review gate, audited verification and amendment versioning.
+- `P1-02`: bounded in-memory/disk fail-open buffer with health/backpressure
+  metrics, deadline-bounded enqueue and at-least-once flush via fakes.
 
 ### Changed
 

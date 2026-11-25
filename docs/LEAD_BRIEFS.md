@@ -45,6 +45,13 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - **P1-04 → P1-03:** the Pipecat observer uses a narrow `TurnSink` protocol with a lazy `sdk.log_turn` adapter. After both pass review, the lead must confirm the real SDK API matches the adapter and switch the default sink from in-memory to the SDK.
 - **P1-05 → P1-01:** the outcome connector emits `PATCH /v1/calls/{call_id}/outcome` payloads; verify the ingest endpoint accepts them after both land.
 
+## Fail-open integration notes (from P1-02 review, lead follow-ups)
+
+- `BoundedBuffer.enqueue()` is not yet wired into the validated ingest POST path; `flush()` is not called from a background/shutdown hook; `health().to_dict()` is not merged into `/healthz`. App wiring is required at CP-1.
+- Decide whether to replace or compose with P1-01's `services/ingest/queue.py` — both are additive today.
+- Flush is at-least-once: a timed-out sink write can complete later while the event is requeued. The `StorageSink` must stay idempotent on `event_id` (P1-01 already promises this).
+- Outage coverage uses fakes/gates, not real Postgres/S3 kills. CP-1 must include a real-service failure injection rehearsal before claiming the done-when literally.
+
 ## Trainer core notes (from P2-06 review, lead follow-ups)
 
 - Default job lock is per-`TrainerRunner` instance, not per-interpreter (`services/trainers/core/lock.py:52-57`, `runner.py:52`). Two runners can train concurrently today. Fix to a shared module-level lock, correct the "per-interpreter" wording, and add a two-runner contention test. Must be closed at the P2-10 integration checkpoint before process-wide locking is claimed.

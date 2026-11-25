@@ -72,10 +72,10 @@ Goal: measure reality before building anything else. Nothing after this is trust
   - [x] P1-01.5 Postgres migrations (calls, turns, outcomes, model versions)
   - **Done when:** fixture events ingest end to end; invalid events return structured errors; load test shows ingest does not block on storage failures (async queue or buffered write).
 
-- [ ] **P1-02 Fail-open behaviour** — Role: `backend` — Deps: P1-01 — Paths: `services/ingest/`
-  - [ ] P1-02.1 Bounded in-memory/disk buffer when storage is down
-  - [ ] P1-02.2 Health and backpressure metrics
-  - **Done when:** test kills Postgres/S3 mid-stream; ingest accepts and later flushes, or sheds load with a defined signal; never blocks callers beyond a set timeout.
+- [x] **P1-02 Fail-open behaviour** — Role: `backend` — Deps: P1-01 — Paths: `services/ingest/`
+  - [x] P1-02.1 Bounded in-memory/disk buffer when storage is down
+  - [x] P1-02.2 Health and backpressure metrics
+  - **Done when:** test kills Postgres/S3 mid-stream; ingest accepts and later flushes, or sheds load with a defined signal; never blocks callers beyond a set timeout. **Lead note:** verified with fake/gated storage failures (module isolated in `services/ingest/failopen/`); real Postgres/S3 failure injection and ingest app wiring remain CP-1 follow-ups.
 
 ### Lane B: SDK (sdk)
 
