@@ -29,16 +29,16 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 ## Phase 2 — Triage, review, parser loop, gate
 
 - [~] P2-01 Failure scoring
-- [ ] P2-02 Sampling, clustering, queue
+- [~] P2-02 Sampling, clustering, queue
 - [ ] P2-03 Review adapter
 - [ ] P2-04 Review UX measurement
 - [~] P2-05 Dataset builder
 - [x] P2-06 Trainer plugin interface
-- [ ] P2-07 Parser trainer
+- [~] P2-07 Parser trainer
 - [ ] P2-08 Vocabulary and rules tier
 - [~] P2-09 Gate and promotion logic
 - [~] P2-10 Pipelines and triggers
-- [ ] P2-11 Dashboards
+- [~] P2-11 Dashboards
 - [ ] P2-12 Lineage and access control
 - [ ] P2-13 Loop rehearsal
 - [ ] CP-2 First full parser-path loop; all §2 invariants tested
