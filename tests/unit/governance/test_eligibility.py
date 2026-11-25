@@ -44,6 +44,16 @@ def test_all_card_variants_are_hard_dropped(
         "4111111111111111x",
         "Use 4111-11-1111-1111 for payment.",
         "Use 4111 11 1111 1111 for payment.",
+        "Charge 4111  1111  1111  1111 now",
+        "Charge 4111\t1111\t1111\t1111 now",
+        "Charge 4111\n1111\n1111\n1111 now",
+        "Charge 4111\r\n1111\r\n1111\r\n1111 now",
+        "Charge 4111\u00a01111\u00a01111\u00a01111 now",
+        "Charge 4111.1111.1111.1111 now",
+        "Charge 4111/1111/1111/1111 now",
+        "Charge 4111_1111_1111_1111 now",
+        "Charge 4111\u20131111\u20131111\u20131111 now",
+        "+15550100001411111111111111",
     ],
 )
 def test_reviewer_bypass_cases_are_hard_dropped(
@@ -51,7 +61,7 @@ def test_reviewer_bypass_cases_are_hard_dropped(
     clean_event: dict[str, Any],
     with_transcript: Callable[[dict[str, Any], str], dict[str, Any]],
 ) -> None:
-    """Phone adjacency, letter adjacency and uneven groups cannot hide a card."""
+    """Adjacency, separator and long-run bypasses cannot hide a card."""
     event = with_transcript(clean_event, text)
     kept, dropped = filter_eligible_events([event])
 

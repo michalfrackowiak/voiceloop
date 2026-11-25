@@ -119,11 +119,11 @@ Goal: measure reality before building anything else. Nothing after this is trust
 
 ### Lane D: Governance foundations (governance)
 
-- [ ] **P1-09 Consent and PII basics** — Role: `governance` — Deps: P0-02, P1-01 — Paths: `services/ingest/consent/`, `services/datasets/filters/`
-  - [ ] P1-09.1 Enforce consent flags on dataset eligibility
-  - [ ] P1-09.2 Transcript PII detection (including card numbers) with tests
-  - [ ] P1-09.3 Retention policy config for raw audio
-  - **Done when:** non-consented and card-containing rows are provably excluded in tests.
+- [x] **P1-09 Consent and PII basics** — Role: `governance` — Deps: P0-02, P1-01 — Paths: `services/ingest/consent/`, `services/datasets/filters/`
+  - [x] P1-09.1 Enforce consent flags on dataset eligibility
+  - [x] P1-09.2 Transcript PII detection (including card numbers) with tests
+  - [x] P1-09.3 Retention policy config for raw audio
+  - **Done when:** non-consented and card-containing rows are provably excluded in tests. **Lead note:** card hard-drop verified across 42 adversarial cases; retention is an engineering placeholder, not a legal/compliance decision (`docs/compliance.md` remains OPEN pending counsel).
 
 **CP-1 (lead):** live or fixture traffic flows through SDK → ingest → storage; golden set sealed; baseline recorded.
 

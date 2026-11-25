@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import pytest
+
 from services.datasets.filters import PiiCategory, detect_pii, has_card_number
 
 
@@ -21,6 +23,26 @@ def test_card_runs_with_and_without_separators_are_detected() -> None:
     for text in samples:
         assert PiiCategory.CARD_NUMBER in categories(text), text
         assert has_card_number(text) is True
+
+
+@pytest.mark.parametrize(
+    "separator",
+    ["  ", "\t", "\n", "\r\n", "\u00a0", ".", "/", "_", "\u2013"],
+)
+def test_card_runs_with_repeated_or_unicode_separators_are_detected(
+    separator: str,
+) -> None:
+    """Double spaces, unicode whitespace and non-space separators cannot hide a card."""
+    text = f"4111{separator}1111{separator}1111{separator}1111"
+    assert has_card_number(text) is True
+    assert PiiCategory.CARD_NUMBER in categories(text)
+
+
+def test_long_contiguous_digit_run_is_hard_dropped() -> None:
+    """A phone glued to a card in one 26-digit run still triggers the drop."""
+    text = "+15550100001411111111111111"
+    assert has_card_number(text) is True
+    assert PiiCategory.CARD_NUMBER in categories(text)
 
 
 def test_card_findings_report_spans_without_raw_values() -> None:

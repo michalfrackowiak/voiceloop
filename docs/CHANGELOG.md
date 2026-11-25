@@ -45,6 +45,9 @@ changes require a schema version bump and an entry under the matching version.
 - `P2-09`: fail-closed promotion gate using end-to-end accuracy deltas only,
   zero-turn slice refusal, converted-artifact enforcement, alias flip/rollback
   with hash-chained audit (fakes; thresholds pending §14 sign-off).
+- `P1-09`: consent eligibility filter and strict transcript PII screening with
+  card-number hard-drop across separators and long digit runs; retention config
+  is an engineering placeholder pending counsel.
 
 ### Changed
 
