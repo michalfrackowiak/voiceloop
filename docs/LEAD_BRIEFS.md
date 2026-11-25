@@ -100,6 +100,7 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - Full satisfaction also requires wiring project identity through ingest storage keys/Postgres primary keys, SDK envelopes, review IDs, dataset IDs, gate aliases/audit, lineage/auth audit events, release artifacts, pipelines and per-project booking/eval schemas. These cross active lanes; no safe full-implementation boundary exists yet.
 - The current lane is only an isolated `services/projects/` fake namespace/registry seam. It must be committed as a blocked work product and excluded from the completed count; roadmap done-when (“two projects run side by side with no data crossing”) remains OPEN.
 - `booking.schema.json` already supports a per-project external schema via `VOICELOOP_BOOKING_SCHEMA`, but its hard-coded error messages require a per-project validator seam for genuinely different schemas.
+- Harness review PASS (53 scoped tests; full suite green in that lane). Non-blocking hardening before any real use: catch Pydantic `ValidationError` in `services/projects/settings.py:36-70` so rejected values are not echoed; sanitize/omit caller-supplied `field` in `services/projects/ids.py:28-53`; and quote the roadmap's verbatim done-when in `docs/handoffs/P4-05.md:25` before listing the extended cross-service requirements.
 
 ## Full-gate flake and commit-completeness notes
 

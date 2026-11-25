@@ -101,6 +101,9 @@ changes require a schema version bump and an entry under the matching version.
   decide retraining and calendar ticks alone never trigger.
 - `P4-06` (blocked work product only): structured runbooks and a text-only
   walkthrough checker; no human follow-through is claimed and acceptance stays OPEN.
+- `P4-05` (blocked work product only): synthetic project ID, registry and
+  namespace-seam fakes; no contract bump, cross-service wiring or multi-project
+  guarantee, and roadmap acceptance remains OPEN.
 - `CP-2` (checkpoint, PASS at provisional synthetic-fixture scope only): clean
   committed snapshot verified with all §2 invariants mapped to exercised fake
   behaviour; not a production-readiness milestone.
