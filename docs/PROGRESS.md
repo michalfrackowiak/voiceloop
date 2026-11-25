@@ -49,7 +49,7 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - [x] P2-01 Failure scoring
 - [x] P2-02 Sampling, clustering, queue
 - [x] P2-03 Review adapter (fake tool/store; two-stage flow)
-- [ ] P2-04 Review UX measurement
+- [~] P2-04 Review UX measurement
 - [x] P2-05 Dataset builder (synthetic fixtures; card PII screened in slots/context)
 - [x] P2-06 Trainer plugin interface
 - [x] P2-07 Parser trainer (synthetic training stand-in)
@@ -58,7 +58,7 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - [x] P2-10 Pipelines and triggers
 - [x] P2-11 Dashboards
 - [~] P2-12 Lineage and access control
-- [ ] P2-13 Loop rehearsal
+- [~] P2-13 Loop rehearsal
 - [ ] CP-2 First full parser-path loop; all §2 invariants tested
 
 ## Phase 3 — STT path, release safety
