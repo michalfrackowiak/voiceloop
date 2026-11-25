@@ -264,12 +264,12 @@ Goal: safely add STT improvement (tier 3) and staged release.
 
 ### Lane B: Artifact safety (ml-eval)
 
-- [ ] **P3-04 Conversion and artifact tests** — Role: `ml-eval` — Deps: P3-01 — Paths: `services/evalgate/artifact/`
-  - [ ] P3-04.1 Run the gate on the exact deployed artifact and decoding settings
-  - [ ] P3-04.2 Test combinations: hotwords, initial prompt, `condition_on_previous_text`; detect empty/truncated output
-  - [ ] P3-04.3 Silence/no-speech hallucination test set and metric
-  - [ ] P3-04.4 Multilingual forgetting test on other served languages
-  - **Done when:** a fixture model with injected empty-output behaviour is caught; hallucination metric reported in every STT report.
+- [x] **P3-04 Conversion and artifact tests** — Role: `ml-eval` — Deps: P3-01 — Paths: `services/evalgate/artifact/`
+  - [x] P3-04.1 Run the gate on the exact deployed artifact and decoding settings — content-addressed fake probes; URI and decoding-settings hashes fail closed
+  - [x] P3-04.2 Test combinations: hotwords, initial prompt, `condition_on_previous_text`; detect empty/truncated output — all eight combinations exercised
+  - [x] P3-04.3 Silence/no-speech hallucination test set and metric — mandatory in challenger and champion reports
+  - [x] P3-04.4 Multilingual forgetting test on other served languages — synthetic language tags; diagnostic-only, not gate evidence
+  - **Done when:** a fixture model with injected empty-output behaviour is caught; hallucination metric reported in every STT report. **Lead note:** fake-only fixture replay; no real CTranslate2/ONNX runtime, GPU or human labels.
 
 - [x] **P3-05 Benchmark harness for base-model swaps** — Role: `ml-eval` — Deps: P1-07 — Paths: `services/evalgate/benchmarks/`
   - [x] P3-05.1 Pluggable candidate-model runner (Whisper variants, Parakeet, Qwen3-ASR, others) — **fixture stand-in:** injectable `CandidateRunner`, real adapters documented only

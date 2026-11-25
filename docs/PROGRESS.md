@@ -66,7 +66,7 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - [x] P3-01 Whisper trainer (fake LoRA/conversion; replay and 8 kHz seams verified)
 - [x] P3-02 Parakeet/NeMo trainer (fake-only; confidence-to-P2-01 seam verified)
 - [x] P3-03 Augmentation (synthetic-tagged; golden/regression exclusion enforced)
-- [ ] P3-04 Conversion and artifact tests
+- [x] P3-04 Conversion and artifact tests (fake probes; tamper seams fail closed; champion diagnostics mandatory)
 - [x] P3-05 Benchmark harness for base-model swaps (synthetic candidates; delta CIs)
 - [x] P3-06 Alias sync agent (fake serving stack; exact-version auto-revert)
 - [x] P3-07 Shadow mode (fake-only; bounded fail-open mirror)
@@ -94,4 +94,4 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - **Phase 1 wave 3:** P1-08 `docs/baseline.md` → CP-1 gate.
 - **Boundary rules:** P1-01 must not create `services/ingest/consent/` (owned by P1-09). P1-07 owns `services/evalgate/` root only; later gate/artifact/benchmarks tasks own their own subdirectories. P2-05 owns `services/datasets/` root and must only import, not edit, `golden/` and `filters/`.
 
-**Overall:** 38/45 tasks reviewed · 2/4 checkpoints passed. Denominator corrected to the audited 45 roadmap tasks.
+**Overall:** 39/45 tasks reviewed · 2/4 checkpoints passed. Denominator corrected to the audited 45 roadmap tasks.

@@ -85,6 +85,9 @@ changes require a schema version bump and an entry under the matching version.
 - `P4-04` (blocked work product only): read-only exploratory teacher-disagreement
   harness with per-depth counts and Wilson CIs; no precision-improvement claim
   and no roadmap completion.
+- `P3-04`: content-addressed fake artifact probes with eight decoding-setting
+  combinations; decoding-hash tampering fails closed at all public seams and
+  champion reports carry mandatory hallucination/forgetting diagnostics.
 - `P3-08`: STT promotions require fresh, complete, synthetic-labelled shadow
   evidence; missing/partial/stale/mismatched evidence fails closed with
   structured, hash-chained, PII-free refusals. Parser and P2-09 rules unchanged.
