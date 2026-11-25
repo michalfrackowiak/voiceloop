@@ -69,7 +69,7 @@ Update rule: a task becomes `[x]` only after an independent reviewer subagent re
 - [ ] P3-04 Conversion and artifact tests
 - [x] P3-05 Benchmark harness for base-model swaps (synthetic candidates; delta CIs)
 - [x] P3-06 Alias sync agent (fake serving stack; exact-version auto-revert)
-- [ ] P3-07 Shadow mode
+- [~] P3-07 Shadow mode
 - [ ] P3-08 Promotion workflow update
 - [ ] P3-09 Golden-set maintenance
 - [~] P3-10 Audio redaction and pseudonymisation
