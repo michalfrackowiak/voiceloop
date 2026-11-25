@@ -36,6 +36,14 @@ MEASUREMENT_KEYS = frozenset(
     }
 )
 
+MALFORMED_PER_ITEM_SECTIONS = "malformed_p2_04_per_item_sections"
+PER_ACTION_CLICK_REGRESSION = "per_action_click_regression"
+PER_ITEM_SECTION_NAMES = (
+    "time_summary",
+    "edit_distance_summary",
+    "routing_label_distribution",
+)
+
 
 @dataclass(frozen=True)
 class ToolMeasurement:
@@ -117,6 +125,16 @@ def _number(value: Any) -> float | None:
     return number
 
 
+def _copy_section(value: Any) -> dict[str, Any] | None:
+    """Copy one ``per_item`` summary section, or ``None`` when malformed."""
+    if not isinstance(value, Mapping):
+        return None
+    try:
+        return dict(value)
+    except (TypeError, ValueError):
+        return None
+
+
 def _measurement(raw: Any) -> ToolMeasurement:
     """Parse one tool measurement, failing closed on missing or extra fields."""
     if not isinstance(raw, Mapping) or set(raw) != MEASUREMENT_KEYS:
@@ -182,10 +200,11 @@ def decide_go_no_go(
             time, click and edit-cost measurements for both tools.
 
     Returns:
-        A fail-closed ``no_go`` when evidence is synthetic, absent or subjective;
-        otherwise ``go`` only when custom time, clicks and edit cost are all no
-        worse than the adapter baseline, and ``no_go_measured_regression`` if
-        any is worse. The usability acceptance criterion stays OPEN regardless.
+        A fail-closed ``no_go`` when evidence is synthetic, absent, malformed or
+        subjective; otherwise ``go`` only when both aggregate and per-action
+        time/click measurements are no worse than the adapter baseline, and
+        ``no_go_measured_regression`` if any is worse. The usability acceptance
+        criterion stays OPEN regardless.
 
     """
     summary: dict[str, Any] = {}
@@ -228,11 +247,18 @@ def decide_go_no_go(
     sections = report.get("sections")
     per_item = sections.get("per_item") if isinstance(sections, Mapping) else None
     if isinstance(per_item, Mapping):
-        summary = {
-            "time_summary": dict(per_item.get("time_summary", {})),
-            "edit_distance_summary": dict(per_item.get("edit_distance_summary", {})),
-            "routing_label_distribution": dict(per_item.get("routing_label_distribution", {})),
-        }
+        copied_sections: dict[str, dict[str, Any]] = {}
+        malformed = False
+        for name in PER_ITEM_SECTION_NAMES:
+            section = _copy_section(per_item.get(name, {}))
+            if section is None:
+                malformed = True
+            else:
+                copied_sections[name] = section
+        if malformed:
+            reasons.append(MALFORMED_PER_ITEM_SECTIONS)
+        else:
+            summary = copied_sections
     else:
         reasons.append("p2_04_report_shape_invalid")
     if reasons:
@@ -291,6 +317,8 @@ def decide_go_no_go(
         for name, delta in deltas.items()
         if delta > 0 and name + "_worse" not in reasons
     )
+    if hurts and PER_ACTION_CLICK_REGRESSION not in reasons:
+        reasons.append(PER_ACTION_CLICK_REGRESSION)
     comparison = {
         "items": items,
         "source": str(measured.get("source")),

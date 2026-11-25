@@ -10,13 +10,14 @@ from services.projects import (
     ProjectId,
     ProjectScope,
     ProjectSettings,
+    load_project_settings,
 )
 
 
 @pytest.fixture
 def settings() -> ProjectSettings:
     """Return settings with the two default synthetic project IDs."""
-    return ProjectSettings()
+    return load_project_settings()
 
 
 @pytest.fixture

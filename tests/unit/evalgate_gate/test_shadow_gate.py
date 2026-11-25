@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from copy import deepcopy
+from datetime import timedelta
 from pathlib import Path
 from typing import Any
 
@@ -181,8 +182,6 @@ def test_shadow_report_without_matching_version_pair_is_missing(tmp_path: Path) 
 
 
 def test_stale_shadow_report_refuses(tmp_path: Path) -> None:
-    from datetime import timedelta
-
     stale = make_shadow_report(
         generated_at=(NOW - timedelta(hours=25))
         .isoformat(timespec="seconds")
@@ -199,6 +198,65 @@ def test_stale_shadow_report_refuses(tmp_path: Path) -> None:
     assert result.promotion is None
     assert store.get(CHAMPION_ALIAS) == "v3"
     assert promotion_log.entries() == ()
+
+
+@pytest.mark.parametrize(
+    ("mutate", "code"),
+    [
+        (
+            lambda r: r["sample_counts"].update({"calls_scored": 37}),
+            "shadow_evidence_incomplete",
+        ),
+        (
+            lambda r: r["sample_counts"].update({"results_candidate": 37}),
+            "shadow_evidence_incomplete",
+        ),
+        (
+            lambda r: r["sample_counts"].update({"results_champion": 37}),
+            "shadow_evidence_incomplete",
+        ),
+        (
+            lambda r: r["provenance"].update({"successful_results": 13}),
+            "shadow_evidence_incomplete",
+        ),
+        (
+            lambda r: r.update(
+                {
+                    "generated_at": (NOW + timedelta(seconds=61))
+                    .isoformat(timespec="seconds")
+                    .replace("+00:00", "Z")
+                }
+            ),
+            "shadow_evidence_stale",
+        ),
+    ],
+)
+def test_inconsistent_counts_or_future_evidence_refuse_without_side_effects(
+    tmp_path: Path, mutate: Any, code: str
+) -> None:
+    """New bounds never flip an alias, write a promotion audit or edit thresholds."""
+    report = make_shadow_report()
+    mutate(report)
+    log = CollectingRefusalLog()
+    gate, store, promotion_log = make_stt_gate(
+        tmp_path, _better(), shadow_source=_source(report), refusal_log=log
+    )
+    aliases_before = store.snapshot()
+    gate_settings_before = gate._settings.model_copy(deep=True)
+    shadow_settings_before = gate._shadow_settings.model_copy(deep=True)
+
+    result = _run(gate)
+
+    assert result.decision.passed is False
+    assert result.refusal is not None
+    assert result.refusal.code == code
+    assert result.promotion is None
+    assert store.snapshot() == aliases_before == {CHAMPION_ALIAS: "v3", CHALLENGER_ALIAS: "v4"}
+    assert promotion_log.entries() == ()
+    assert gate._settings == gate_settings_before
+    assert gate._shadow_settings == shadow_settings_before
+    assert len(log.records) == 1
+    assert log.records[0].code == code
 
 
 def test_shadow_delta_does_not_override_failed_e2e_rule(tmp_path: Path) -> None:

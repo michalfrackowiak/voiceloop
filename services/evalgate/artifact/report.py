@@ -337,6 +337,9 @@ def _assert_no_payload_leak(value: Any) -> None:
 def validate_stt_report(report: Mapping[str, Any]) -> None:
     """Validate the 1.0.0 contract and every mandatory P3-04 extension field.
 
+    Both the top-level ``decoding_settings_sha256`` and the nested extension
+    ``decoding.sha256`` must equal the hash recomputed from the decoding fields.
+
     Raises:
         ValidationError: If the contract, hashes, diagnostic metrics, slices or
             provenance are absent or internally inconsistent.
@@ -358,8 +361,14 @@ def validate_stt_report(report: Mapping[str, Any]) -> None:
     if artifact_data.get("sha256") != reported_hash:
         raise ValidationError("reported artifact hash does not match artifact_uri")
     recorded_hash = decoding.get("decoding_settings_sha256")
-    if recorded_hash != decoding_hash_from_fields(decoding):
+    computed_hash = decoding_hash_from_fields(decoding)
+    if recorded_hash != computed_hash:
         raise ValidationError("reported decoding settings hash does not match the settings")
+    nested_decoding = extension.get("decoding")
+    if not isinstance(nested_decoding, Mapping) or nested_decoding.get("sha256") != computed_hash:
+        raise ValidationError(
+            "nested decoding hash does not match the reported decoding settings hash"
+        )
     metrics = report["metrics"]
     for metric in EXTRA_METRICS:
         value = metrics.get(metric)

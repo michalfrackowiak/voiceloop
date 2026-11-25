@@ -8,12 +8,20 @@ documented in ``ui/README.md``; real data must never be pasted into this tree.
 
 from __future__ import annotations
 
+import json
 import re
 from collections.abc import Mapping
+from functools import lru_cache
 from typing import Any
 
-from .constants import SYNTHETIC_LABEL, USABILITY_ACCEPTANCE
+from .constants import (
+    EXPECTED_BOOKING_SCHEMA_SHA256,
+    SCHEMA_PATH,
+    SYNTHETIC_LABEL,
+    USABILITY_ACCEPTANCE,
+)
 from .errors import UiValidationError
+from .hashes import sha256_file
 
 EMAIL_PATTERN = re.compile(r"[\w.+!#$%&'*/-]+@[\w-]+(?:\.[\w-]+)+")
 LONG_DIGITS_PATTERN = re.compile(r"\d{7,}")
@@ -40,6 +48,35 @@ FIXED_LABELS: frozenset[str] = frozenset(
 )
 
 
+@lru_cache(maxsize=1)
+def pinned_schema_descriptions() -> frozenset[str]:
+    """Return exact ``description`` strings from the pinned booking schema.
+
+    The schema is read-only and its SHA-256 is checked before any string is
+    trusted. A changed schema fails closed instead of widening this allowlist.
+    """
+    if sha256_file(SCHEMA_PATH) != EXPECTED_BOOKING_SCHEMA_SHA256:
+        raise UiValidationError("pinned booking schema hash mismatch in privacy screen")
+    try:
+        schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise UiValidationError("pinned booking schema cannot be read") from exc
+    descriptions: set[str] = set()
+
+    def visit(node: Any) -> None:
+        if isinstance(node, Mapping):
+            for key, value in node.items():
+                if key == "description" and isinstance(value, str):
+                    descriptions.add(value)
+                visit(value)
+        elif isinstance(node, (list, tuple)):
+            for value in node:
+                visit(value)
+
+    visit(schema)
+    return frozenset(descriptions)
+
+
 def is_pseudonym(value: str) -> bool:
     """Return whether ``value`` is an allowed pseudonymous fixture token."""
     return PSEUDONYM_PATTERN.fullmatch(value) is not None
@@ -59,9 +96,13 @@ def assert_no_sensitive_text(node: Any) -> None:
     if isinstance(node, Mapping):
         for key, value in node.items():
             assert_no_sensitive_text(key)
-            # Descriptions come only from the hash-pinned, read-only booking
-            # schema whose digest is checked before any build.
-            if key == "description" and isinstance(value, str):
+            # Only exact strings from the hash-pinned booking schema may bypass
+            # the structural screen; any other description is ordinary text.
+            if (
+                key == "description"
+                and isinstance(value, str)
+                and value in pinned_schema_descriptions()
+            ):
                 continue
             assert_no_sensitive_text(value)
         return

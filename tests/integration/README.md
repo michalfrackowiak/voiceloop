@@ -1,6 +1,6 @@
 # P2-13 / P3-12 loop rehearsal — scoped integration tests
 
-**SYNTHETIC / FIXTURE STAND-IN. NOT CP-2 EVIDENCE. NOT A PRODUCTION CLAIM.**
+**SCOPED SYNTHETIC CP-2 / CP-3 REHEARSAL EVIDENCE. NOT PRODUCTION-READINESS EVIDENCE.**
 
 This package rehearses the parser loop and the P3-12 STT loop with committed
 modules wired together

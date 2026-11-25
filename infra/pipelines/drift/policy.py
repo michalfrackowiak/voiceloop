@@ -12,7 +12,7 @@ from collections.abc import Mapping
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from enum import StrEnum
-from typing import Any, Protocol, runtime_checkable
+from typing import Any, Final, Protocol, runtime_checkable
 
 from voiceloop_common import Clock, ValidationError, utcnow
 
@@ -20,6 +20,8 @@ from .detectors import assert_no_sensitive_text
 from .settings import SYNTHETIC_LABEL, DriftSettings
 
 _ACTOR_PATTERN = re.compile(r"^(?:operator|reviewer|admin|lead)-[0-9a-f]{4,8}$")
+
+MANUAL_AUDIT_SINK_REQUIRED: Final = "manual_override requires an explicit audit_sink"
 
 MANUAL_REASON_DESCRIPTIONS: Mapping[str, str] = {
     "incident_replay": "Operator requested an incident-replay retraining rehearsal.",
@@ -92,7 +94,7 @@ class AuditSink(Protocol):
 
 @dataclass
 class InMemoryAuditSink:
-    """Deterministic fake audit sink used by default and in tests."""
+    """Deterministic fake audit sink supplied explicitly by callers and tests."""
 
     entries: list[dict[str, Any]] = field(default_factory=list)
 
@@ -101,6 +103,23 @@ class InMemoryAuditSink:
         payload = dict(entry)
         assert_no_sensitive_text(payload)
         self.entries.append(payload)
+
+
+def require_explicit_audit_sink(
+    manual_override: ManualOverride | None, audit_sink: AuditSink | None
+) -> None:
+    """Refuse a manual override that has no caller-supplied audit sink.
+
+    Args:
+        manual_override: Parsed override, or None on the routine path.
+        audit_sink: Explicit sink from the caller; no in-package fallback exists.
+
+    Raises:
+        ValidationError: If an override is present without a sink.
+
+    """
+    if manual_override is not None and audit_sink is None:
+        raise ValidationError(MANUAL_AUDIT_SINK_REQUIRED)
 
 
 def manual_override_from_settings(settings: DriftSettings | None = None) -> ManualOverride | None:
@@ -179,7 +198,7 @@ def decide_trigger(
         drifted: Combined detector alarm from replayed windows.
         settings: Typed settings; ``min_new_verified`` is the volume floor.
         manual_override: Explicit actor/reason override, or None.
-        audit_sink: Sink for a write-ahead manual-override audit entry.
+        audit_sink: Required caller-supplied sink for a manual override.
         clock: Injected UTC clock for deterministic audit timestamps.
         scheduled_tick: Audit-only marker for calendar-driven invocations.
         last_run_at: Audit-only timestamp of the previous run.
@@ -188,9 +207,10 @@ def decide_trigger(
         A decision whose reasons never include a calendar tick.
 
     Raises:
-        ValidationError: For an invalid count or override.
+        ValidationError: For an invalid count, override, or missing audit sink.
 
     """
+    require_explicit_audit_sink(manual_override, audit_sink)
     if isinstance(new_verified_count, bool) or not isinstance(new_verified_count, int):
         raise ValidationError("new_verified_count must be an integer")
     if new_verified_count < 0:
@@ -222,6 +242,7 @@ def decide_trigger(
     checked_at = _iso_utc(clock())
     audit_recorded = False
     if manual_override is not None:
+        assert audit_sink is not None  # guaranteed by require_explicit_audit_sink()
         entry: dict[str, Any] = {
             "label": SYNTHETIC_LABEL,
             "event": "manual_override",

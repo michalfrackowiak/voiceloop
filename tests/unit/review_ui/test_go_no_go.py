@@ -10,8 +10,16 @@ from typing import Any
 
 import pytest
 
+from ui import cli
 from ui.constants import CLICK_ACTIONS, SYNTHETIC_LABEL, USABILITY_ACCEPTANCE
-from ui.go_no_go import decide_from_files, decide_go_no_go, read_json, write_json_report
+from ui.go_no_go import (
+    MALFORMED_PER_ITEM_SECTIONS,
+    PER_ACTION_CLICK_REGRESSION,
+    decide_from_files,
+    decide_go_no_go,
+    read_json,
+    write_json_report,
+)
 
 
 def _measurement(
@@ -176,6 +184,86 @@ def test_measured_regression_returns_no_go_and_lists_hurting_clicks(
     assert payload["clicks_that_hurt"] == [
         {"action": "seek", "extra_clicks": 2.0, "extra_seconds": 2.0}
     ]
+
+
+def test_neutral_aggregates_with_one_worse_click_action_are_no_go(
+    p2_04_report: dict[str, Any],
+) -> None:
+    """A per-action click regression gates no-go even when totals look neutral."""
+    adapter = _measurement(time_seconds=50, clicks=10, edit_cost=2)
+    custom = _measurement(time_seconds=50, clicks=10, edit_cost=2)
+    custom["click_counts"]["seek"] += 1.0
+    measured = _measured(adapter, custom)
+
+    payload = decide_go_no_go(_real_provenance_report(p2_04_report), measured).to_dict()
+
+    assert payload["measured_comparison"]["deltas_custom_minus_adapter"] == {
+        "time_per_item_seconds": 0.0,
+        "clicks_per_item": 0.0,
+        "edit_cost_per_item": 0.0,
+    }
+    assert payload["decision"] == "no_go_measured_regression"
+    assert payload["reasons"] == [PER_ACTION_CLICK_REGRESSION]
+    assert payload["clicks_that_hurt"] == [
+        {"action": "seek", "extra_clicks": 1.0, "extra_seconds": 0.0}
+    ]
+    assert payload["usability_status"] == "NOT DONE"
+    assert payload["promotion"] == "not_evaluated"
+
+
+def test_neutral_aggregates_with_one_worse_action_time_are_no_go(
+    p2_04_report: dict[str, Any],
+) -> None:
+    """A per-action time regression gates no-go even when totals look neutral."""
+    adapter = _measurement(time_seconds=50, clicks=10, edit_cost=2)
+    custom = _measurement(time_seconds=50, clicks=10, edit_cost=2)
+    custom["click_seconds_by_action"]["diff_toggle"] += 0.25
+    measured = _measured(adapter, custom)
+
+    payload = decide_go_no_go(_real_provenance_report(p2_04_report), measured).to_dict()
+
+    assert payload["decision"] == "no_go_measured_regression"
+    assert payload["reasons"] == [PER_ACTION_CLICK_REGRESSION]
+    assert payload["clicks_that_hurt"] == [
+        {"action": "diff_toggle", "extra_clicks": 0.0, "extra_seconds": 0.25}
+    ]
+
+
+def test_malformed_per_item_section_returns_structured_fail_closed(
+    p2_04_report: dict[str, Any],
+) -> None:
+    """A malformed summary section never raises a bare ``dict`` error."""
+    report = _real_provenance_report(p2_04_report)
+    report["sections"]["per_item"]["time_summary"] = "not-a-mapping"
+
+    payload = decide_go_no_go(report).to_dict()
+
+    assert payload["decision"] == "no_go_fail_closed"
+    assert MALFORMED_PER_ITEM_SECTIONS in payload["reasons"]
+    assert payload["p2_04_summary"] == {}
+
+
+def test_cli_malformed_per_item_section_uses_structured_failure_path(
+    p2_04_report: dict[str, Any], tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """Malformed metrics reach the CLI's normal exit-2 structured error path."""
+    report = _real_provenance_report(p2_04_report)
+    report["sections"]["per_item"]["edit_distance_summary"] = "not-a-mapping"
+    metrics_path = tmp_path / "malformed_metrics.json"
+    output_path = tmp_path / "malformed_decision.json"
+    write_json_report(report, metrics_path)
+
+    code = cli.main(["--go-no-go", "--metrics", str(metrics_path), "--output", str(output_path)])
+    captured = capsys.readouterr()
+
+    assert code == 2
+    assert json.loads(captured.err) == {
+        "code": "validation_error",
+        "message": MALFORMED_PER_ITEM_SECTIONS,
+    }
+    payload = read_json(output_path)
+    assert payload["decision"] == "no_go_fail_closed"
+    assert MALFORMED_PER_ITEM_SECTIONS in payload["reasons"]
 
 
 def test_incomplete_click_measurement_fails_closed(p2_04_report: dict[str, Any]) -> None:

@@ -76,22 +76,32 @@ fixture, golden artifact, promotion threshold or roadmap checkbox was changed.
 An injected comparison with `real_reviewers_used = True`, both tools measured on
 `time_per_item_seconds`, `clicks_per_item`, `edit_cost_per_item`,
 `click_counts` and `click_seconds_by_action`, and all click actions enumerated,
-may produce `go` only when custom time, clicks and edit cost are no worse than
-the adapter baseline. A regression produces `no_go_measured_regression` with the
-specific click actions that hurt. Injected measurements are test seams, not
-human evidence: `usability_status` stays `NOT DONE`, `usability_acceptance` stays
-an open release blocker, `promotion` stays `not_evaluated`, and
-`alias_threshold_change` stays `none`.
+may produce `go` only when both the aggregate time/click/edit deltas and every
+per-action click/time delta are no worse than the adapter baseline. An aggregate
+or per-action regression produces `no_go_measured_regression`; a per-action
+regression carries the stable reason `per_action_click_regression` and lists the
+specific actions that hurt, even if the aggregate deltas are neutral. Injected
+measurements are test seams, not human evidence: `usability_status` stays
+`NOT DONE`, `usability_acceptance` stays an open release blocker, `promotion`
+stays `not_evaluated`, and `alias_threshold_change` stays `none`.
+
+Malformed `sections.per_item.*` summary objects produce a structured
+`no_go_fail_closed` report with reason `malformed_p2_04_per_item_sections`
+instead of a bare `dict(...)` exception. From the CLI, that reason is translated
+to the normal structured failure response (`code: validation_error`, exit `2`)
+after the fail-closed report is written.
 
 ### Privacy grammar
 
 All fixture values are pseudonymous tokens: `tok-*`,
 `(call|event|item|reviewer|approval|audio|guest)-token-<digits>`, ISO dates,
 RFC3339 timestamps, UUIDs and 64-hex digests. Fixed public labels are
-allowlisted. Emails, phone-like strings, long digit runs, object-store URIs,
-free-form prose and audio bytes are rejected by `ui.privacy.assert_no_sensitive_text()`
-before serialization. The screen is structural allowlisting, not a general
-name detector.
+allowlisted. A value under a `description` key is exempt only when it exactly
+matches a description read from the hash-pinned `schemas/booking.schema.json`;
+all other descriptions are screened as ordinary text. Emails, phone-like
+strings, long digit runs, object-store URIs, free-form prose and audio bytes are
+rejected by `ui.privacy.assert_no_sensitive_text()` before serialization. The
+screen is structural allowlisting, not a general name detector.
 
 ## Public API (package-local)
 

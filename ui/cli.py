@@ -11,7 +11,7 @@ from pathlib import Path
 from .build import build_artifacts
 from .constants import GO_NO_GO_PATH, SYNTHETIC_LABEL, USABILITY_ACCEPTANCE, USABILITY_STATUS
 from .errors import UiValidationError
-from .go_no_go import decide_from_files
+from .go_no_go import MALFORMED_PER_ITEM_SECTIONS, decide_from_files
 from .hashes import verify_read_only_inputs
 
 
@@ -40,6 +40,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             if args.metrics is None:
                 raise UiValidationError("--metrics is required with --go-no-go")
             report = decide_from_files(args.metrics, args.measured, args.output or GO_NO_GO_PATH)
+            if MALFORMED_PER_ITEM_SECTIONS in report.reasons:
+                raise UiValidationError(MALFORMED_PER_ITEM_SECTIONS)
             print(json.dumps(report.to_dict(), indent=2, sort_keys=True))
         if args.build:
             paths = build_artifacts(decision=None)

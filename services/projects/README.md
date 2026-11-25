@@ -22,18 +22,22 @@ database or GPU access and no new dependency.
 | `ids` | `ProjectId`, `InvalidProjectIdError`, `validate_project_id` |
 | `registry` | `ProjectRegistry` (protocol), `InMemoryProjectRegistry`, `ProjectConfig`, `UnknownProjectError`, `DisabledProjectError`, `DuplicateProjectError`, `InvalidProjectConfigError` |
 | `scope` | `ProjectScope`, `ProjectTag`, `LabelledValue`, `Tagged`, `assert_same_project`, `audio_object_key`, `dataset_id`, `artifact_uri`, `report_path`, `mlflow_alias`, `mlflow_model_name`, `all_namespaces`, `ProjectScopeError`, `MissingProjectTagError`, `ProjectScopeMismatchError` |
-| `settings` | `ProjectSettings` (`VOICELOOP_PROJECTS_` prefix) |
+| `settings` | `load_project_settings()` (public factory), `INVALID_PROJECT_SETTINGS_MESSAGE`; `ProjectSettings` is a typed internal class (`VOICELOOP_PROJECTS_` prefix) |
 
 All symbols above are re-exported from `services.projects`, together with the
 constants `STANDIN_LABEL`, `STANDIN_TOKEN`, `INTERNAL_SCOPE_LABEL`,
-`INTERNAL_SCOPE_VERSION` and `CONTRACT_NOTE`.
+`INTERNAL_SCOPE_VERSION`, `CONTRACT_NOTE` and `INVALID_PROJECT_SETTINGS_MESSAGE`.
+Construct settings only through `load_project_settings()`: it replaces a raw
+pydantic `ValidationError` with a fixed-code `ConfigError` whose stable message
+never contains the rejected value or validation details.
 
 ## What this seam guarantees
 
 - `ProjectId` is an immutable lowercase pseudonymous slug (2–64 characters,
   letter-led, single-hyphenated ASCII alphanumerics). Missing, blank, malformed
   and email/phone/card-looking values raise `InvalidProjectIdError`. Errors use
-  fixed codes and never echo the rejected value.
+  fixed codes and never echo the rejected value or a caller-supplied `field`;
+  unknown field names fall back to the fixed `project_id` label.
 - `InMemoryProjectRegistry` maps a validated ID to a booking schema path, a
   non-empty tuple of eval-set names and an enabled flag. Unknown, disabled,
   invalid or missing IDs fail closed (`get()` returns `None`; `require()` raises
@@ -68,7 +72,7 @@ path, leaving real contract wiring to a lead-approved lane.
 ```powershell
 .\.venv\Scripts\python.exe -m pytest tests/unit/projects -q
 .\.venv\Scripts\python.exe -m ruff check services/projects tests/unit/projects
-.\.venv\Scripts\python.exe -m ruff format --check services/projects tests/unit/projects
+.\.venv\Scripts\python.exe -m ruff format --check services/projects tests/unit/projects docs/handoffs/P4-05.md
 .\.venv\Scripts\python.exe -m mypy services/projects tests/unit/projects
 ```
 
@@ -87,11 +91,13 @@ path, leaving real contract wiring to a lead-approved lane.
 - No service contract is consumed: this package imports only stdlib,
   `voiceloop_common` settings and its own modules; no active lane imports it.
 
-## Exact unmet done-when (P4-05, roadmap.md)
+## Roadmap done-when (P4-05, `roadmap.md`, verbatim)
 
-> Two projects run side by side with no data crossing across schemas, storage,
-> registry, review, gate, datasets, SDK and pipelines; five contract files
-> require version bumps and §14 lead approval.
+> two projects run side by side with no data crossing
+
+The extended cross-service requirements for this lane are: across schemas,
+storage, registry, review, gate, datasets, SDK and pipelines; five contract
+files require version bumps and §14 lead approval.
 
 This seam does **not** meet that criterion. It neither runs two projects side by
 side nor touches schemas, storage, registry integrations, review, gate,

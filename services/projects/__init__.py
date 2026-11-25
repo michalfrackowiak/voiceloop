@@ -7,7 +7,8 @@ label ``voiceloop.project_scope`` / ``internal-1.0.0``; no cross-service
 contract version bump is implied or performed. STATUS: NOT DONE / BLOCKED
 pending the lead-owned contract bump and cross-service wiring described in
 ``docs/handoffs/P4-05.md``. Nothing here is imported by, or imports from, an
-active service lane.
+active service lane. Public settings are loaded through
+``load_project_settings()``; ``ProjectSettings`` is a typed internal class.
 """
 
 from __future__ import annotations
@@ -45,10 +46,11 @@ from .scope import (
     mlflow_model_name,
     report_path,
 )
-from .settings import ProjectSettings
+from .settings import INVALID_PROJECT_SETTINGS_MESSAGE, ProjectSettings, load_project_settings
 
 __all__ = [
     "CONTRACT_NOTE",
+    "INVALID_PROJECT_SETTINGS_MESSAGE",
     "INTERNAL_SCOPE_LABEL",
     "INTERNAL_SCOPE_VERSION",
     "STANDIN_LABEL",
@@ -76,6 +78,7 @@ __all__ = [
     "assert_same_project",
     "audio_object_key",
     "dataset_id",
+    "load_project_settings",
     "mlflow_alias",
     "mlflow_model_name",
     "report_path",

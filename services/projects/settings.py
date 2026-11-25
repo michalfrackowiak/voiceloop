@@ -4,24 +4,33 @@ SYNTHETIC/FIXTURE STAND-IN - NOT A MULTI-PROJECT PRODUCTION GUARANTEE.
 The internal artefact label is ``voiceloop.project_scope`` / ``internal-1.0.0``.
 No cross-service contract version bump is implied or performed. Only
 ``VOICELOOP_PROJECTS_`` environment variables are read; no secrets, real tenant
-names, emails, phone numbers or card values exist here.
+names, emails, phone numbers or card values exist here. Callers must use
+:func:`load_project_settings`; the settings class is a typed internal detail
+whose raw ``ValidationError`` would echo rejected values.
 """
 
 from __future__ import annotations
 
-from pydantic import ValidationInfo, field_validator
+from typing import Any
 
-from voiceloop_common import BaseSettings, settings_config
+from pydantic import ValidationError, ValidationInfo, field_validator
+
+from voiceloop_common import BaseSettings, ConfigError, settings_config
 
 from .ids import InvalidProjectIdError, ProjectId, validate_project_id
 from .scope import CONTRACT_NOTE, INTERNAL_SCOPE_LABEL, INTERNAL_SCOPE_VERSION, STANDIN_LABEL
 
 DEFAULT_ALPHA_PROJECT_ID = "synthetic-alpha"
 DEFAULT_BETA_PROJECT_ID = "synthetic-beta"
+INVALID_PROJECT_SETTINGS_MESSAGE = "project settings are invalid; rejected values are withheld"
 
 
 class ProjectSettings(BaseSettings):
-    """Environment-backed configuration for the two synthetic rehearsal projects."""
+    """Typed internal configuration for the two synthetic rehearsal projects.
+
+    Construct through :func:`load_project_settings`, which replaces pydantic
+    errors with a fixed-code :class:`~voiceloop_common.errors.ConfigError`.
+    """
 
     model_config = settings_config("VOICELOOP_PROJECTS_")
 
@@ -109,3 +118,26 @@ class ProjectSettings(BaseSettings):
     def contract_note(self) -> str:
         """Return the explicit no-contract-bump note attached to this seam."""
         return CONTRACT_NOTE
+
+
+def load_project_settings(**overrides: Any) -> ProjectSettings:
+    """Load validated project settings without echoing rejected values.
+
+    Args:
+        **overrides: Keyword values forwarded to :class:`ProjectSettings` for
+            deterministic tests; production callers pass none.
+
+    Returns:
+        Validated settings from ``VOICELOOP_PROJECTS_`` sources and overrides.
+
+    Raises:
+        ConfigError: If any setting is invalid. The message is fixed and never
+            contains the rejected value, pydantic details or error locations.
+
+    """
+    try:
+        return ProjectSettings(**overrides)
+    except ValidationError:
+        # Suppress the pydantic context so neither str(exc) nor a traceback can
+        # disclose rejected names, emails, phone numbers, cards or locations.
+        raise ConfigError(INVALID_PROJECT_SETTINGS_MESSAGE) from None

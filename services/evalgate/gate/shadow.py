@@ -39,6 +39,8 @@ SHADOW_PRIMARY_METRIC = "outcome_call_accuracy"
 SHADOW_JOIN_KEY = "call_id"
 SYNTHETIC_STATUS_MARKER = "SYNTHETIC"
 TASK_ID = "P3-08"
+# Bounded skew tolerated between the shadow writer's clock and the gate's clock.
+MAX_FUTURE_CLOCK_SKEW_SECONDS = 60
 
 RefusalCode = Literal[
     "shadow_evidence_missing",
@@ -436,12 +438,12 @@ def verify_shadow_evidence(
 
     provenance = report["provenance"]
     _check_synthetic_label(report, provenance)
-    counts = _check_counts(report["sample_counts"], settings)
     successful = _non_negative_int(
         provenance.get("successful_results"),
         "successful_results",
         "shadow_evidence_incomplete",
     )
+    counts = _check_counts(report["sample_counts"], settings, successful)
     if successful < settings.min_successful_results:
         raise _fail("shadow_evidence_incomplete", "no successful shadow results were recorded")
     _check_metrics(report)
@@ -452,6 +454,8 @@ def verify_shadow_evidence(
     generated_at = _parse_timestamp(report["generated_at"], "generated_at")
     evaluated_at = _parse_timestamp(request.evaluated_at, "evaluated_at")
     now_dt = _as_utc(now if now is not None else utcnow())
+    if generated_at > now_dt + timedelta(seconds=MAX_FUTURE_CLOCK_SKEW_SECONDS):
+        raise _fail("shadow_evidence_stale", "shadow report is dated in the future")
     if now_dt - generated_at > timedelta(hours=settings.max_report_age_hours):
         raise _fail("shadow_evidence_stale", "shadow report exceeds the maximum allowed age")
     if generated_at < evaluated_at:
@@ -499,8 +503,12 @@ def _check_synthetic_label(report: Mapping[str, Any], provenance: Mapping[str, A
         raise _fail("shadow_evidence_incomplete", "shadow report does not join outcomes by call_id")
 
 
-def _check_counts(counts: Mapping[str, Any], settings: ShadowEvidenceSettings) -> dict[str, int]:
-    """Require complete, non-negative sample counts with scored calls."""
+def _check_counts(
+    counts: Mapping[str, Any],
+    settings: ShadowEvidenceSettings,
+    successful_results: int,
+) -> dict[str, int]:
+    """Require complete, non-negative and internally bounded sample counts."""
     checked: dict[str, int] = {}
     for name in _REQUIRED_COUNT_KEYS:
         checked[name] = _non_negative_int(counts.get(name), name, "shadow_evidence_incomplete")
@@ -510,6 +518,14 @@ def _check_counts(counts: Mapping[str, Any], settings: ShadowEvidenceSettings) -
         raise _fail("shadow_evidence_incomplete", "no calls were scored in shadow mode")
     if checked["results_candidate"] < 1 or checked["results_champion"] < 1:
         raise _fail("shadow_evidence_incomplete", "one shadow side has no results")
+    if checked["calls_scored"] > checked["turns_observed"]:
+        raise _fail("shadow_evidence_incomplete", "calls_scored exceeds turns_observed")
+    if checked["results_candidate"] > checked["turns_observed"]:
+        raise _fail("shadow_evidence_incomplete", "candidate results exceed turns_observed")
+    if checked["results_champion"] > checked["turns_observed"]:
+        raise _fail("shadow_evidence_incomplete", "champion results exceed turns_observed")
+    if successful_results > checked["results_candidate"] + checked["results_champion"]:
+        raise _fail("shadow_evidence_incomplete", "successful results exceed total model results")
     return checked
 
 

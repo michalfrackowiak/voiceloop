@@ -15,6 +15,7 @@ from services.evalgate.gate import (
     ShadowEvidenceSettings,
     verify_shadow_evidence,
 )
+from services.evalgate.gate.shadow import MAX_FUTURE_CLOCK_SKEW_SECONDS
 from services.release.shadow import validate_shadow_report
 from tests.unit.evalgate_gate.shadow_fakes import (
     CANDIDATE_URI,
@@ -193,6 +194,61 @@ def test_report_predating_evaluated_artifact_is_stale() -> None:
     )
 
     _expect_refusal(report, "shadow_evidence_stale")
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "reason"),
+    [
+        ("calls_scored", 37, "calls_scored exceeds turns_observed"),
+        ("results_candidate", 37, "candidate results exceed turns_observed"),
+        ("results_champion", 37, "champion results exceed turns_observed"),
+    ],
+)
+def test_count_exceeding_turns_observed_is_refused(
+    field: str, value: int, reason: str
+) -> None:
+    """A count cannot claim more work than the turns observed in shadow mode."""
+    report = make_shadow_report()
+    report["sample_counts"][field] = value
+
+    refusal = _expect_refusal(report, "shadow_evidence_incomplete")
+
+    assert reason in refusal.reasons
+
+
+def test_successful_results_exceeding_total_model_results_is_refused() -> None:
+    """Successful results cannot exceed the candidate plus champion result counts."""
+    report = make_shadow_report(successful_results=13)
+
+    refusal = _expect_refusal(report, "shadow_evidence_incomplete")
+
+    assert "successful results" in " ".join(refusal.reasons)
+
+
+def test_future_dated_report_is_stale() -> None:
+    """A report beyond the bounded clock-skew tolerance fails closed."""
+    report = make_shadow_report(
+        generated_at=(NOW + timedelta(seconds=MAX_FUTURE_CLOCK_SKEW_SECONDS + 1))
+        .isoformat(timespec="seconds")
+        .replace("+00:00", "Z")
+    )
+
+    refusal = _expect_refusal(report, "shadow_evidence_stale")
+
+    assert "future" in " ".join(refusal.reasons)
+
+
+def test_future_date_within_clock_skew_is_accepted() -> None:
+    """Exactly the allowed skew is not treated as future-dated evidence."""
+    report = make_shadow_report(
+        generated_at=(NOW + timedelta(seconds=MAX_FUTURE_CLOCK_SKEW_SECONDS))
+        .isoformat(timespec="seconds")
+        .replace("+00:00", "Z")
+    )
+
+    summary = verify_shadow_evidence(report, _request(), ShadowEvidenceSettings(), now=NOW)
+
+    assert summary.generated_at == report["generated_at"]
 
 
 def test_configured_minimums_are_enforced() -> None:

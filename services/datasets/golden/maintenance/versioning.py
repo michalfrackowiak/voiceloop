@@ -453,6 +453,8 @@ def verify_candidate_version(
             errors.append("manifest first reviewer is not the configured reviewer pin")
         if manifest.second_reviewer_id != settings.second_reviewer_id:
             errors.append("manifest second reviewer is not the configured reviewer pin")
+        if seal.second_reviewer_id != settings.second_reviewer_id:
+            errors.append("candidate seal second reviewer is not the configured reviewer pin")
         if seal.manifest_hash != candidate_manifest_hash(manifest):
             errors.append("candidate manifest was modified after sealing")
         if seal.content_hash != manifest.content_hash:

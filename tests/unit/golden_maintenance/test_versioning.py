@@ -136,6 +136,55 @@ def test_tampered_manifest_is_detected(
     assert any("manifest was modified" in error for error in report.errors)
 
 
+def _file_snapshot(directory: str | Path) -> dict[str, bytes]:
+    """Return every file under a directory as relative path to raw bytes."""
+    base = Path(directory)
+    return {
+        path.relative_to(base).as_posix(): path.read_bytes()
+        for path in base.rglob("*")
+        if path.is_file()
+    }
+
+
+def test_tampered_seal_second_reviewer_fails_closed_without_writes(
+    settings: GoldenMaintenanceSettings,
+    reviewed_candidate: tuple[CandidateSet, ReviewBundle, ReviewAuditLog],
+) -> None:
+    """A seal swapped to an untrusted reviewer fails verification without writing."""
+    candidate_set, bundle, _ = reviewed_candidate
+    artifact = create_candidate_version(
+        settings.output_dir,
+        candidate_set,
+        bundle,
+        settings=settings,
+        actor_id="data-steward",
+        purpose=PURPOSE,
+    )
+    assert verify_candidate_version(settings.output_dir, "candidate.v1", settings).ok is True
+
+    seal_payload = json.loads(artifact.seal_path.read_text(encoding="utf-8"))
+    seal_payload["second_reviewer_id"] = "attacker-b"
+    artifact.seal_path.write_text(canonical_json(seal_payload) + "\n", encoding="utf-8")
+    assert seal_payload["second_reviewer_id"] != settings.second_reviewer_id
+
+    before = _file_snapshot(settings.output_dir)
+    sealed_before = _sealed_hashes()
+
+    report = verify_candidate_version(settings.output_dir, "candidate.v1", settings)
+    assert report.ok is False
+    assert "candidate seal second reviewer is not the configured reviewer pin" in report.errors
+
+    after = _file_snapshot(settings.output_dir)
+    assert after == before
+    assert set(after) == {
+        "candidate.v1.json",
+        "candidate.v1.candidates.json",
+        "candidate.v1.seal.json",
+        "review_audit.jsonl",
+    }
+    assert _sealed_hashes() == sealed_before
+
+
 def test_shortened_audit_prefix_is_detected(
     settings: GoldenMaintenanceSettings,
     reviewed_candidate: tuple[CandidateSet, ReviewBundle, ReviewAuditLog],

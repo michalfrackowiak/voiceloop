@@ -103,6 +103,20 @@ def test_fixture_loop_rehearsal_with_manual_promotion(
     }
     assert all(item.synthetic for item in reviewed)
 
+    # Invariant #11: routing and fixture failure type survive into ReviewedItem.
+    result_by_event_id = {str(result.event_id): result for result in results}
+    failure_by_call_turn = {
+        (str(row["call_id"]), int(row["turn_index"])): str(row.get("failure_type"))
+        for row in fixture_rows
+    }
+    for item in reviewed:
+        event = item.event
+        assert item.routing == result_by_event_id[str(event["event_id"])].routing
+        assert (
+            item.failure_type
+            == failure_by_call_turn[(str(event["call_id"]), int(event["turn_index"]))]
+        )
+
     # The sealed stand-in covers all six fixture calls, so non-golden stand-in
     # call IDs are derived from the same synthetic reviewed content.
     standins = make_training_standins(reviewed, golden_call_ids=golden_call_ids)

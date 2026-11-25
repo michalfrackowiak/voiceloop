@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from copy import deepcopy
+from pathlib import Path
 from typing import Any
 
 import pytest
@@ -20,6 +21,7 @@ from services.evalgate.artifact.report import (
     evaluate_checkpoint_uris_do_not_change_result,
     run_exact_artifact_gate,
     validate_stt_report,
+    write_stt_report,
 )
 from services.evalgate.artifact.settings import ArtifactBehaviour, ArtifactSettings
 from services.evalgate.gate import GateError
@@ -185,6 +187,50 @@ def test_report_validation_rejects_tampering(settings: ArtifactSettings) -> None
     leaked["decoding_settings"][EXTENSION_KEY]["expected_transcript"] = "synthetic text"
     with pytest.raises(ValidationError, match="must not carry transcripts"):
         validate_stt_report(leaked)
+
+
+@pytest.mark.parametrize("tamper_side", ("challenger", "champion"))
+def test_nested_decoding_hash_tamper_fails_closed_on_every_public_seam(
+    settings: ArtifactSettings, tmp_path: Path, tamper_side: str
+) -> None:
+    """Only the nested hash changes; every public report seam refuses the report."""
+    evaluation = _evaluate(settings, "healthy")
+    clean = evaluation.report if tamper_side == "challenger" else evaluation.champion_report
+    other = evaluation.champion_report if tamper_side == "challenger" else evaluation.report
+    original_hash = clean["decoding_settings"][EXTENSION_KEY]["decoding"]["sha256"]
+
+    tampered: dict[str, Any] = deepcopy(clean)
+    tampered["decoding_settings"][EXTENSION_KEY]["decoding"]["sha256"] = "0" * 64
+
+    # Prove the regression fixture changes only the nested hash: the top-level
+    # hash still recomputes from the decoding fields, and restoring that one
+    # value reproduces the original report byte-for-byte.
+    assert original_hash == decoding_hash_from_fields(tampered["decoding_settings"])
+    assert tampered["decoding_settings"]["decoding_settings_sha256"] == original_hash
+    restored: dict[str, Any] = deepcopy(tampered)
+    restored["decoding_settings"][EXTENSION_KEY]["decoding"]["sha256"] = original_hash
+    assert restored == clean
+
+    with pytest.raises(ValidationError, match="nested decoding hash"):
+        validate_stt_report(tampered)
+
+    output = tmp_path / "tampered-stt-report.json"
+    with pytest.raises(ValidationError, match="nested decoding hash"):
+        write_stt_report(tampered, output)
+    assert not output.exists()
+
+    artifact = create_fake_artifact("healthy")
+    with pytest.raises(ValidationError, match="nested decoding hash"):
+        HashedReportEvaluator(artifact, tampered).evaluate(
+            tampered["artifact_uri"], ("general_capability",)
+        )
+
+    with pytest.raises(ValidationError, match="nested decoding hash"):
+        run_exact_artifact_gate(
+            artifact,
+            tampered if tamper_side == "challenger" else clean,
+            other if tamper_side == "challenger" else tampered,
+        )
 
 
 def test_report_has_no_audio_bytes_or_pii_shaped_text(settings: ArtifactSettings) -> None:

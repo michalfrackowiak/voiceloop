@@ -12,8 +12,10 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -34,16 +36,23 @@ READ_ONLY_ROOTS: tuple[Path, ...] = (
     Path("services/datasets/golden/artifacts"),
     Path("tests/fixtures"),
 )
-_NON_TEXT_KEYS: frozenset[str] = frozenset(
+_DIGEST_KEYS: frozenset[str] = frozenset(
     {
-        "created_at",
         "content_hash",
         "source_manifest_content_hash",
         "digest",
         "token_digest",
     }
 )
+_TIMESTAMP_KEYS: frozenset[str] = frozenset({"created_at"})
+_NON_TEXT_KEYS: frozenset[str] = _DIGEST_KEYS | _TIMESTAMP_KEYS
 _AUDIO_BYTE_KEYS: frozenset[str] = frozenset({"samples", "audio_bytes", "pcm", "sample_values"})
+
+_SHA256_HEX_RE = re.compile(r"[0-9a-f]{64}\Z")
+_TIMESTAMP_RE = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\Z")
+_BARE_PHONE_RE = re.compile(r"(?<!\d)\d{10,11}(?!\d)")
+_PII_ERROR = "manifest scalars must not contain names, emails, phones or cards"
+_DIGEST_ERROR = "digest fields must be strict lowercase SHA-256 hex"
 
 
 def _resolve(path: str | Path) -> Path:
@@ -224,17 +233,106 @@ class AugmentedVariant:
         }
 
 
-def _iter_strings(value: object, *, key: str | None = None) -> Iterable[str]:
-    """Yield manifest strings that may carry caller-supplied text."""
-    if isinstance(value, str):
-        if key not in _NON_TEXT_KEYS:
-            yield value
-    elif isinstance(value, Mapping):
+def _is_strict_sha256_hex(value: object) -> bool:
+    """Return whether a value is a strict lowercase 64-character SHA-256 digest."""
+    return isinstance(value, str) and _SHA256_HEX_RE.fullmatch(value) is not None
+
+
+def _is_strict_timestamp(value: object) -> bool:
+    """Return whether a value is a strict UTC ``YYYY-MM-DDTHH:MM:SSZ`` timestamp."""
+    if not isinstance(value, str) or _TIMESTAMP_RE.fullmatch(value) is None:
+        return False
+    try:
+        datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ")
+    except ValueError:
+        return False
+    return True
+
+
+def _iter_scalar_leaves(
+    value: object,
+    *,
+    key: str | None = None,
+) -> Iterable[tuple[str | None, object]]:
+    """Yield every mapping key and scalar leaf, keeping the owning key for checks."""
+    if isinstance(value, Mapping):
         for child_key, child in value.items():
-            yield from _iter_strings(child, key=str(child_key))
+            text_key = str(child_key)
+            yield (None, text_key)
+            yield from _iter_scalar_leaves(child, key=text_key)
     elif isinstance(value, (list, tuple)):
         for child in value:
-            yield from _iter_strings(child, key=key)
+            yield from _iter_scalar_leaves(child, key=key)
+    elif isinstance(value, bool) or value is None:
+        return
+    else:
+        yield (key, value)
+
+
+def _iter_screenable(value: object, *, key: str | None = None) -> Iterable[tuple[str, bool]]:
+    """Yield ``(text, is_numeric)`` for every scalar that needs PII screening.
+
+    Digest keys are exempt only for strict lowercase SHA-256 hex values and
+    ``created_at`` is exempt only for a strict UTC timestamp. Every other
+    string is screened, and int/float leaves are converted to text. Boolean and
+    ``None`` leaves are deliberately skipped.
+    """
+    for leaf_key, scalar in _iter_scalar_leaves(value, key=key):
+        if isinstance(scalar, str):
+            if leaf_key in _DIGEST_KEYS and _is_strict_sha256_hex(scalar):
+                continue
+            if leaf_key in _TIMESTAMP_KEYS and _is_strict_timestamp(scalar):
+                continue
+            yield (scalar, False)
+        elif isinstance(scalar, (int, float)) and not isinstance(scalar, bool):
+            yield (str(scalar), True)
+
+
+def _iter_strings(value: object, *, key: str | None = None) -> Iterable[str]:
+    """Yield all caller-supplied scalar text, including numeric leaves and keys."""
+    for text, _is_numeric in _iter_screenable(value, key=key):
+        yield text
+
+
+def _assert_digest_shapes(value: object, *, key: str | None = None) -> None:
+    """Require digest-keyed values to be strict lowercase SHA-256 hex strings.
+
+    Args:
+        value: Candidate manifest or nested value.
+        key: Owning key of ``value`` while descending the tree.
+
+    Raises:
+        ValidationError: If a digest field is absent, non-string or malformed.
+
+    """
+    if key in _DIGEST_KEYS:
+        if not _is_strict_sha256_hex(value):
+            raise ValidationError(_DIGEST_ERROR)
+        return
+    if isinstance(value, Mapping):
+        for child_key, child in value.items():
+            _assert_digest_shapes(child, key=str(child_key))
+    elif isinstance(value, (list, tuple)):
+        for child in value:
+            _assert_digest_shapes(child, key=key)
+
+
+def _assert_no_pii(value: object) -> None:
+    """Screen every scalar and enforce digest-key shapes with fixed-code errors.
+
+    Args:
+        value: Candidate manifest object.
+
+    Raises:
+        ValidationError: If PII is detected or a digest field is malformed.
+
+    """
+    from services.datasets.filters import detect_pii
+
+    for text, is_numeric in _iter_screenable(value):
+        if detect_pii(text) or (is_numeric and _BARE_PHONE_RE.search(text) is not None):
+            raise ValidationError(_PII_ERROR)
+    _assert_digest_shapes(value)
 
 
 def _assert_no_audio_bytes(value: object, *, key: str | None = None) -> None:
@@ -276,8 +374,6 @@ def build_manifest(
         ValidationError: If lineage, exclusion or PII checks fail.
 
     """
-    from services.datasets.filters import detect_pii
-
     validate(dict(source_manifest), "dataset_manifest")
     golden = tuple(sorted(set(golden_call_ids)))
     regression = tuple(sorted(set(regression_call_ids) - set(golden)))
@@ -327,12 +423,6 @@ def build_manifest(
         "content_hash": hashlib.sha256(canonical_json(payload).encode()).hexdigest(),
     }
     validate_manifest(manifest)
-
-    for text in _iter_strings(manifest):
-        if detect_pii(text):
-            raise ValidationError(
-                "manifest strings must not contain names, emails, phones or cards"
-            )
     _assert_no_audio_bytes(manifest)
     return manifest
 
@@ -344,7 +434,9 @@ def validate_manifest(manifest: object) -> None:
         manifest: Candidate augmentation manifest object.
 
     Raises:
-        ValidationError: If any required field, hash or invariant is wrong.
+        ValidationError: If any required field, hash, PII, digest shape or
+            exclusion invariant is wrong. Error messages never echo rejected
+            values.
 
     """
     if not isinstance(manifest, Mapping):
@@ -429,6 +521,7 @@ def validate_manifest(manifest: object) -> None:
         raise ValidationError("counts must be an object")
     if counts.get("variants") != len(variants) or counts.get("source_calls") != len(variant_calls):
         raise ValidationError("manifest counts do not match variant records")
+    _assert_no_pii(manifest)
 
 
 def write_manifest(
