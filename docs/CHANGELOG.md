@@ -85,6 +85,9 @@ changes require a schema version bump and an entry under the matching version.
 - `P4-04` (blocked work product only): read-only exploratory teacher-disagreement
   harness with per-depth counts and Wilson CIs; no precision-improvement claim
   and no roadmap completion.
+- `P3-09`: audited golden-set extension harness with per-candidate second-review
+  coverage, trusted reviewer pins, allowlisted actors and an explicit human-review
+  drift gate; sealed golden artifacts remain read-only.
 - `P3-04`: content-addressed fake artifact probes with eight decoding-setting
   combinations; decoding-hash tampering fails closed at all public seams and
   champion reports carry mandatory hallucination/forgetting diagnostics.

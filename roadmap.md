@@ -295,10 +295,10 @@ Goal: safely add STT improvement (tier 3) and staged release.
 
 ### Lane D: Review quality (data)
 
-- [ ] **P3-09 Golden-set maintenance** — Role: `data` — Deps: CP-2 — Paths: `services/datasets/golden/`
-  - [ ] P3-09.1 Process to refresh or extend the golden set with audit and second review
-  - [ ] P3-09.2 Drift check: compare incoming traffic distribution to golden set
-  - **Done when:** extension is versioned, audited, and the previous set stays reproducible.
+- [x] **P3-09 Golden-set maintenance** — Role: `data` — Deps: CP-2 — Paths: `services/datasets/golden/`
+  - [x] P3-09.1 Process to refresh or extend the golden set with audit and second review — audited candidate versions; trusted reviewer pins; allowed proposal actors
+  - [x] P3-09.2 Drift check: compare incoming traffic distribution to golden set — descriptive deltas plus explicit human-review gate
+  - **Done when:** extension is versioned, audited, and the previous set stays reproducible. **Lead note:** fake-only maintenance harness; sealed golden artifacts unchanged and no threshold or promotion change.
 
 ### Lane E: Governance (governance)
 

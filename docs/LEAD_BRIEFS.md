@@ -86,6 +86,11 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - P3-06 consumes gate aliases read-only and never flips aliases or changes thresholds. Failed releases are not auto-retried; retries belong in the caller's scheduler with a bounded budget, not inside `tick()`. For real serving adapters, harden rollback by comparing post-rollback state against `SwapPlan.before` and downgrading `reverted` to `rollback_failed` on mismatch.
 - Gate-side write-ahead audit from P2-09 remains a lead follow-up; P3-06 only logs its own structured `release_sync.tick` events.
 
+## Golden maintenance notes (from P3-09 re-review)
+
+- Re-review PASS: per-candidate second-review coverage, trusted reviewer pins, allowlisted non-reviewer actors and the `required_before_any_golden_or_threshold_change` drift gate are enforced and probed independently. Sealed golden files and fixture hashes are unchanged.
+- Low hardening before real identity wiring: check `seal.second_reviewer_id` against the configured pin in `services/datasets/golden/maintenance/versioning.py:441-465` and add a tamper test; qualify the stale full-ruff statement in `docs/handoffs/P3-09.md:30`.
+
 ## Lead notes — P2-13 / P3-01 / P4-01 / P4-02 / P4-06
 
 - `P2-13` PASS is limited to synthetic fixtures and fake adapters. CP-2 gate review is still required; the card-number-as-mapping-key XFAIL remains an open P2-05/P1-09 defect.
