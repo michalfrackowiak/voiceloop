@@ -67,6 +67,8 @@ changes require a schema version bump and an entry under the matching version.
   STT/parser swaps and exact-version health-check auto-revert.
 - `P2-03`: two-stage review adapter with schema-generated slot forms, blind
   prefill skip, routing labels and idempotent fake-tool result storage.
+- `P2-08`: fixture-derived aliases/normalisation rules with schema-validated
+  room canonicals, fail-closed date handling and an internal boosting config seam.
 
 ### Changed
 

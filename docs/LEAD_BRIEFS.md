@@ -45,6 +45,12 @@ Deps P1-06, P1-07. Run harness on deployed STT + parser artifacts (fakes standin
 - **P1-04 → P1-03:** the Pipecat observer uses a narrow `TurnSink` protocol with a lazy `sdk.log_turn` adapter. After both pass review, the lead must confirm the real SDK API matches the adapter and switch the default sink from in-memory to the SDK.
 - **P1-05 → P1-01:** the outcome connector emits `PATCH /v1/calls/{call_id}/outcome` payloads; verify the ingest endpoint accepts them after both land.
 
+## Vocabulary and rules notes (from P2-08 re-review, CP-2)
+
+- P2-04 metrics were generated from synthetic fixture replay only. Real CTranslate2/ONNX hotword, initial-prompt and `condition_on_previous_text` behaviour, including empty/truncated outputs on converted models, must be validated in P3-04 against the deployed artifact.
+- Room aliases remain limited to phrases observed in fixtures. Any real review-data alias additions require audit; no automatic learning from the sealed golden set is implemented.
+- WER improvement from rules is fixture evidence only and never promotion justification (§2 invariant 4).
+
 ## Review adapter notes (from P2-03 review, CP-2)
 
 - Real Label Studio/Argilla compose service and Postgres `ReviewStore` are documentation-only seams. The lead must wire both before CP-2 or any production claim; the fake-tool passing result is not human review.

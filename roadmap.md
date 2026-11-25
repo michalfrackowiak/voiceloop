@@ -193,11 +193,11 @@ Goal: the first complete loop on the cheap path (tiers 1–2), with manual promo
 
 ### Lane E: Tier 1 fixes (ml-train)
 
-- [ ] **P2-08 Vocabulary and rules tier** — Role: `ml-train` — Deps: CP-1 — Paths: `services/trainers/vocab/`
-  - [ ] P2-08.1 Alias tables for names and room types
-  - [ ] P2-08.2 Post-ASR normalisation rules (numbers, dates)
-  - [ ] P2-08.3 Phrase boosting / LM fusion config generator for the current STT runtime
-  - **Done when:** each rule type fixes a fixture failure with no regression on the golden set (measured by the harness).
+- [x] **P2-08 Vocabulary and rules tier** — Role: `ml-train` — Deps: CP-1 — Paths: `services/trainers/vocab/`
+  - [x] P2-08.1 Alias tables for names and room types — schema-validated canonicals; fixture-derived phrases only
+  - [x] P2-08.2 Post-ASR normalisation rules (numbers, dates) — deterministic; overflow fails closed
+  - [x] P2-08.3 Phrase boosting / LM fusion config generator for the current STT runtime — internal seam only
+  - **Done when:** each rule type fixes a fixture failure with no regression on the golden set (measured by the harness). **Lead note:** synthetic/fixture replay only; real CTranslate2/ONNX hotword/initial-prompt behaviour is P3-04 scope; WER change never justifies promotion.
 
 ### Lane F: Evaluation gate (ml-eval)
 
